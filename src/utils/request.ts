@@ -1,8 +1,7 @@
-import { useUserInfo } from '@/store/userInfo' 
+import { useUserInfo } from '@/store/userInfo';
+import { showMessage } from '@/utils/status';
+import { HEADER, HEADERPARAMS, TOKENNAME, HTTP_REQUEST_URL } from '@/config/app';
 
-import { HEADER, HEADERPARAMS, TOKENNAME, HTTP_REQUEST_URL } from '@/config/app'
-
-import { showMessage } from './status' 
 
 type RequestOptionsMethod = 'OPTIONS' | 'GET' | 'HEAD' | 'POST' | 'PUT' | 'DELETE' | 'TRACE' | 'CONNECT'
 type RequestOptionsMethodAll = RequestOptionsMethod | Lowercase<RequestOptionsMethod>
