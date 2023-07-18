@@ -18,7 +18,7 @@
 	"subPackages": [],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "小小管家",
+		"navigationBarTitleText": "rjqDemo",
 		"navigationBarBackgroundColor": "#fff",
 		"backgroundColor": "#F8F8F8"
 	},
