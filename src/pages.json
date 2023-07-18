@@ -1,0 +1,41 @@
+{
+	"pages": [
+		{
+			"path": "views/login/login",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "views/login/regiter",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		}
+	],
+	"subPackages": [],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "小小管家",
+		"navigationBarBackgroundColor": "#fff",
+		"backgroundColor": "#F8F8F8"
+	},
+	"easycom": {
+		"custom": {
+			"^u-(.*)": "uview-plus/components/u-$1/u-$1.vue"
+		}
+	},
+	"tabBar": {
+		"custom": true,
+		"list": [
+			{
+				"pagePath": "views/pages/msgPage"
+			},
+			{
+				"pagePath": "views/pages/msgPage"
+			}
+		]
+	}
+}
