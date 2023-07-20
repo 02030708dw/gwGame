@@ -37,16 +37,12 @@
                     "<uses-feature android:name=\"android.hardware.camera\"/>",
                     "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
                 ]
-            },
-            /* ios打包配置 */
-            "ios" : {},
-            /* SDK配置 */
+            }, 
+            "ios" : {}, 
             "sdkConfigs" : {}
         }
-    },
-    /* 快应用特有相关 */
-    "quickapp" : {},
-    /* 小程序特有相关 */
+    }, 
+    "quickapp" : {}, 
     "mp-weixin" : {
         "appid" : "wx74da6d663a402a12",
         "setting" : {
