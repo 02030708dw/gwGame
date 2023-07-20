@@ -30,6 +30,7 @@
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.tsx",
-    "src/**/*.vue"
-, "src/views/TabBar/tabData/index.js"  ]
+    "src/**/*.vue",
+    "src/views/TabBar/tabData/index.js"
+  ]
 }

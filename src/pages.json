@@ -8,6 +8,13 @@
 			}
 		},
 		{
+			"path": "views/login/localeSetting",
+			"style": {
+				"navigationBarTitleText": "" 
+			}
+		},
+		 
+		{
 			"path": "views/login/regiter",
 			"style": {
 				"navigationBarTitleText": "",
@@ -31,10 +38,10 @@
 		"custom": true,
 		"list": [
 			{
-				"pagePath": "views/pages/msgPage"
+				"pagePath": "views/login/login"
 			},
 			{
-				"pagePath": "views/pages/msgPage"
+				"pagePath": "views/login/regiter"
 			}
 		]
 	}
