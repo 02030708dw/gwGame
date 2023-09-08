@@ -1,7 +1,5 @@
 <template>
-	<view class="ssss   animate__zoomIn anim">
-		 1111111111111111111111
-	</view>
+	 <web-view src="http://8.217.125.245/h5#/"></web-view>
 </template>
 
 
