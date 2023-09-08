@@ -1,10 +1,10 @@
 {
     "name" : "小小管家",
-    "appid" : "__UNI__F4C69EE",
+    "appid" : "__UNI__F16B564",
     "description" : "",
     "versionName" : "1.0.0",
     "versionCode" : "100",
-    "transformPx" : false, 
+    "transformPx" : false,
     "app-plus" : {
         "usingComponents" : true,
         "nvueStyleCompiler" : "uni-app",
@@ -14,11 +14,11 @@
             "waiting" : true,
             "autoclose" : true,
             "delay" : 0
-        }, 
+        },
         "modules" : {
             "Camera" : {}
-        }, 
-        "distribute" : { 
+        },
+        "distribute" : {
             "android" : {
                 "permissions" : [
                     "<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>",
@@ -37,12 +37,16 @@
                     "<uses-feature android:name=\"android.hardware.camera\"/>",
                     "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
                 ]
-            }, 
-            "ios" : {}, 
-            "sdkConfigs" : {}
+            },
+            "ios" : {
+                "dSYMs" : false
+            },
+            "sdkConfigs" : {
+                "ad" : {}
+            }
         }
-    }, 
-    "quickapp" : {}, 
+    },
+    "quickapp" : {},
     "mp-weixin" : {
         "appid" : "wx74da6d663a402a12",
         "setting" : {
