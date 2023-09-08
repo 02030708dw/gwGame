@@ -6,4 +6,5 @@
  <!-- [](https://ext.dcloud.net.cn/plugin?id=8081)-->
  <!-- [传参数](https://www.jianshu.com/p/a56d605394e5)-->
  <!-- [动画](https://animate.style/)-->
+ <!-- 报名io.dcloud.videokinguniapp-->
  
