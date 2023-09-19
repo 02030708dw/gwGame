@@ -3,8 +3,7 @@
 		{
 			"path": "views/login/login",
 			"style": {
-				"navigationBarTitleText": "",
-				"navigationStyle": "custom"
+				"navigationBarTitleText": "旋转特效" 
 			}
 		},
 		{
