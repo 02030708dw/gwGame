@@ -1,12 +1,15 @@
 <template>
 	<view class="centers">
-		 1
+		 {{t('locale.zh-hant')}}
 	</view>
 </template>
 
 
 <script setup lang="ts">
+	import { useI18n } from "vue-i18n";
+	const { t, locale } = useI18n();
 	import { ref } from "vue";
+ 
 	 
 	 
 	 
