@@ -3,8 +3,7 @@
 		{
 			"path": "views/login/login",
 			"style": {
-				"navigationBarTitleText": "",
-				"navigationStyle": "custom"
+				"navigationBarTitleText": "旋转特效" 
 			}
 		},
 		{
@@ -33,16 +32,17 @@
 		"custom": {
 			"^u-(.*)": "uview-plus/components/u-$1/u-$1.vue"
 		}
-	},
-	"tabBar": {
-		"custom": true,
-		"list": [
-			{
-				"pagePath": "views/login/login"
-			},
-			{
-				"pagePath": "views/login/regiter"
-			}
-		]
 	}
+	// ,
+	// "tabBar": {
+	// 	"custom": true,
+	// 	"list": [
+	// 		{
+	// 			"pagePath": "views/login/login"
+	// 		},
+	// 		{
+	// 			"pagePath": "views/login/regiter"
+	// 		}
+	// 	]
+	// }
 }
