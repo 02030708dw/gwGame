@@ -1,36 +1,5 @@
-# xiaoxiaoguangjia
-
-#### Description
- vue-fz-uniapp-uview-v3tsVitePinia 
-
-#### Software Architecture
-Software architecture description
-
-#### Installation
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### Instructions
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### Contribution
-
-1.  Fork the repository
-2.  Create Feat_xxx branch
-3.  Commit your code
-4.  Create Pull Request
-
-
-#### Gitee Feature
-
-1.  You can use Readme\_XXX.md to support different languages, such as Readme\_en.md, Readme\_zh.md
-2.  Gitee blog [blog.gitee.com](https://blog.gitee.com)
-3.  Explore open source project [https://gitee.com/explore](https://gitee.com/explore)
-4.  The most valuable open source project [GVP](https://gitee.com/gvp)
-5.  The manual of Gitee [https://gitee.com/help](https://gitee.com/help)
-6.  The most popular members  [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+ [即时通信 IM](https://cloud.tencent.com/document/product/269/75285)
+ <!-- 305181312@qq.com  wylrjq972!  -->
+ [即时通信管理系统](https://console.cloud.tencent.com/cam/security/subAccount)
+ <!-- type.d.ts-->
+ <!-- [bili](https://www.bilibili.com/video/BV1ne4y1G7hf?p=10&vd_source=3c6e49266293c767a6c4158cfe64766d)-->

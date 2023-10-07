@@ -4,22 +4,25 @@ import App from "./App.vue";
 import "./static/css/them.scss"
 import uviewPlus from "uview-plus";
 // npm i --save-dev @types/uview-plus
-import messages from './locale/index'
-import { createI18n  } from 'vue-i18n'
+// import messages from './locale/index'
+// import { createI18n  } from 'vue-i18n'
+import TIMPlugins from "./plugins/TIM-plugin";
 import { Pinia } from "./plugins/pinia/pinia";
  
-let i18nConfig = {
-  locale: uni.getLocale(),
-  messages
-}
+ 
+// let i18nConfig = {
+//   locale: uni.getLocale(),
+//   messages
+// }
  
 export function createApp() {
   const app = createSSRApp(App);
-  const i18n = createI18n(i18nConfig);
+  // const i18n = createI18n(i18nConfig);
   
-  app.use(i18n);
+  // app.use(i18n);
   app.use(Pinia);
   app.use(uviewPlus);
+  app.use(TIMPlugins);
 
   return {
     app,
