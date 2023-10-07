@@ -1,6 +1,6 @@
 import 'pinia';
-import { ChartDefineStoreOptions } from "./plugins/TIM-plugin/type";
-import TIMCore from "./plugins/TIM-plugin/TIM-core";
+import { ChartDefineStoreOptions } from "@/plugins/TIM-plugin/type";
+import TIMCore from "@/plugins/TIM-plugin/TIM-core";
 
 declare module 'pinia' {
 	export interface DefineStoreOptionsBase<S, Store> {

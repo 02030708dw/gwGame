@@ -1,0 +1,89 @@
+@font-face {
+  font-family: 'iconfont';  /* Project id 4158089 */
+  src: url('//at.alicdn.com/t/c/font_4158089_q1celchcy5.woff2?t=1692277591530') format('woff2'),
+       url('//at.alicdn.com/t/c/font_4158089_q1celchcy5.woff?t=1692277591530') format('woff'),
+       url('//at.alicdn.com/t/c/font_4158089_q1celchcy5.ttf?t=1692277591530') format('truetype');
+}
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-close:before {
+  content: "\e6c1";
+}
+
+.icon-arrow-down:before {
+  content: "\e600";
+}
+
+.icon-arrow-up:before {
+  content: "\e65b";
+}
+
+.icon-person:before {
+  content: "\e630";
+}
+
+.icon-operation:before {
+  content: "\e632";
+}
+
+.icon-clear:before {
+  content: "\e633";
+}
+
+.icon-fill-arrow-down:before {
+  content: "\e62a";
+}
+
+.icon-fill-arrow-down-2:before {
+  content: "\e62b";
+}
+
+.icon-arrow-right:before {
+  content: "\e62c";
+}
+
+.icon-fill-arrow-up:before {
+  content: "\e62e";
+}
+
+.icon-edit-filter:before {
+  content: "\e622";
+}
+
+.icon-plus-add:before {
+  content: "\e623";
+}
+
+.icon-pencil-edit:before {
+  content: "\e624";
+}
+
+.icon-contact:before {
+  content: "\e625";
+}
+
+.icon-circle-add:before {
+  content: "\e626";
+}
+
+.icon-garbage-remove:before {
+  content: "\e627";
+}
+
+.icon-edit:before {
+  content: "\e628";
+}
+
+.icon-more:before {
+  content: "\e629";
+}
+
+.icon-business:before {
+  content: "\e606";
+}

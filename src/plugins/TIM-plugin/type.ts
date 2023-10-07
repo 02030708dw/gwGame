@@ -1,5 +1,5 @@
 export interface ChartDefineStoreOptions{
-	SDKAppID:any
+	SDKAppID:number
 }
 
 export interface TIMCoreLoginParams{

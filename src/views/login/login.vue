@@ -41,7 +41,7 @@
 		})
 	     await	getUserSig(userSig)
 	}
-
+console.log('TIMStore.timCore.timLogin',TIMStore )
 	const getUserSig = async (userSig : string) => {
 		// console.log('name.value>>>>>>>', userSig)
 		 await TIMStore.timCore.timLogin({
