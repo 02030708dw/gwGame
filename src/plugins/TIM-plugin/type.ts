@@ -6,3 +6,4 @@ export interface TIMCoreLoginParams{
 	userID:any
 	userSig:any
 }
+ 

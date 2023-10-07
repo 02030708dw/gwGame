@@ -4,9 +4,10 @@
  * 
 **/
 // 如果您已集成 v2.x 的 SDK，想升级到 V3 并且想尽可能地少改动项目代码，可以继续沿用 TIM
+// import TIM from '@tencentcloud/chat';
 import TencentCloudChat, { ChatSDK } from '@tencentcloud/chat';
 import TIMUploadPlugin from 'tim-upload-plugin';
-// import TIMProfanityFilterPlugin from 'tim-profanity-filter-plugin';
+import TIMProfanityFilterPlugin from 'tim-profanity-filter-plugin';
 import { ChartDefineStoreOptions, TIMCoreLoginParams } from "./type";
 
 
@@ -34,7 +35,7 @@ export default class TIMCore {
 		this.tim = chat;
 
 		// 注册腾讯云即时通信 IM 本地审核插件
-		// chat.registerPlugin({ 'tim-profanity-filter-plugin': TIMProfanityFilterPlugin });
+		chat.registerPlugin({ 'tim-profanity-filter-plugin': TIMProfanityFilterPlugin });
 
 
 		// 注意！以下代码适用于 uni-app -> native app 项目集成离线推送能力。
@@ -63,14 +64,14 @@ export default class TIMCore {
 		// 		// ios
 		// 		'iosBusinessID': '', // 在腾讯云控制台上传第三方推送证书后分配的证书 ID
 		// 	}
-		// });
+		// });=> void
 
 	}
-	public timLogin = async (v : TIMCoreLoginParams) => {
-		console.log('----options------->>>>>>>', v)
+	public timLogin = async (options : TIMCoreLoginParams) => {
+		console.log('----options------->>>>>>>',options)
 		// 第一步登录SDK
-		await this.tim?.login(v);
-		this.userID = v.userID
+		await this.tim?.login(options);
+		this.userID = options.userID
 
 	}
 	 

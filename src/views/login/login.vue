@@ -39,22 +39,13 @@
 			secretKey: '83e594d500af68d914cd7af88eecd620d00e810f2a03417c7469aacefd627bef',
 
 		})
-	await	getUserSig(userSig)
-		//data =  SDKAppID  userSig
-		// console.log('userSig>>>>>>>',userSig)
-		// console.log('name.value>>>>>>>',name.value)
-		//   storeTIMStore.timCore.timLogin({
-		// 	userSig,
-		// 	userID: name.value,
-
-		// })
-
+	     await	getUserSig(userSig)
 	}
 
-	const getUserSig = async (userSig : any) => {
+	const getUserSig = async (userSig : string) => {
 		// console.log('name.value>>>>>>>', userSig)
 		 await TIMStore.timCore.timLogin({
-			userSig,
+			userSig, 
 			userID: name.value,
 		})
 

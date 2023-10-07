@@ -5,8 +5,9 @@
 
 import {PiniaPluginContext} from "pinia";
 import TIMCore from "./TIM-core";
-export default (context:PiniaPluginContext) :void=>{
-	console.log('----context------->>>>>>>', context.options?.TIMOptions)
+export default (context:PiniaPluginContext) =>{
+	console.log('----context---2---->>>>>>>', context)
+	// console.log('----context------->>>>>>>', context.options?.TIMOptions)
 	//如果有TIMOptions，说明此模块需要IM 
 	if(context.options?.TIMOptions){
 		const timeCore = new TIMCore(context.options.TIMOptions());
