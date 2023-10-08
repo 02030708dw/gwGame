@@ -43,7 +43,7 @@
 	*/
 	const sendMsg = () => {
 		/**
-		 * 给 admin发送消息
+		 * 给 admin发送消息，是可以动态变化的
 		 * 
 		*/
 		TIMStore.timCore.sendMessage('admin', { text: name.value })
