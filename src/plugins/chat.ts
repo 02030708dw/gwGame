@@ -1,18 +1,32 @@
 import { defineStore } from "pinia";
 import { configTim } from "@/plugins/TIM-plugin/configTim"
-export const useTIMStore=defineStore('chat',{
-	TIMOptions () {
+export const useTIMStore = defineStore('chat', {
+	state() {
 		return {
-		SDKAppID : configTim.SDKAppID,
+			conversationList: []
 		}
 	},
-	actions:{
+	TIMOptions() {
+		return {
+			SDKAppID: configTim.SDKAppID,
+		}
+	},
+	actions: {
 		/**
-		 * 接收订阅消息的方法
+		 * 接收 订阅消息的方法
 		 * @param event
-        */  
-		subscribeMessage(event:any){
-			console.log("接收到的订阅消息",event)
+		*/
+		bscribeMessage(event : any) {
+			console.log("接收到的订阅消息", event)
 		},
+		/**
+		 * 获取会话列表
+		 * @param  
+		*/
+		async getConversationList() {
+			const { data: {conversationList} } = await this.timCore.tim?.getConversationList();
+			this.conversationList = conversationList;
+			console.log("获取会话列表----------", this.conversationList)
+		}
 	}
 })

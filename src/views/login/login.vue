@@ -55,6 +55,9 @@
 			url: '/pageTim/messageTim'
 		})
 	}
+	
+	// 退出登录的时候调用
+	// TIMStore.timCore.timLoginOut();
 </script>
 
 <style scoped lang="scss">

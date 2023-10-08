@@ -30,7 +30,13 @@
 				"style": {
 					"navigationBarTitleText": "消息"
 				}
+			},{
+				"path": "messageTimList",
+				"style": {
+					"navigationBarTitleText": "消息列表"
+				}
 			}
+			 
 		]
 	}],
 	"globalStyle": {

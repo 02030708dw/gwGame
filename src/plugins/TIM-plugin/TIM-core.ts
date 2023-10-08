@@ -9,6 +9,7 @@ import TencentCloudChat, { ChatSDK } from '@tencentcloud/chat';
 import TIMUploadPlugin from 'tim-upload-plugin';
 import TIMProfanityFilterPlugin from 'tim-profanity-filter-plugin';
 import { ChartDefineStoreOptions, TIMCoreLoginParams } from "./type";
+import { useSaveTimUser } from "@/plugins/TIM-plugin/loginParams.pinia";
 
 
 export default class TIMCore {
@@ -31,10 +32,11 @@ export default class TIMCore {
 		// 注册腾讯云即时通信 IM 上传插件
 		chat.registerPlugin({ 'tim-upload-plugin': TIMUploadPlugin });
 		this.tim = chat;
-
+         
 		// 注册腾讯云即时通信 IM 本地审核插件
 		chat.registerPlugin({ 'tim-profanity-filter-plugin': TIMProfanityFilterPlugin });
-
+		//每次进入都调用一下，看是否保持登录
+        this.persistedLogin();
 
 		// 注意！以下代码适用于 uni-app -> native app 项目集成离线推送能力。
 		// 应合规要求，在用户同意隐私协议的前提下，登录成功后 SDK 会通过推送插件获取推送 token
@@ -65,10 +67,37 @@ export default class TIMCore {
 		// });=> void
 
 	}
+	private persistedLogin =() =>{
+		/**
+		 * 看pinia里面是否有 TIMCoreLoginParams 数据
+		 * 如果有userID就重新登录
+		 * 
+        **/
+		const storeSaveTimUser = useSaveTimUser();
+		const timLoginParams =storeSaveTimUser.TIMCoreLoginParams;
+		if(timLoginParams?.userID){
+			this.timLogin(timLoginParams)
+		}
+		console.log('----timLoginParam------->>>>>>>', timLoginParams)
+	}
+	public timLoginOut = () =>{
+		this.unBindTIMEvent();
+		// 退出IM登录
+		this.tim?.logout();
+	}
+	//解绑所有的监听事件，目前只有两个
+	public unBindTIMEvent = () =>{
+		this.tim?.off(TencentCloudChat.EVENT.MESSAGE_RECEIVED,()=>{}) 
+		this.tim?.off(TencentCloudChat.EVENT.SDK_READY,()=>{}) 
+	}
 	public timLogin = async (options : TIMCoreLoginParams) => {
 		console.log('----options------->>>>>>>', options)
+		const storeSaveTimUser = useSaveTimUser()
 		// 第一步登录SDK
 		await this.tim?.login(options);
+		// 持久化相关密钥
+		storeSaveTimUser.saveTimUser(options);
+		
 		this.userID = options.userID;
 		this.bindTIMEvent();
 	}
@@ -79,7 +108,15 @@ export default class TIMCore {
 	}
 	private handleSDKReady = () => {
 		console.log('SDK准备完成')
+		/**
+		 * onReady 方法是每次准备完成就要调用的接口
+		 * 
+		**/
+		this.onReady()
 		this.tim?.on(TencentCloudChat.EVENT.MESSAGE_RECEIVED, this.handleMessageReceived, this)
+	}
+	public onReady =() =>{
+		
 	}
 	private handleMessageReceived = (event : any) => {
 		console.log('接收到的消息', event);
@@ -87,10 +124,10 @@ export default class TIMCore {
 	}
 	/**
 	 * 向外暴露接收消息的方法
-     * @param event
-    */
-	public messageReceived=(event:any)=>{
-		
+	 * @param event
+	*/
+	public messageReceived = (event : any) => {
+
 	}
 	// 发送消息,并且创建消息类型
 	// payload的类型自定义
