@@ -4,7 +4,7 @@
 
 			<u-form ref="uForm">
 				<u-form-item>
-					<u-input class="inputLogin" maxlength="11" v-model="name" placeholder="请输入手机号" border="none" />
+					<u-input class="inputLogin" v-model="name" placeholder="请输入手机号" border="none" />
 				</u-form-item>
 				<u-form-item>
 					<u-input class="inputLogin" placeholder="请输入验证码" v-model="psw" type="text" border="none"></u-input>
@@ -20,35 +20,40 @@
 
 
 <script setup lang="ts">
-	import { ref } from "vue";
-	// import TIMCore from "@/plugins/TIM-plugin/TIM-core"
+	import { ref } from "vue"; 
 	import { genTestUserSig } from "@/debug/index.js"
 	import { useTIMStore } from "@/plugins/chat"
+	import { configTim } from "@/plugins/TIM-plugin/configTim"
 
-	const name = ref("admin")
+	const name = ref("297092")
 	const psw = ref("")
 	const TIMStore = useTIMStore()
 	const submit = async () => {
 		/**
-		 * 生成秘钥
+		 * admin登录是客服，非admin登录的是客户
+         * 生成秘钥
 		 * 
 		**/
 		const { userSig } = genTestUserSig({
 			userID: name.value,
-			SDKAppID: 1600004995,
-			secretKey: '83e594d500af68d914cd7af88eecd620d00e810f2a03417c7469aacefd627bef',
+			SDKAppID: configTim.SDKAppID,
+			secretKey:configTim.secretKey 
 
 		})
-	     await	getUserSig(userSig)
+		await getUserSig(userSig)
 	}
-// console.log('TIMStore.timCore.timLogin',TIMStore )
 	const getUserSig = async (userSig : string) => {
-		// console.log('name.value>>>>>>>', userSig)
-		 await TIMStore.timCore.timLogin({
-			userSig, 
+		await TIMStore.timCore.timLogin({
+			userSig,
 			userID: name.value,
 		})
-
+		// 跳转到聊天页面
+		nextTo()
+	}
+	const nextTo = async () => {
+		uni.navigateTo({
+			url: '/pageTim/messageTim'
+		})
 	}
 </script>
 

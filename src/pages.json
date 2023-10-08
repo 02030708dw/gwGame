@@ -19,9 +19,20 @@
 				"navigationBarTitleText": "",
 				"navigationStyle": "custom"
 			}
-		}
+		} 
+		 
 	],
-	"subPackages": [],
+	"subPackages": [{
+		"root":"pageTim",
+		"pages": [
+			{
+				"path": "messageTim",
+				"style": {
+					"navigationBarTitleText": "消息"
+				}
+			}
+		]
+	}],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "rjqDemo",
