@@ -4,7 +4,7 @@
  * 
 **/
 // 如果您已集成 v2.x 的 SDK，想升级到 V3 并且想尽可能地少改动项目代码，可以继续沿用 TIM
-// import TIM from '@tencentcloud/chat';
+import TIM from '@tencentcloud/chat';
 import TencentCloudChat, { ChatSDK } from '@tencentcloud/chat';
 import TIMUploadPlugin from 'tim-upload-plugin';
 import TIMProfanityFilterPlugin from 'tim-profanity-filter-plugin';
@@ -21,13 +21,13 @@ export default class TIMCore {
 	}
 
 	private initTimSdk = (SDKAppID : number) => {
-		console.log('SDKAppID==-----------------=====>', SDKAppID)
+		 
 		let options = {
 			SDKAppID // 接入时需要将0替换为您的即时通信 IM 应用的 SDKAppID
 		};
 		// 创建 SDK 实例，`TIM.create()`方法对于同一个 `SDKAppID` 只会返回同一份实例
 		let chat = TencentCloudChat.create(options); // SDK 实例通常用 chat 表示
-		chat.setLogLevel(0); // 普通级别，日志量较多，接入时建议使用
+		chat.setLogLevel(1); // 普通级别，日志量较多，接入时建议使用
 		// chat.setLogLevel(1); // release 级别，SDK 输出关键信息，生产环境时建议使用		
 		// 注册腾讯云即时通信 IM 上传插件
 		chat.registerPlugin({ 'tim-upload-plugin': TIMUploadPlugin });
@@ -71,14 +71,16 @@ export default class TIMCore {
 		/**
 		 * 看pinia里面是否有 TIMCoreLoginParams 数据
 		 * 如果有userID就重新登录
-		 * 
+		 * 每次刷新，保持登录
         **/
 		const storeSaveTimUser = useSaveTimUser();
-		const timLoginParams =storeSaveTimUser.TIMCoreLoginParams;
-		if(timLoginParams?.userID){
-			this.timLogin(timLoginParams)
+		const timCoreLoginParams = storeSaveTimUser.TIMCoreLoginParams; 
+	// const timCoreLoginParams=  JSON.parse(localStorage.getItem('TIMCoreLoginParams') || '{}')
+		if(timCoreLoginParams.userID){
+			this.timLogin(timCoreLoginParams)
+			// console.log('---获取缓存里面的数据------->>>>>>>', timCoreLoginParams)
 		}
-		console.log('----timLoginParam------->>>>>>>', timLoginParams)
+		 
 	}
 	public timLoginOut = () =>{
 		this.unBindTIMEvent();
@@ -91,13 +93,13 @@ export default class TIMCore {
 		this.tim?.off(TencentCloudChat.EVENT.SDK_READY,()=>{}) 
 	}
 	public timLogin = async (options : TIMCoreLoginParams) => {
-		console.log('----options------->>>>>>>', options)
+		console.log('----登录参数------->>>>>>>', options) 
 		const storeSaveTimUser = useSaveTimUser()
 		// 第一步登录SDK
 		await this.tim?.login(options);
 		// 持久化相关密钥
-		storeSaveTimUser.saveTimUser(options);
-		
+	  	storeSaveTimUser.saveTimUser(options);
+		// localStorage.setItem('TIMCoreLoginParams',JSON.stringify(options))
 		this.userID = options.userID;
 		this.bindTIMEvent();
 	}
@@ -115,9 +117,7 @@ export default class TIMCore {
 		this.onReady()
 		this.tim?.on(TencentCloudChat.EVENT.MESSAGE_RECEIVED, this.handleMessageReceived, this)
 	}
-	public onReady =() =>{
-		
-	}
+	public onReady =() =>{}
 	private handleMessageReceived = (event : any) => {
 		console.log('接收到的消息', event);
 		this.messageReceived(event)
@@ -126,9 +126,7 @@ export default class TIMCore {
 	 * 向外暴露接收消息的方法
 	 * @param event
 	*/
-	public messageReceived = (event : any) => {
-
-	}
+	public messageReceived = (event : any) => {}
 	// 发送消息,并且创建消息类型
 	// payload的类型自定义
 	private getMessageOptions = (userID : string, payload : any) => {

@@ -54,6 +54,7 @@
 		uni.navigateTo({
 			url: '/pageTim/messageTim'
 		})
+		 
 	}
 	
 	// 退出登录的时候调用
