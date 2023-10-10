@@ -50,7 +50,16 @@
 		 * 给 admin发送消息，是可以动态变化的
 		 * 
 		*/
-		TIMStore.timCore.sendMessage('admins', { text: name.value })
+		TIMStore.timCore.sendMessage('冉先生', { text: name.value });
+		// 每次发送消息就添加进去
+		TIMStore.nowMessage.push({
+			payload: {
+				text: name.value
+			},
+			flow: 'out'
+		})
+		// push完了清空数据
+		name.value = ''
 		// console.log('name======', name.value)
 	}
 	const messageTimList = () => {
@@ -60,10 +69,10 @@
 	}
 	const loginOut = () => {
 		TIMStore.timCore.timLoginOut();
-	} 
-	const deleteSession = async () => { 
-			await TIMStore.deleteSessionConversation()
-	 
+	}
+	const deleteSession = async () => {
+		await TIMStore.deleteSessionConversation()
+
 	}
 </script>
 
