@@ -12,7 +12,8 @@
 			<view @click="sendMsg" class="submitAlipay">发送</view>
 			<view @click="messageTimList" class="submitAlipay">获取</view>
 			<view @click="loginOut" class="submitAlipay">退出登录</view>
- 
+			<view @click="deleteSession" class="submitAlipay">删除回话</view>
+
 		</view>
 
 	</view>
@@ -28,7 +29,7 @@
 	const name = ref("admin")
 	const psw = ref("")
 	const TIMStore = useTIMStore();
- 
+
 	/**
 	 * 订阅SDK 接收功能 
 	 * 
@@ -52,18 +53,18 @@
 		TIMStore.timCore.sendMessage('admins', { text: name.value })
 		// console.log('name======', name.value)
 	}
-	const messageTimList=()=>{
+	const messageTimList = () => {
 		uni.navigateTo({
-			url:"/pageTim/messageTimList"
+			url: "/pageTim/messageTimList"
 		})
 	}
-	const loginOut=()=>{
-		 TIMStore.timCore.timLoginOut();
+	const loginOut = () => {
+		TIMStore.timCore.timLoginOut();
+	} 
+	const deleteSession = async () => { 
+			await TIMStore.deleteSessionConversation()
+	 
 	}
-	TIMStore.timCore.onReady = async () => {
-	 	console.log('0000000000000200000000000000000000000000')
-		await TIMStore.getSessionList()
-	}   
 </script>
 
 <style scoped lang="scss">

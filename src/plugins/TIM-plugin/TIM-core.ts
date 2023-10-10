@@ -4,10 +4,10 @@
  * 
 **/
 // 如果您已集成 v2.x 的 SDK，想升级到 V3 并且想尽可能地少改动项目代码，可以继续沿用 TIM
-import TIM from '@tencentcloud/chat';
+// import TIM from '@tencentcloud/chat';
 import TencentCloudChat, { ChatSDK } from '@tencentcloud/chat';
 import TIMUploadPlugin from 'tim-upload-plugin';
-import TIMProfanityFilterPlugin from 'tim-profanity-filter-plugin';
+// import TIMProfanityFilterPlugin from 'tim-profanity-filter-plugin';
 import { ChartDefineStoreOptions, TIMCoreLoginParams } from "./type";
 import { useSaveTimUser } from "@/plugins/TIM-plugin/loginParams.pinia";
 
@@ -27,14 +27,14 @@ export default class TIMCore {
 		};
 		// 创建 SDK 实例，`TIM.create()`方法对于同一个 `SDKAppID` 只会返回同一份实例
 		let chat = TencentCloudChat.create(options); // SDK 实例通常用 chat 表示
-		chat.setLogLevel(1); // 普通级别，日志量较多，接入时建议使用
+		chat.setLogLevel(0); // 普通级别，日志量较多，接入时建议使用
 		// chat.setLogLevel(1); // release 级别，SDK 输出关键信息，生产环境时建议使用		
 		// 注册腾讯云即时通信 IM 上传插件
 		chat.registerPlugin({ 'tim-upload-plugin': TIMUploadPlugin });
 		this.tim = chat;
          
 		// 注册腾讯云即时通信 IM 本地审核插件
-		chat.registerPlugin({ 'tim-profanity-filter-plugin': TIMProfanityFilterPlugin });
+		// chat.registerPlugin({ 'tim-profanity-filter-plugin': TIMProfanityFilterPlugin });
 		//每次进入都调用一下，看是否保持登录
         this.persistedLogin();
 
@@ -114,8 +114,9 @@ export default class TIMCore {
 		 * onReady 方法是每次准备完成就要调用的接口
 		 * 
 		**/
-		this.onReady()
+		 setTimeout(()=>{this.onReady()},300)
 		this.tim?.on(TencentCloudChat.EVENT.MESSAGE_RECEIVED, this.handleMessageReceived, this)
+		 
 	}
 	public onReady =() =>{}
 	private handleMessageReceived = (event : any) => {

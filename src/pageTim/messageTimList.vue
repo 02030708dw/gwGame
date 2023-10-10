@@ -3,7 +3,7 @@
 		<view class="bacAlipay">
 
 			<view class="" v-for="(item,index) in TIMStore.conversationList" :key="index">
-				{{item.name}}
+				{{item.lastMessage.fromAccount}}
 			</view> 
 			<view class="submitAlipay" @click="getAll">获取会话列表</view>
 
@@ -22,8 +22,7 @@
 
 	const name = ref("admin") 
 	const TIMStore = useTIMStore();
-	TIMStore.timCore.onReady = async () => {
-	 	console.log('0000000000000200000000000000000000000000')
+	TIMStore.timCore.onReady = async () => { 
 		await TIMStore.getSessionList()
 	}   
 	/**

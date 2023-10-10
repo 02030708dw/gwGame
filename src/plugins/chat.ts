@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { configTim } from "@/plugins/TIM-plugin/configTim"
+import { useSaveTimUser } from "@/plugins/TIM-plugin/loginParams.pinia";
 export const useTIMStore = defineStore('chat', {
 	state() {
 		return {
@@ -26,14 +27,23 @@ export const useTIMStore = defineStore('chat', {
 		 * TIM_1600006548_admins_conversationMap
 		 * 
 		*/
-		async getSessionList() { 
-			const { data  } = await this.timCore.tim?.getConversationList();
-			console.log("获取会话列表的回话记录------data----", data)
+		async getSessionList() {
 			const { data: { conversationList } } = await this.timCore.tim?.getConversationList();
 			this.conversationList = conversationList;
-			
-			 			 
 			console.log("获取会话列表的回话记录----------", this.conversationList)
+		},
+		/**
+		 * 
+		 * 删除回话记录
+        **/
+		async deleteSessionConversation() {
+			// 	const storeSaveTimUser=useSaveTimUser()
+			// console.log("删除回话记录----------", 'C2C'+storeSaveTimUser.TIMCoreLoginParams.userID)
+		 
+			const { data } = await this.timCore.tim?.deleteConversation('C2C冉先生21')
+			console.log("删除回话记录----------", data)
 		}
+
+
 	}
 })
