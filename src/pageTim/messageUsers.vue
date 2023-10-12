@@ -36,7 +36,10 @@
 	*/
 	const handleSendMessage = async (item : any) => {
 		console.log('设置像谁发送消息', item.lastMessage.fromAccount)
-		storeSendGetUser.sendUser = item.lastMessage.fromAccount
+		storeSendGetUser.sendUser = item.lastMessage.fromAccount;
+		// 跳转的时候清空当前信息，获取历史信息
+		TIMStore.nowMessage = []
+		await TIMStore.getMessageHistoryList(storeSendGetUser.sendUser)
 		uni.navigateTo({
 			url: '/pageTim/message'
 		})

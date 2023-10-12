@@ -21,7 +21,7 @@ export default class TIMCore {
 	}
 
 	private initTimSdk = (SDKAppID : number) => {
-		 
+
 		let options = {
 			SDKAppID // 接入时需要将0替换为您的即时通信 IM 应用的 SDKAppID
 		};
@@ -32,11 +32,11 @@ export default class TIMCore {
 		// 注册腾讯云即时通信 IM 上传插件
 		chat.registerPlugin({ 'tim-upload-plugin': TIMUploadPlugin });
 		this.tim = chat;
-         
+
 		// 注册腾讯云即时通信 IM 本地审核插件
 		// chat.registerPlugin({ 'tim-profanity-filter-plugin': TIMProfanityFilterPlugin });
 		//每次进入都调用一下，看是否保持登录
-        this.persistedLogin();
+		this.persistedLogin();
 
 		// 注意！以下代码适用于 uni-app -> native app 项目集成离线推送能力。
 		// 应合规要求，在用户同意隐私协议的前提下，登录成功后 SDK 会通过推送插件获取推送 token
@@ -67,38 +67,38 @@ export default class TIMCore {
 		// });=> void
 
 	}
-	private persistedLogin =() =>{
+	private persistedLogin = () => {
 		/**
 		 * 看pinia里面是否有 TIMCoreLoginParams 数据
 		 * 如果有userID就重新登录
 		 * 每次刷新，保持登录
-        **/
+		**/
 		const storeSaveTimUser = useSaveTimUser();
-		const timCoreLoginParams = storeSaveTimUser.TIMCoreLoginParams; 
-	// const timCoreLoginParams=  JSON.parse(localStorage.getItem('TIMCoreLoginParams') || '{}')
-		if(timCoreLoginParams.userID){
+		const timCoreLoginParams = storeSaveTimUser.TIMCoreLoginParams;
+		// const timCoreLoginParams=  JSON.parse(localStorage.getItem('TIMCoreLoginParams') || '{}')
+		if (timCoreLoginParams.userID) {
 			this.timLogin(timCoreLoginParams)
 			// console.log('---获取缓存里面的数据------->>>>>>>', timCoreLoginParams)
 		}
-		 
+
 	}
-	public timLoginOut = () =>{
+	public timLoginOut = () => {
 		this.unBindTIMEvent();
 		// 退出IM登录
 		this.tim?.logout();
 	}
 	//解绑所有的监听事件，目前只有两个
-	public unBindTIMEvent = () =>{
-		this.tim?.off(TencentCloudChat.EVENT.MESSAGE_RECEIVED,()=>{}) 
-		this.tim?.off(TencentCloudChat.EVENT.SDK_READY,()=>{}) 
+	public unBindTIMEvent = () => {
+		this.tim?.off(TencentCloudChat.EVENT.MESSAGE_RECEIVED, () => { })
+		this.tim?.off(TencentCloudChat.EVENT.SDK_READY, () => { })
 	}
 	public timLogin = async (options : TIMCoreLoginParams) => {
-		console.log('----登录参数------->>>>>>>', options) 
+		console.log('----登录参数------->>>>>>>', options)
 		const storeSaveTimUser = useSaveTimUser()
 		// 第一步登录SDK
 		await this.tim?.login(options);
 		// 持久化相关密钥
-	  	storeSaveTimUser.saveTimUser(options);
+		storeSaveTimUser.saveTimUser(options);
 		// localStorage.setItem('TIMCoreLoginParams',JSON.stringify(options))
 		this.userID = options.userID;
 		this.bindTIMEvent();
@@ -114,11 +114,11 @@ export default class TIMCore {
 		 * onReady 方法是每次准备完成就要调用的接口
 		 * 
 		**/
-		 setTimeout(()=>{this.onReady()},700)
+		setTimeout(() => { this.onReady() }, 700)
 		this.tim?.on(TencentCloudChat.EVENT.MESSAGE_RECEIVED, this.handleMessageReceived, this)
-		 
+
 	}
-	public onReady =() =>{}
+	public onReady = () => { }
 	private handleMessageReceived = (event : any) => {
 		console.log('接收到的消息', event);
 		this.messageReceived(event)
@@ -127,7 +127,7 @@ export default class TIMCore {
 	 * 向外暴露接收消息的方法
 	 * @param event
 	*/
-	public messageReceived = (event : any) => {}
+	public messageReceived = (event : any) => { }
 	// 发送消息,并且创建消息类型
 	// payload的类型自定义
 	private getMessageOptions = (userID : string, payload : any) => {
@@ -149,6 +149,25 @@ export default class TIMCore {
 		//发送消息 !发送消息，强制以为他有
 		await this.tim?.sendMessage(messageOption!);
 		console.log('发送成功------')
+	}
+
+	/**
+		 * 发送图片
+		 * 
+	   */
+	private sendcreateImageMessage = (userID : any) => {
+		return this.tim?.createImageMessage({
+			to: userID,
+			conversationType: TencentCloudChat.TYPES.CONV_C2C,
+			// 消息优先级，用于群聊
+			// priority: TencentCloudChat.TYPES.MSG_PRIORITY_NORMAL,
+			payload: {
+				file: 'https://cic.bell120.com/material/cic/13.png',
+			},
+			// 消息自定义数据（云端保存，会发送到对端，程序卸载重装后还能拉取到）
+			// cloudCustomData: 'your cloud custom data'
+			onProgress: function (event : any) { console.log('file uploading:', event) }
+		});
 	}
 
 }

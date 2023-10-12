@@ -1,13 +1,13 @@
 import { defineStore } from "pinia";
 import { configTim } from "@/plugins/TIM-plugin/configTim"
 import { useSaveTimUser } from "@/plugins/TIM-plugin/loginParams.pinia";
-import { Message } from "@tencentcloud/chat";
+// import { Message } from "@tencentcloud/chat";
 export const useTIMStore = defineStore('chat', {
 	state() {
 		return {
 			conversationList: [],
-			nowMessage:[] as any,//当前发送的数据
-			historyMessage:[],//获取历史数据
+			nowMessage: [] as any,//当前发送的数据
+			historyMessage: [],//获取历史数据
 		}
 	},
 	TIMOptions() {
@@ -38,26 +38,27 @@ export const useTIMStore = defineStore('chat', {
 		/**
 		 * 
 		 * 删除回话记录
-        **/
+		**/
 		async deleteSessionConversation() {
-				const storeSaveTimUser=useSaveTimUser();
-			console.log("删除回话记录----------", 'C2C'+storeSaveTimUser.sendUser)
-		 
-			const { data } = await this.timCore.tim?.deleteConversation('C2C'+storeSaveTimUser.sendUser)
+			const storeSaveTimUser = useSaveTimUser();
+			console.log("删除回话记录----------", 'C2C' + storeSaveTimUser.sendUser)
+
+			const { data } = await this.timCore.tim?.deleteConversation('C2C' + storeSaveTimUser.sendUser)
 			console.log("删除回话记录----------", data)
 		},
 		/**
 		 * 
 		 * 获取历史消息
-         */
-		async getMessageHistoryList(userID:string){
+		 */
+		async getMessageHistoryList(userID : string) {
 			const data = await this.timCore.tim?.getMessageList({
-				conversationID:`C2C${userID}`
+				conversationID: `C2C${userID}`
 			})
-			 this.historyMessage = data.data.messageList
+			this.historyMessage = data.data.messageList
 			//历史记录里面有个  flow（in , out）
-			console.log("我是历史记录----------------->",data)
-		}
+			console.log("我是历史记录----------------->", data)
+		},
+		 
 
 	},
 	unistorage: false

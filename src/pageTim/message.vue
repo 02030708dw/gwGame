@@ -6,7 +6,11 @@
 					  fill_out:items.flow !=='in',
 					   
 				  }">
-			<view class="touxiang"></view>
+			<view class="touxiang" :class="{
+					  fill_in_a:items.flow==='in',
+					  fill_out_a:items.flow !=='in',
+					   
+				  }"></view>
 			<view class="touxtext">
 				{{items.payload.text}}
 			</view>
@@ -95,6 +99,12 @@
 		sendMsg();
 		console.log('text', text)
 	}
+	// const sendcreateImageMessages=()=>{
+	// 	TIMStore.sendcreateImageMessage(
+			 
+
+	// 	)
+	// }
 </script>
 
 <style lang="scss" scoped>
