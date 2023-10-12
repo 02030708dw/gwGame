@@ -179,21 +179,24 @@ export default class TIMCore {
 		 * 发送图片
 		 * 
 	   */
-	// private sendcreateImageMessage = (userID : any, payload : any) => {
+	// private sendcreateImageMessage = (userID : any, file : string) => {
+	// 	console.log('--------------1--------------------------------------', userID, file)
 	// 	return this.tim?.createImageMessage({
 	// 		to: userID,
 	// 		conversationType: TencentCloudChat.TYPES.CONV_C2C,
 	// 		// 消息优先级，用于群聊
 	// 		// priority: TencentCloudChat.TYPES.MSG_PRIORITY_NORMAL,
-	// 		payload,
+	// 		payload:{
+	// 			 file: file 
+	// 		},
 	// 		// 消息自定义数据（云端保存，会发送到对端，程序卸载重装后还能拉取到）
 	// 		// cloudCustomData: 'your cloud custom data'
 	// 		onProgress: function (event : any) { console.log('file uploading:', event) }
 	// 	});
 	// }
-	// public sendImageMessage = async (userID : string, payload : any) => {
+	// public sendImageMessage = async (userID : string, file : string) => {
 	// 	// 创建图片消息
-	// 	const messageImageOption = this.sendcreateImageMessage(userID, payload);
+	// 	const messageImageOption = this.sendcreateImageMessage(userID, file);
 	// 	//发送消息 !发送消息，强制以为他有
 	// 	await this.tim?.sendImageMessage(messageImageOption!);
 	// 	console.log('发送成功------')

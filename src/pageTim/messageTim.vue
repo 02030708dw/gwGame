@@ -54,7 +54,7 @@
 		 * @param storeSaveTimUser.sendUser 发送者名称
 		 * 
 		*/
-		TIMStore.timCore.sendMessage(storeSendGetUser.sendUser, { text: name.value });
+		TIMStore.timCore.sendMessage(storeSendGetUser.sendUser, { text: name.value },'text');
 		// 每次发送消息就添加进去
 		TIMStore.nowMessage.push({
 			payload: {

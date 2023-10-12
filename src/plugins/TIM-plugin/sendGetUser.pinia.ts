@@ -4,7 +4,7 @@ import { defineStore } from "pinia";
 export const useSendGetUser = defineStore("sendGetUser", {
 	state() {
 		return { 
-			 sendUser:"1000",//发送给谁
+			 sendUser:"小鱼儿",//发送给谁
 			// getUser:"456",//接受者
 		};
 	}, 
