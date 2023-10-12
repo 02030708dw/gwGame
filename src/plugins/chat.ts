@@ -40,10 +40,10 @@ export const useTIMStore = defineStore('chat', {
 		 * 删除回话记录
         **/
 		async deleteSessionConversation() {
-			// 	const storeSaveTimUser=useSaveTimUser()
-			// console.log("删除回话记录----------", 'C2C'+storeSaveTimUser.TIMCoreLoginParams.userID)
+				const storeSaveTimUser=useSaveTimUser();
+			console.log("删除回话记录----------", 'C2C'+storeSaveTimUser.sendUser)
 		 
-			const { data } = await this.timCore.tim?.deleteConversation('C2C冉先生21')
+			const { data } = await this.timCore.tim?.deleteConversation('C2C'+storeSaveTimUser.sendUser)
 			console.log("删除回话记录----------", data)
 		},
 		/**
@@ -56,8 +56,9 @@ export const useTIMStore = defineStore('chat', {
 			})
 			 this.historyMessage = data.data.messageList
 			//历史记录里面有个  flow（in , out）
-			console.log("我是历史记录",data)
+			console.log("我是历史记录----------------->",data)
 		}
 
-	}
+	},
+	unistorage: false
 })

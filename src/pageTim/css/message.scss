@@ -1,0 +1,55 @@
+.chat {
+    display: flex;
+    flex-direction: column;
+    padding:  35rpx;
+    box-sizing: border-box;
+    background-color: #999;
+	min-height: 100vh;
+}
+.messageList{
+	display: flex;
+	flex-direction: row;
+    clear: both;
+	 
+}
+	
+.fill_in{ 
+	align-items: flex-end;
+	max-width: 600upx;
+	float: left; 
+	margin-bottom: 30upx;
+}
+.fill_in .touxtext{
+	color: #fff;
+	background-color: #84c4fa;
+	border-top-left-radius: 20upx;
+	border-top-right-radius: 20upx;
+	border-bottom-right-radius: 20upx;
+}
+.fill_out{
+	align-items: flex-end;
+	max-width: 600upx; 
+	float: right;
+	flex-direction: row-reverse;
+	margin-bottom: 30upx;
+}
+.fill_out .touxtext{
+	background-color: #0D9E79;
+	border-top-left-radius: 20upx;
+	border-bottom-left-radius: 20upx;
+	border-top-right-radius: 20upx;
+}
+.touxiang{
+	width: 80upx;
+	height: 80upx;
+	margin:0 20upx;
+	border-radius: 50%;
+	background-color:#0D9E79
+}
+.touxtext{
+	flex: 1;
+	 color: #fff;
+	width: 100%;
+	padding: 20upx;
+ 
+}

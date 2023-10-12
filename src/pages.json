@@ -35,8 +35,18 @@
 				"style": {
 					"navigationBarTitleText": "消息列表"
 				}
+			},{
+				"path": "message",
+				"style": {
+					"navigationBarTitleText": "消息"
+				}
+			},{
+				"path": "messageUsers",
+				"style": {
+					"navigationBarTitleText": "消息"
+				}
 			}
-			 
+			   
 		]
 	}],
 	"globalStyle": {

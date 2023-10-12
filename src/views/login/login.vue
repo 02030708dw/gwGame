@@ -12,7 +12,7 @@
 
 			</u-form>
 			<view @click="submit" class="submitAlipay">登录</view>
-
+			<view @click="loginOut" class="submitAlipay">退出登录</view>
 		</view>
 
 	</view>
@@ -52,11 +52,13 @@
 	}
 	const nextTo = async () => {
 		uni.navigateTo({
-			url: '/pageTim/messageTim'
+			url: '/pageTim/messageUsers'
 		})
 		 
 	}
-	
+	const loginOut = () => {
+		TIMStore.timCore.timLoginOut();
+	}
 	// 退出登录的时候调用
 	// TIMStore.timCore.timLoginOut();
 </script>

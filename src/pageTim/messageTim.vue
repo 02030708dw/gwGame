@@ -13,6 +13,7 @@
 			<view @click="messageTimList" class="submitAlipay">获取</view>
 			<view @click="loginOut" class="submitAlipay">退出登录</view>
 			<view @click="deleteSession" class="submitAlipay">删除回话</view>
+			<view @click="deleteSessionliaotian" class="submitAlipay">聊天</view>
 
 		</view>
 
@@ -25,11 +26,13 @@
 	// import TIMCore from "@/plugins/TIM-plugin/TIM-core"
 	// import { genTestUserSig } from "@/debug/index.js"
 	import { useTIMStore } from "@/plugins/chat"
-
+	// import { useSaveTimUser } from "@/plugins/TIM-plugin/loginParams.pinia"
+	import { useSendGetUser } from "@/plugins/TIM-plugin/sendGetUser.pinia"
 	const name = ref("admin")
 	const psw = ref("")
 	const TIMStore = useTIMStore();
-
+	// const storeSaveTimUser = useSaveTimUser();
+	const storeSendGetUser = useSendGetUser();
 	/**
 	 * 订阅SDK 接收功能 
 	 * 
@@ -48,9 +51,10 @@
 	const sendMsg = () => {
 		/**
 		 * 给 admin发送消息，是可以动态变化的
+		 * @param storeSaveTimUser.sendUser 发送者名称
 		 * 
 		*/
-		TIMStore.timCore.sendMessage('冉先生', { text: name.value });
+		TIMStore.timCore.sendMessage(storeSendGetUser.sendUser, { text: name.value });
 		// 每次发送消息就添加进去
 		TIMStore.nowMessage.push({
 			payload: {
@@ -67,6 +71,12 @@
 			url: "/pageTim/messageTimList"
 		})
 	}
+	const deleteSessionliaotian = () => {
+		uni.navigateTo({
+			url: "/pageTim/message"
+		})
+	}
+	 
 	const loginOut = () => {
 		TIMStore.timCore.timLoginOut();
 	}

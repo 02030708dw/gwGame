@@ -114,7 +114,7 @@ export default class TIMCore {
 		 * onReady 方法是每次准备完成就要调用的接口
 		 * 
 		**/
-		 setTimeout(()=>{this.onReady()},300)
+		 setTimeout(()=>{this.onReady()},700)
 		this.tim?.on(TencentCloudChat.EVENT.MESSAGE_RECEIVED, this.handleMessageReceived, this)
 		 
 	}
