@@ -151,7 +151,7 @@ export default class TIMCore {
 			});
 		}
 		if (typePayload === 'img') {
-			console.log('--------------2--------------------------------------', payload.file)
+			console.log('--------------图片上传IM--------------------------------------', payload)
 			return this.tim?.createImageMessage({
 				to: userID,
 				conversationType: TencentCloudChat.TYPES.CONV_C2C,
