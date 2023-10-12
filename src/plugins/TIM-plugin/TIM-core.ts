@@ -129,23 +129,47 @@ export default class TIMCore {
 	*/
 	public messageReceived = (event : any) => { }
 	// 发送消息,并且创建消息类型
-	// payload的类型自定义
-	private getMessageOptions = (userID : string, payload : any) => {
-		return this.tim?.createTextMessage({
-			to: userID,
-			conversationType: TencentCloudChat.TYPES.CONV_C2C,
-			// 消息优先级，用于群聊。如果某个群的消息超过了频率限制，后台会优先下发高优先级的消息
-			// priority: TencentCloudChat.TYPES.MSG_PRIORITY_NORMAL,
-			payload,
-			// 如果您发消息需要已读回执，需购买旗舰版套餐，并且创建消息时将 needReadReceipt 设置为 true
-			needReadReceipt: true
-			// 消息自定义数据（云端保存，会发送到对端，程序卸载重装后还能拉取到）
-			// cloudCustomData: 'your cloud custom data'
-		});
+	/**
+	 * payload的类型自定义
+	 * typePayload  类型有  文本text 图片img
+	 * 
+*/
+	private getMessageOptions = (userID : string, payload : any, typePayload : string) => {
+		console.log('--------------1--------------------------------------', userID, payload, typePayload)
+		if (typePayload === 'text') {
+
+			return this.tim?.createTextMessage({
+				to: userID,
+				conversationType: TencentCloudChat.TYPES.CONV_C2C,
+				// 消息优先级，用于群聊。如果某个群的消息超过了频率限制，后台会优先下发高优先级的消息
+				// priority: TencentCloudChat.TYPES.MSG_PRIORITY_NORMAL,
+				payload,
+				// 如果您发消息需要已读回执，需购买旗舰版套餐，并且创建消息时将 needReadReceipt 设置为 true
+				needReadReceipt: false
+				// 消息自定义数据（云端保存，会发送到对端，程序卸载重装后还能拉取到）
+				// cloudCustomData: 'your cloud custom data'
+			});
+		}
+		if (typePayload === 'img') {
+			console.log('--------------2--------------------------------------', payload.file)
+			return this.tim?.createImageMessage({
+				to: userID,
+				conversationType: TencentCloudChat.TYPES.CONV_C2C,
+				// 消息优先级，用于群聊。如果某个群的消息超过了频率限制，后台会优先下发高优先级的消息
+				// priority: TencentCloudChat.TYPES.MSG_PRIORITY_NORMAL,
+				payload,
+				onProgress: function (event : any) { console.log('file uploading:', event) }
+				// 如果您发消息需要已读回执，需购买旗舰版套餐，并且创建消息时将 needReadReceipt 设置为 true
+				// needReadReceipt: false
+				// 消息自定义数据（云端保存，会发送到对端，程序卸载重装后还能拉取到）
+				// cloudCustomData: 'your cloud custom data'
+			});
+		}
+
 	}
-	public sendMessage = async (userID : string, payload : any) => {
+	public sendMessage = async (userID : string, payload : any, typePayload : string) => {
 		// 创建消息
-		const messageOption = this.getMessageOptions(userID, payload);
+		const messageOption = this.getMessageOptions(userID, payload, typePayload);
 		//发送消息 !发送消息，强制以为他有
 		await this.tim?.sendMessage(messageOption!);
 		console.log('发送成功------')
@@ -155,19 +179,24 @@ export default class TIMCore {
 		 * 发送图片
 		 * 
 	   */
-	private sendcreateImageMessage = (userID : any) => {
-		return this.tim?.createImageMessage({
-			to: userID,
-			conversationType: TencentCloudChat.TYPES.CONV_C2C,
-			// 消息优先级，用于群聊
-			// priority: TencentCloudChat.TYPES.MSG_PRIORITY_NORMAL,
-			payload: {
-				file: 'https://cic.bell120.com/material/cic/13.png',
-			},
-			// 消息自定义数据（云端保存，会发送到对端，程序卸载重装后还能拉取到）
-			// cloudCustomData: 'your cloud custom data'
-			onProgress: function (event : any) { console.log('file uploading:', event) }
-		});
-	}
+	// private sendcreateImageMessage = (userID : any, payload : any) => {
+	// 	return this.tim?.createImageMessage({
+	// 		to: userID,
+	// 		conversationType: TencentCloudChat.TYPES.CONV_C2C,
+	// 		// 消息优先级，用于群聊
+	// 		// priority: TencentCloudChat.TYPES.MSG_PRIORITY_NORMAL,
+	// 		payload,
+	// 		// 消息自定义数据（云端保存，会发送到对端，程序卸载重装后还能拉取到）
+	// 		// cloudCustomData: 'your cloud custom data'
+	// 		onProgress: function (event : any) { console.log('file uploading:', event) }
+	// 	});
+	// }
+	// public sendImageMessage = async (userID : string, payload : any) => {
+	// 	// 创建图片消息
+	// 	const messageImageOption = this.sendcreateImageMessage(userID, payload);
+	// 	//发送消息 !发送消息，强制以为他有
+	// 	await this.tim?.sendImageMessage(messageImageOption!);
+	// 	console.log('发送成功------')
+	// }
 
 }

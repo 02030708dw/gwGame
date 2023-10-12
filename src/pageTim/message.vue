@@ -16,6 +16,7 @@
 			</view>
 
 		</view>
+		<button @click="sendcreateImageMessages">sendcreateImageMessages</button>
 		<uv-chat-input @sendChat="sendChat"></uv-chat-input>
 
 	</scroll-view>
@@ -42,7 +43,7 @@
 		 * @param storeSaveTimUser.sendUser 发送者名称
 		 * 
 		*/
-		TIMStore.timCore.sendMessage(storeSendGetUser.sendUser, { text: payloadText.value });
+		TIMStore.timCore.sendMessage(storeSendGetUser.sendUser, { text: payloadText.value }, 'text');
 		// 每次发送消息就添加进去
 		TIMStore.nowMessage.push({
 			payload: {
@@ -99,12 +100,9 @@
 		sendMsg();
 		console.log('text', text)
 	}
-	// const sendcreateImageMessages=()=>{
-	// 	TIMStore.sendcreateImageMessage(
-			 
-
-	// 	)
-	// }
+	const sendcreateImageMessages =   () => {
+		  TIMStore.timCore.sendMessage(storeSendGetUser.sendUser, { file: 'https://cic.bell120.com/material/cic/13.png' }, 'img')
+	}
 </script>
 
 <style lang="scss" scoped>

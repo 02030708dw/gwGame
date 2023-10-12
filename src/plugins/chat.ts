@@ -56,7 +56,7 @@ export const useTIMStore = defineStore('chat', {
 			})
 			this.historyMessage = data.data.messageList
 			//历史记录里面有个  flow（in , out）
-			console.log("我是历史记录----------------->", data)
+			console.log("我是历史记录----------------->", data.data.messageList)
 		},
 		 
 
