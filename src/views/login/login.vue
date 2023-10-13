@@ -4,7 +4,7 @@
 
 			<u-form ref="uForm">
 				<u-form-item>
-					<u-input class="inputLogin" v-model="name" placeholder="请输入手机号" border="none" />
+					<u-input class="inputLogin" v-model="name" placeholder="请输入账号" border="none" />
 				</u-form-item>
 				<u-form-item>
 					<u-input class="inputLogin" placeholder="请输入验证码" v-model="psw" type="text" border="none"></u-input>
@@ -25,7 +25,7 @@
 	import { useTIMStore } from "@/plugins/chat"
 	import { configTim } from "@/plugins/TIM-plugin/configTim"
 
-	const name = ref("297092")
+	const name = ref("")
 	const psw = ref("")
 	const TIMStore = useTIMStore()
 	const submit = async () => {

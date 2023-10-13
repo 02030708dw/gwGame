@@ -60,6 +60,7 @@
 			payload: {
 				text: name.value
 			},
+			type: 'TIMTextElem',
 			flow: 'out'
 		})
 		// push完了清空数据

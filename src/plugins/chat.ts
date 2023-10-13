@@ -2,11 +2,12 @@ import { defineStore } from "pinia";
 import { configTim } from "@/plugins/TIM-plugin/configTim"
 import { useSaveTimUser } from "@/plugins/TIM-plugin/loginParams.pinia";
 // import { Message } from "@tencentcloud/chat";
+import { TIMPayload } from "./TIM-plugin/type";
 export const useTIMStore = defineStore('chat', {
 	state() {
 		return {
 			conversationList: [],
-			nowMessage: [] as any,//当前发送的数据
+			nowMessage: [] as unknown as TIMPayload,//当前发送的数据
 			historyMessage: [],//获取历史数据
 		}
 	},
@@ -14,6 +15,13 @@ export const useTIMStore = defineStore('chat', {
 		return {
 			SDKAppID: configTim.SDKAppID,
 		}
+	},
+	getters: {
+		chatLogs(state) {
+			console.log("历史消息和现在消息的组合消息------", [...state.historyMessage, ...state.nowMessage])
+			return [...state.historyMessage, ...state.nowMessage]
+		},
+
 	},
 	actions: {
 		/**
@@ -58,7 +66,7 @@ export const useTIMStore = defineStore('chat', {
 			//历史记录里面有个  flow（in , out）
 			console.log("我是历史记录----------------->", data.data.messageList)
 		},
-		 
+
 
 	},
 	unistorage: false
