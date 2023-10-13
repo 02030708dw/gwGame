@@ -1,7 +1,7 @@
 <template>
 	<scroll-view :scroll-y="true" :enable-flex="true" class="chat-style">
 
-		<view class="messageList" v-for="(items,i) in chatLogs" :key="i" :class="{
+		<view class="messageList" v-for="(items,i) in TIMStore.chatLogs" :key="i" :class="{
 					  fill_in:items.flow==='in',
 					  fill_out:items.flow !=='in',
 					   
@@ -11,61 +11,53 @@
 					  fill_out_a:items.flow !=='in',
 					   
 				  }"></view>
-			<view class="touxtext">
+
+			<view class="touxtext" v-if="items.type==='TIMTextElem'">
 				{{items.payload.text}}
 			</view>
-
+			<view class="messageTIM" v-if="items.type==='TIMImageElem'">
+				<image @click="previewImages(items.payload.imageInfoArray[0].imageUrl)"
+					:src="items.payload.imageInfoArray[0].imageUrl" mode="scaleToFill"></image>
+			</view>
 		</view>
-		<button @click="sendcreateImageMessages">sendcreateImageMessages</button>
-		<uv-chat-input @sendChat="sendChat"></uv-chat-input>
+		<uv-chat-input @sendChat="sendChat" @sendChatType="sendChatType"></uv-chat-input>
 
 	</scroll-view>
 </template>
 
 <script lang="ts" setup>
-	import { ref, computed } from "vue";
 	import uvChatInput from "@/components/chat/uv-chat-input/uv-chat-input.vue";
-
+	// import { storeToRefs } from 'pinia'
+	// let { chatLogs } = storeToRefs(TIMStore)
 	import { useTIMStore } from "@/plugins/chat"
 	import { useSendGetUser } from "@/plugins/TIM-plugin/sendGetUser.pinia"
 
 	const storeSendGetUser = useSendGetUser();
 	const TIMStore = useTIMStore();
-	const payloadText = ref('')
 
-	/**
-	 * 发送消息
-	 * 
-	*/
-	const sendMsg = () => {
+
+	//发送消息
+	const sendChat = (text : any) => {
+		console.log('数据', text)
+		// 每次发送消息就添加进去
+		TIMStore.nowMessage.push({
+			payload: {
+				text
+			},
+			type: 'TIMTextElem',
+			flow: 'out'
+		})
+
 		/**
 		 * 给 admin发送消息，是可以动态变化的
 		 * @param storeSaveTimUser.sendUser 发送者名称
 		 * 
 		*/
-		TIMStore.timCore.sendMessage(storeSendGetUser.sendUser, { text: payloadText.value }, 'text');
-		// 每次发送消息就添加进去
-		TIMStore.nowMessage.push({
-			payload: {
-				text: payloadText.value
-			},
-			flow: 'out'
-		})
-		// push完了清空数据
-		// payloadText.value = ''
-		console.log('name======', payloadText.value, storeSendGetUser.sendUser)
+		TIMStore.timCore.sendMessage(storeSendGetUser.sendUser, { text }, 'text');
+
+		console.log('name======', text, storeSendGetUser.sendUser)
+
 	}
-
-
-
-	//当前消息 和历史消息
-	const chatLogs = computed(() => {
-		return [
-			...TIMStore.historyMessage,
-			...TIMStore.nowMessage
-		]
-	})
-
 
 	TIMStore.timCore.onReady = async () => {
 		// 获取那些人给我发了消息
@@ -88,20 +80,49 @@
 		 * 把接收到的消息渲染到聊天记录里面
 		 ***/
 	TIMStore.$onAction(({ name, args }) => {
-		// console.log('把接收到的消息渲染到聊天记录里面',args[0].data)
+		console.log('把接收到的消息渲染到聊天记录里面', args[0].data)
 		if (name === "subscribeMessage") {
 			TIMStore.nowMessage.push(...args[0].data)
 		}
 	})
 
-	const sendChat = (text : any) => {
-		payloadText.value = text;
-		//发送消息
-		sendMsg();
-		console.log('text', text)
+
+	const sendcreateImageMessages = () => {
+		uni.chooseImage({
+			count: 2,
+			sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+			sourceType: ['album'], // 从相册选择
+			success: (res) => {
+
+				// 每次发送消息就添加进去
+				TIMStore.nowMessage.push({
+					payload: {
+						imageInfoArray: [{ imageUrl: res.tempFiles[0].path }]
+					},
+					type: 'TIMImageElem',
+					flow: 'out'
+				})
+				TIMStore.timCore.sendMessage(storeSendGetUser.sendUser, { file: res }, 'img')
+
+			}
+		});
+
 	}
-	const sendcreateImageMessages =   () => {
-		  TIMStore.timCore.sendMessage(storeSendGetUser.sendUser, { file: 'https://cic.bell120.com/material/cic/13.png' }, 'img')
+
+
+
+
+	const previewImages = (url : string) => {
+		uni.previewImage({
+			urls: [url], //需要预览的图片http链接列表，多张的时候，url直接写在后面就行了
+			current: '', // 当前显示图片的http链接，默认是第一个
+			success: function (res) { },
+			fail: function (res) { },
+			complete: function (res) { },
+		})
+	}
+	const sendChatType = () => {
+		sendcreateImageMessages()
 	}
 </script>
 
