@@ -26,19 +26,14 @@
 </template>
 
 <script lang="ts" setup>
-	import { ref } from "vue";
 	import uvChatInput from "@/components/chat/uv-chat-input/uv-chat-input.vue";
 	// import { storeToRefs } from 'pinia'
 	// let { chatLogs } = storeToRefs(TIMStore)
 	import { useTIMStore } from "@/plugins/chat"
 	import { useSendGetUser } from "@/plugins/TIM-plugin/sendGetUser.pinia"
-	 
 
 	const storeSendGetUser = useSendGetUser();
 	const TIMStore = useTIMStore();
-	 
-   
-     
  
 
 	//发送消息
@@ -85,7 +80,7 @@
 		 * 把接收到的消息渲染到聊天记录里面
 		 ***/
 	TIMStore.$onAction(({ name, args }) => {
-		// console.log('把接收到的消息渲染到聊天记录里面', args[0].data)
+		console.log('把接收到的消息渲染到聊天记录里面', args[0].data)
 		if (name === "subscribeMessage") {
 			TIMStore.nowMessage.push(...args[0].data)
 		}
