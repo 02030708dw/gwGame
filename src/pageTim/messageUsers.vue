@@ -16,13 +16,21 @@
 </template>
 
 <script lang="ts" setup>
+	import { onMounted } from "vue";
 	import { useTIMStore } from "@/plugins/chat"
 	import { useSendGetUser } from "@/plugins/TIM-plugin/sendGetUser.pinia"
 
 	const storeSendGetUser = useSendGetUser();
 	const TIMStore = useTIMStore();
 	console.log(TIMStore.conversationList, 'TIMStore.conversationList')
+	onMounted(async () => {
+		try {
+			await TIMStore.getSessionList()
+		} catch (e) {
+			console.log("=======>>>>>等待执行完")
+		}
 
+	})
 
 	TIMStore.timCore.onReady = async () => {
 		// 获取那些人给我发了消息

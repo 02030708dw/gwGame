@@ -121,6 +121,11 @@ export default class TIMCore {
 	public onReady = () => { }
 	private handleMessageReceived = (event : any) => {
 		console.log('接收到的消息', event);
+		//接收到消息后，最好手动设置为已读
+		this.tim?.setMessageRead({
+			conversationID: event.data[0].conversationID
+		})
+
 		this.messageReceived(event)
 	}
 	/**
