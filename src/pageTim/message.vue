@@ -26,20 +26,26 @@
 </template>
 
 <script lang="ts" setup>
-	import { ref } from "vue";
+	import { ref, onMounted } from "vue";
 	import uvChatInput from "@/components/chat/uv-chat-input/uv-chat-input.vue";
 	// import { storeToRefs } from 'pinia'
 	// let { chatLogs } = storeToRefs(TIMStore)
 	import { useTIMStore } from "@/plugins/chat"
 	import { useSendGetUser } from "@/plugins/TIM-plugin/sendGetUser.pinia"
-	 
+
 
 	const storeSendGetUser = useSendGetUser();
 	const TIMStore = useTIMStore();
-	 
-   
-     
- 
+	onMounted(async () => {
+		try {
+			await TIMStore.getSessionList()
+		} catch (e) {
+			console.log("=======>>>>>等待执行完")
+		}
+	})
+
+
+
 
 	//发送消息
 	const sendChat = (text : any) => {
