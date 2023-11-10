@@ -6,8 +6,10 @@
 
 
 <script setup lang="ts">
+	 
 	// 需要放在页面里面才能运行
 	import { ref } from "vue";
+ 
 	const images = ref([
 		'https://dz.shningmi.com/cz/1.png',
 		'https://dz.shningmi.com/cz/2.png',
