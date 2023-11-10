@@ -1,5 +1,12 @@
 {
 	"pages": [
+		 
+		// {
+		// 	"path": "views/login/xuanzhuan",
+		// 	"style": {
+		// 		"navigationBarTitleText": "旋转特效" 
+		// 	}
+		// },
 		{
 			"path": "views/login/login",
 			"style": {
