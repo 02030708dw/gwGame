@@ -1,0 +1,32 @@
+<template>
+	<view class="headerTab">
+		<view class="headerLabel" v-for="(item,index) in props.typeTab" :key="index">{{item.label}} </view>
+	</view>
+</template>
+
+<script setup lang="ts">
+	const props = defineProps(['typeTab'])
+</script>
+
+<style scoped lang="scss">
+	.headerTab {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		background-color: #fff;
+		padding: 20rpx 8rpx;
+
+	}
+
+	.headerLabel {
+		background-color: #FCEFD5;
+		width: 20%;
+		height: 60rpx;
+		text-align: center;
+		line-height: 60rpx;
+		border-radius: 8px;
+		color: #333;
+		font-size: 16px;
+	}
+</style>

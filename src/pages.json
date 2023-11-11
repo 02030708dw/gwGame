@@ -1,66 +1,15 @@
 {
 	"pages": [
 		 
-		// {
-		// 	"path": "views/login/xuanzhuan",
-		// 	"style": {
-		// 		"navigationBarTitleText": "旋转特效" 
-		// 	}
-		// },
 		{
-			"path": "views/login/login",
+			"path": "views/game/game",
 			"style": {
-				"navigationBarTitleText": "旋转特效" 
-			}
-		},
-		{
-			"path": "views/login/localeSetting",
-			"style": {
-				"navigationBarTitleText": "" 
-			}
-		},
-		 
-		{
-			"path": "views/login/regiter",
-			"style": {
-				"navigationBarTitleText": "",
-				"navigationStyle": "custom"
+			"navigationStyle": "custom"
 			}
 		} 
 		 
 	],
-	"subPackages": [{
-		"root":"pageTim",
-		"pages": [
-			{
-				"path": "messageTim",
-				"style": {
-					"navigationBarTitleText": "消息"
-				}
-			},{
-				"path": "messageTimList",
-				"style": {
-					"navigationBarTitleText": "消息列表"
-				}
-			},{
-				"path": "message",
-				"style": {
-					"navigationBarTitleText": "消息"
-				}
-			},{
-				"path": "message1",
-				"style": {
-					"navigationBarTitleText": "消息"
-				}
-			},{
-				"path": "messageUsers",
-				"style": {
-					"navigationBarTitleText": "消息"
-				}
-			}
-			   
-		]
-	}],
+	"subPackages": [],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "rjqDemo",

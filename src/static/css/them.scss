@@ -1,5 +1,5 @@
 .fontColor1 {
-    color: #0087FD;
+    color: #FEB02D;
 }
 
 .fontColor0 {
@@ -25,17 +25,34 @@
   color: #fff;
 }
 .bColor0 {
-    background-color: #F6F6F6;
+background: linear-gradient(168deg, #FFFFFF 0%, #F43C3E 100%);
 }
 
 .bColor1 {
-    background-color: #0087FD;
+ background: linear-gradient(168deg, #FFFFFF 0%, #2FD68C 100%);
 }
 
 .bColor2 {
-    background-color: #F6AB1E;
+  background: linear-gradient(168deg, #FFFFFF 0%, #5D7CD2 100%);
 }
 
 .bColor3 {
     background-color: #F6F8FA;
+}
+.f24{
+	font-size: 24px;
+	font-family: PingFangSC-Semibold, PingFang SC;
+	font-weight: 600;
+}
+.f12{
+	font-size: 12px;
+	font-family: PingFangSC-Regular, PingFang SC;
+	font-weight: 400;
+	color: #999;
+}
+.f33{
+	font-size: 12px;
+	font-family: PingFangSC-Regular, PingFang SC;
+	font-weight: 400;
+	color: #333333;
 }
