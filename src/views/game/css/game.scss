@@ -1,0 +1,116 @@
+ 
+.bettingBac {
+		background-color: #F9F9F9;
+		position: relative;
+	}
+
+	.betting {
+		padding: 20rpx;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		background-color: #fff;
+		margin-bottom: 20rpx;
+	}
+
+	.bettingNum {
+		color: #999;
+		font-size: 12px;
+	}
+
+	.bettingBet {
+		font-size: 16px;
+		font-family: PingFangSC-Semibold, PingFang SC;
+		font-weight: 600;
+		color: #FFB023;
+		margin-left: 10%;
+	}
+
+	.bettingB {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		width: 80%;
+	}
+
+	.bettingClose {
+		width: 32rpx;
+		height: 32rpx;
+	}
+
+	.bettingClose image {
+		width: 100%;
+		height: 100%;
+	}
+	.bettingList{
+		width: 720rpx;
+		height: 92rpx;
+		background: #FFFFFF;
+		border-radius: 16rpx;
+		margin: 0 auto; 
+		 
+	}
+	.bettingList{
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+			margin-bottom: 20rpx;
+			justify-content: space-between;
+	}
+	.bettingList2{ 
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+	}
+	 .bettingTit{
+		 width: 260rpx;
+		 font-size: 12px;
+		 font-family: PingFangSC-Semibold, PingFang SC;
+		 font-weight: 600;
+		 color: #333333;
+		 margin-left: 20rpx;
+		 overflow: hidden;
+	 }
+	.bettingInput{
+		width: 290rpx;
+		height: 44rpx;
+		 border: 1px solid #EFEFEF;
+		border-radius: 0px 8rpx 8rpx 0px;
+		padding: 4rpx;
+		text-indent: 10rpx;
+	}
+	.bettingT{
+		 width: 82rpx;
+		font-size: 12px;
+		font-family: PingFangSC-Regular, PingFang SC;
+		font-weight: 400;
+		background: #EFEFEF; 
+		height: 48rpx;
+		line-height: 48rpx;
+		text-align: center;
+		font-size: 12px;
+		color: #999;
+	}
+	.bettingDel{
+		width: 44rpx;
+		height: 44rpx;
+		display: flex; 
+		margin-right: 20rpx;
+	}
+	.bettingTitN{
+		font-size: 14px;
+		font-family: PingFangSC-Semibold, PingFang SC;
+		font-weight: 600;
+		color: #00CD6A;
+	} 
+	.footerXiazu{
+		height: 80rpx;
+		background-color: #fff;
+	}
+	.mb100{
+		padding-bottom: 100rpx;
+	}
+	  :deep(.uni-scroll-view-content){
+		padding-bottom: 100rpx!important;
+	}

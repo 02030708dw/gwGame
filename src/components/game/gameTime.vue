@@ -9,14 +9,16 @@
 			<view class="f12 margintop40"> 0023-9282</view>
 		</view>
 		<view class="headerTimeR">
-			 <image src="../../static/images/tiancong.png" mode=""></image>
+			 <image  src="../../static/images/tiancong.png" mode=""></image>
 			 <image class="headerImg" src="../../static/images/jifei.png" mode=""></image>
 			 <image src="../../static/images/jishi.png" mode=""></image>
 		</view>
 	</view>
+	 
 </template>
 
 <script setup lang="ts">
+ 
 	const props = defineProps(['typeTab'])
 </script>
 
