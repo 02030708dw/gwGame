@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 export const useGame = defineStore("Game", {
 	state() {
 		return {
-          isBetting:true,//是否投注
+          isBetting:false,//是否投注
 		};
 	},
 	actions: {
