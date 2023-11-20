@@ -34,8 +34,7 @@
 		width: 96%;
 		display: flex;
 		flex-direction: column;
-        margin: 0 auto;
-		// height: 286rpx;
+        margin: 0 auto; 
 		background-size: cover;
 		background-repeat: no-repeat;
 	}

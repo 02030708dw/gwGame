@@ -26,9 +26,7 @@
 	.headerTime {
 		width: 96%;
 		display: flex;
-		flex-direction: row;
-		// align-items: center;
-		// justify-content: space-between;
+		flex-direction: row; 
 		 
 		margin: 0 auto;
 		padding: 30rpx 0;
