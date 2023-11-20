@@ -1,11 +1,17 @@
 <template>
 	<view class="headerTab">
-		<view class="headerLabel" v-for="(item,index) in props.typeTab" :key="index">{{item.label}} </view>
+		<view class="headerLabel" @click="handleContrys(item)" v-for="(item,index) in props.typeTab" :key="index">
+			{{item.label}} </view>
 	</view>
 </template>
 
 <script setup lang="ts">
-	const props = defineProps(['typeTab'])
+	const props = defineProps(['typeTab']);
+	const emits = defineEmits(['handleContry']);
+
+	const handleContrys = (item : any) => {
+		emits('handleContry', item)
+	}
 </script>
 
 <style scoped lang="scss">

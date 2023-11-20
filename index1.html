@@ -1,0 +1,74 @@
+<p>这是一个使用 JavaScript 和 HTML5 实现图片文本识别的示例代码：</p>
+<p>```</p>
+<html>
+	<head>
+		<title>图片文本识别</title>
+		<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	</head>
+	<body>
+		<input type="file" id="imageFileInput" accept="image/*" />
+		<br>
+		<textarea id="resultTextArea"></textarea>
+		<script>
+			//定义一个函数，用于识别图片中的文字
+			// function recognizeImageText(imageUrl) {
+			// 	//创建一个Image对象，用于加载图片
+			// 	let img = new Image();
+			// 	img.src = imageUrl;
+			// 	//在Image对象加载成功后，将图片加载到canvas中，并使用tesseract.js进行文字识别
+			// 	img.onload = function() {
+			// 		let canvas = document.createElement('canvas');
+			// 		canvas.width = img.width;
+			// 		canvas.height = img.height;
+			// 		let ctx = canvas.getContext('2d');
+			// 		ctx.drawImage(img, 0, 0, img.width, img.height);
+			// 		Tesseract.recognize(canvas, {
+			// 			lang: 'chi_sim'
+			// 		}).then(function(result) {
+			// 			console.log(result.text);
+			// 		});
+			// 	}
+			// }
+			// //调用函数，传入图片地址
+			// recognizeImageText('https://example.com/image.jpg');
+
+
+
+
+			function recognizeText() {
+				// 获取文件输入框中选择的图片文件
+				var file = document.getElementById("imageFileInput").files[0];
+				// 创建 FileReader 对象
+				var reader = new FileReader();
+				// 当文件读取完毕时调用的回调函数
+				reader.onload = function(event) {
+					// 获取图片文件的 Base64 编码
+					var base64 = event.target.result;
+					// 将 Base64 编码转换为图片的 URL
+					var imgUrl = "data:image/jpeg;base64," + base64;
+					// 创建一个 Image 对象
+					var image = new Image();
+					// 当图片加载完成时调用的回调函数
+					image.onload = function() {
+						// 创建一个 canvas 元素
+						var canvas = document.createElement("canvas");
+						// 设置 canvas 的宽度和高度
+						canvas.width = image.width;
+						canvas.height = image.height;
+						// 获取 canvas 的 2D 绘图上下文
+						var context = canvas.getContext("2d");
+						// 将图片画到 canvas 上
+						context.drawImage(image, 0, 0);
+						// 获取 canvas 中的图像数据
+						var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+						// 调用 OCR API 识别图片中的文本
+						Tesseract.recognize(imageData)
+							.then(function(result) {
+								// 将识别结果显示在文本域中
+								document.getElementById("resultTextArea").value = result.text;
+							});
+					}
+					// 将图片的 URL 设置为 Image 对象的 src 属性
+					image.src = imgUrl;
+				}
+				//
