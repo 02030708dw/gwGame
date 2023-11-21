@@ -1,21 +1,20 @@
 <template>
 	<view class="headerContent headerAB">
-		<list />
-		<list />
-		<list />
-		<list />
-		<list />
-		<list />
-		<list />
-		<list />
-		<list />
-		<list />
+		<list :data="data"/>
+		 
+	 
 	</view>
 </template>
 
 <script setup lang="ts">
+	import {ref} from "vue"
 	import list from "./contentList/list.vue"
 	const props = defineProps(['typeTab'])
+	const data =ref([
+		{list:[1,2,3,4,5]},
+		{list:['',11,22,13,'']} 
+	])
+	
 </script>
 
 <style scoped lang="scss">
