@@ -1,6 +1,6 @@
 <template>
 	<gameHeader />
-	<gameHeaderTab @handleContry="handleContry" :typeTab="typeTab" />
+	<gameHeaderTab   :typeTab="typeTab" />
 	<gameContent />
 	<gameTime />
 	<slotFredHill v-if="contryId==1">
@@ -44,11 +44,7 @@
 	const storeCommon = useCommon();
 	const { contryId, TabData, oneActive, twoActive, TabDataTwo, TabDataAll } = storeToRefs(storeCommon)
 
-	const handleContry = (item : any) => {
-		console.log('选择的国家', item.id) 
-		storeCommon.setTabData(item.id)
-		 
-	}
+ 
 	const handleId = (id : number) => {
 		console.log('选择的ID', id)
 	}

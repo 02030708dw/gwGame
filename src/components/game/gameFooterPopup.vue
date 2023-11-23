@@ -7,7 +7,7 @@
 				<u-input class="bettingI" border="none" placeholder="10"></u-input>
 				<text class="bettingT">Tmis</text>
 			</view>
-			<view class="bettingIIs">
+			<view class="bettingIIs bettingIIsCenter">
 				<u-input class="bettingII" border="none" placeholder="Condinm"></u-input>
 			</view>
 		</view>
@@ -172,5 +172,8 @@
 		background: #FFFFFF;
 		border-radius: 4px;
 		border: 1px solid #EFEFEF;
+	}
+	:deep(.uni-input-wrapper){
+		text-align: center;
 	}
 </style>

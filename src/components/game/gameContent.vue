@@ -1,5 +1,9 @@
 <template>
 	<view class="headerContent headerAB">
+		<view class="headerContentB">
+			
+		</view>
+		<view class="backColor" v-for="(item,index) in 50" :key="index"> </view>
 		<list :data="data"/>
 		 
 	 
@@ -24,10 +28,26 @@
 		height: 118px;
 		border: 2rpx solid #FEB02D;
 		    overflow: hidden;
+			position: relative;
+	}
+	.headerContentB{
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		z-index: 2;
 	}
 
 	.headerAB {
 		display: flex;
 		flex-direction: row;
+	}
+	.backColor{
+		width: 19.8px;
+		height: 19.6px; 
+	}
+	.backColor:nth-child(odd){
+		background-color: red;
 	}
 </style>

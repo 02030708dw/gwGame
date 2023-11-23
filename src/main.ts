@@ -8,7 +8,7 @@ import uviewPlus from "uview-plus";
 // import { createI18n  } from 'vue-i18n'
 // import TIMPlugins from "./plugins/TIM-plugin";
 import { Pinia } from "./plugins/pinia/pinia";
- 
+import 'default-passive-events'
  
 // let i18nConfig = {
 //   locale: uni.getLocale(),

@@ -10,7 +10,7 @@
 					<image src="../../../static/images/close.png" mode=""></image>
 				</view>
 			</view>
-			<scroll-view class="mb100" scroll-y="true" :style="`height:  ${heightH}rpx`" scroll-with-animation="true">
+			<scroll-view class="mb100" scroll-y="true" :style="`height:  ${heightH}rpx`"   scroll-with-animation="true">
 
 				<view class="bettingList" v-for="(item,index) in 3" :key="index">
 					<view class="bettingTit"> [30-3 dhsjdfs 038]</view>
