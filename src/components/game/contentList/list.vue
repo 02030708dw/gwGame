@@ -1,40 +1,36 @@
 <template>
 
-	<view class="headerAB">
+	<view class="headerAB" v-for="(item,index) in props.data">
 		<view class="headerA">
-			<view class="headerC">
-				<view class="headerN bColor0">
-					1
-				</view>
+			<view class="headerC" v-for="(items,index) in item.list">
+				<view class="headerN bColor0">{{items}}  </view>
 			</view>
 			<view class="headerC">
-				<view class="headerN bColor1">
-					12
-				</view>
+				<view class="headerN bColor1"> 2</view>
 			</view>
 			<view class="headerC">
-				<view class="headerN bColor2">33</view>
-
-			</view>
+				<view class="headerN bColor2"> 3</view>
+            </view>
 			<view class="headerC"> </view>
 			<view class="headerC"> </view>
 			<view class="headerC"> </view>
 		</view>
-		<view class="headerA">
+		<!-- <view class="headerA">
 			<view class="headerB"> </view>
 			<view class="headerB"> </view>
 			<view class="headerB"> </view>
 			<view class="headerB"> </view>
 			<view class="headerB"> </view>
 			<view class="headerB"> </view>
-		</view>
+		</view> -->
 	</view>
-
 
 </template>
 
 <script setup lang="ts">
-	const props = defineProps(['typeTab'])
+	const props = defineProps(['data']);
+ 
+	
 </script>
 
 <style scoped lang="scss">

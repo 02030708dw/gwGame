@@ -1,10 +1,15 @@
 <template>
 	<view class="headerTab">
 		<view class="headerLabel"
-			:style="{backgroundColor:props.countId==item.id?props.backActive:'','color':props.countId==item.id?'#fff':''}"
+			:style="{
+			backgroundColor:props.countId==item.id?props.backActive:'',
+			'color':props.countId==item.id
+			 
+			?'#fff':''
+			}"
 			@click="handleActive(item.id)" v-for="(item,index) in props.typeTab" :key="index">{{item.label}} </view>
 	</view>
-</template>
+</template> 
 
 <script setup lang="ts">
 	const props = defineProps(['typeTab', 'countId', 'backActive']);
@@ -31,7 +36,7 @@
 
 	.headerLabel {
 		width: 18%;
-		padding: 5px 4rpx;
+		padding: 5px 4rpx; 
 		text-align: center;
 		background: #FFFFFF;
 		border-radius: 4px;

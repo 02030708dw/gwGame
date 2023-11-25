@@ -10,7 +10,8 @@
 	const emits = defineEmits(['handleContry']);
 
 	const handleContrys = (item : any) => {
-		emits('handleContry', item)
+		console.log('9999-----',item)
+		// emits('handleContry', item)
 	}
 </script>
 

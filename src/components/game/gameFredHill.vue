@@ -3,17 +3,21 @@
 		<view class="headerFredTitle">
 			Fred Hill
 		</view>
-		<gameTab :backActive="props.backActive" :H="props.H" :W="props.W" @handleActives="handleActives" :countId="countId" :typeTab="props.TabData" />
+		 
+		<gameTabAuto :backActive="props.backActive"   @handleActives="handleActives" :countId="countId" :typeTab="props.TabData" />
+        
 	</view>
 </template>
 
 <script setup lang="ts">
-	import {  ref } from "vue";
-	import gameTab from "./gameTab.vue"
-	const props = defineProps(['urls','TabData','H','W','backActive']);
+	import {  ref } from "vue"; 
+	import gameTabAuto from "./gameTabAuto.vue"
+	 
+	// import { useCommon } from "@/plugins/pinia/common.pinia";
+	const props = defineProps(['urls','TabData', 'backActive']);
 	const emits=defineEmits(['handleId'])
 	const countId = ref(1);
- 
+    // const storeCommon = useCommon();
 	const handleActives = (id : number) => {
 		countId.value = id;
 		emits('handleId',id)

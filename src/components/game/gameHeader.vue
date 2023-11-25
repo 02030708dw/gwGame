@@ -1,6 +1,6 @@
 <template>
 	<view class="headerStyle">
-		<view class="headerMore">
+		<view class="headerMore" @click="handleCountry">
 			<image class="headerMoreimage" src="@/static/images/more.png" />
 		</view>
 		<view class="headerTitle">
@@ -14,10 +14,43 @@
 			<image class="headerMoreimage" src="@/static/images/home.png" alt="" srcset="" />
 		</view>
 	</view>
+	<u-action-sheet   @close="handleClose" @select="handleSelect" :actions="countryList" :title="countryTitle" :show="countryShow"></u-action-sheet>
 </template>
 
 <script setup lang="ts">
+	import { useCommon } from "@/plugins/pinia/common.pinia";
+import { ref } from "vue"
+	const storeCommon = useCommon();
+	const emits = defineEmits(['handleContry']);
+	const countryTitle = ref('Select a country')
+	const countryShow = ref(false) 
+	const countryList = ref([
 
+		{
+			name: 'Japan',
+			id: 1
+		},
+		{
+			name: 'Malaysia', 
+			id: 2
+		}
+	])
+
+
+
+
+	const handleCountry = () => {
+		countryShow.value = true
+	}
+	const handleClose = () => {
+		countryShow.value = false
+	}
+	const handleSelect = (item : any) => {
+		storeCommon.setTabData(item.id) 
+		handleClose()
+		console.log("indexindexindexindex", countryShow.value)
+
+	}
 </script>
 
 <style scoped lang="scss">
