@@ -13,7 +13,7 @@
 		<gameFredHill @handleId="handleId" :backActive="twoActive" :TabData="TabDataTwo" :urls="urls2" />
 
 	</slotFredHill>
-	<gameFredHillAuto @handleId="handleId" :backActive="oneActive" :TabData="TabDataAll" :urls="urls3" />
+	<gameFredHillAuto @handleId="handleId" :backActive="threeActive" :TabData="TabDataAll" :urls="urls3" />
 	<gameFooter />
 	<popup />
 
@@ -42,7 +42,7 @@
 	let urls3 = ref('../../static/images/fredHill3.png')
  
 	const storeCommon = useCommon();
-	const { contryId, TabData, oneActive, twoActive, TabDataTwo, TabDataAll } = storeToRefs(storeCommon)
+	const { contryId, TabData, oneActive, twoActive,threeActive, TabDataTwo, TabDataAll } = storeToRefs(storeCommon)
 
  
 	const handleId = (id : number) => {

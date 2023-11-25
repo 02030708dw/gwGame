@@ -3,6 +3,7 @@ import { defineStore } from "pinia";
 export const useCommon = defineStore("Common", {
 	state() {
 		return {
+			 
 			TabData: [
 				{ label: "0", id: 0 },
 				{ label: "1", id: 1 },
@@ -56,7 +57,8 @@ export const useCommon = defineStore("Common", {
 			 heightH:480 ,
 
 			oneActive: '#FFB023',
-			twoActive: '#5dca74'
+			twoActive: '#5dca74',
+			threeActive:"#4ABBE9"
 
 		};
 	},

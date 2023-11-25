@@ -1,9 +1,8 @@
 <template>
-	<view class="headerContent headerAB">
+	<view class="headerContent headerAB" >
 		<view class="headerContentB">
 			
 		</view>
-		<view class="backColor" v-for="(item,index) in 50" :key="index"> </view>
 		<list :data="data"/>
 		 
 	 
@@ -13,10 +12,12 @@
 <script setup lang="ts">
 	import {ref} from "vue"
 	import list from "./contentList/list.vue"
-	const props = defineProps(['typeTab'])
 	const data =ref([
 		{list:[1,2,3,4,5]},
-		{list:['',11,22,13,'']} 
+		{list:['',11,22,13]},
+		{list:['',11,22,13,'']},
+		{list:['',11,'',13,4]},
+		{list:['','',22,56,9,90]},
 	])
 	
 </script>
@@ -29,6 +30,9 @@
 		border: 2rpx solid #FEB02D;
 		    overflow: hidden;
 			position: relative;
+			background-image: url('../../static/images/backgroundimg.png');
+			background-size: contain;
+			// background-repeat: no-repeat;
 	}
 	.headerContentB{
 		position: absolute;
@@ -43,11 +47,5 @@
 		display: flex;
 		flex-direction: row;
 	}
-	.backColor{
-		width: 19.8px;
-		height: 19.6px; 
-	}
-	.backColor:nth-child(odd){
-		background-color: red;
-	}
+	 
 </style>
