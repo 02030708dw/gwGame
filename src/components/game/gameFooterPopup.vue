@@ -39,21 +39,10 @@
 	const handleBetting = () => {
 		storeCreactGame.addHistoryList()
 		storeGame.isBetting = !storeGame.isBetting;
-		uni.showModal({
-			title: '投注成功',
-			content: '恭喜你，投注成功',
-			cancelText: 'Cancel',
-			confirmText: 'ok',
-			success: function (res) {
-				if (res.confirm) {
-				 
-
-				} else if (res.cancel) {
-					console.log('取消');
-				}
-			}
-
+		uni.showToast({
+			title:"投注成功"
 		})
+		 
 	}
 </script>
 
