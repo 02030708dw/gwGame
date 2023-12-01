@@ -3,7 +3,7 @@
 		<view class="headerMore" @click="handleCountry">
 			<image class="headerMoreimage" src="@/static/images/more.png" />
 		</view>
-		<view class="headerTitle">
+		<view class="headerTitle" @click="handleTopCountry">
 			<image class="headerImg" src="@/static/images/heart.png" alt="" srcset="" />
 			<view class="headerText">
 				游戏列表
@@ -14,16 +14,36 @@
 			<image class="headerMoreimage" src="@/static/images/home.png" alt="" srcset="" />
 		</view>
 	</view>
-	<u-action-sheet   @close="handleClose" @select="handleSelect" :actions="countryList" :title="countryTitle" :show="countryShow"></u-action-sheet>
+	<u-popup :show="show"  mode="left" @close="close" @open="open">
+		<view class="poupLeft">
+			<view class="poupLeftText"> 人生若只如初见 </view>
+			<view class="poupLeftText"> 人生若只如初见 </view>
+			<view class="poupLeftText"> 人生若只如初见 </view>
+			<view class="poupLeftText"> 人生若只如初见 </view>
+			<view class="poupLeftText"> 人生若只如初见 </view>
+			<view class="poupLeftText"> 人生若只如初见 </view>
+			<view class="poupLeftText"> 人生若只如初见 </view>
+		</view>
+	</u-popup>
+	<u-popup :show="topShow" :round="20" mode="bottom" @close="TopClose" @open="TopOpen">
+		<view class="poupTOP">
+			<view class="poupLeftText"> 人生若只如初见 </view>
+			<view class="poupLeftText"> 人生若只如初见 </view>
+			<view class="poupLeftText"> 人生若只如初见 </view>
+
+		</view>
+	</u-popup>
+	<u-action-sheet @close="handleClose" @select="handleSelect" :actions="countryList" :title="countryTitle"
+		:show="countryShow"></u-action-sheet>
 </template>
 
 <script setup lang="ts">
 	import { useCommon } from "@/plugins/pinia/common.pinia";
-import { ref } from "vue"
+	import { ref } from "vue"
 	const storeCommon = useCommon();
 	const emits = defineEmits(['handleContry']);
 	const countryTitle = ref('Select a country')
-	const countryShow = ref(false) 
+	const countryShow = ref(false)
 	const countryList = ref([
 
 		{
@@ -31,22 +51,27 @@ import { ref } from "vue"
 			id: 1
 		},
 		{
-			name: 'Malaysia', 
+			name: 'Malaysia',
 			id: 2
 		}
 	])
-
-
-
-
+	const show = ref(false)
+	const close = () => { show.value = false }
+	const open = () => { }
+	const topShow = ref(false)
+	const TopClose = () => { topShow.value = false }
+	const TopOpen = () => { }
+	const handleTopCountry = () => {
+		topShow.value = true
+	}
 	const handleCountry = () => {
-		countryShow.value = true
+		show.value = true
 	}
 	const handleClose = () => {
 		countryShow.value = false
 	}
 	const handleSelect = (item : any) => {
-		storeCommon.setTabData(item.id) 
+		storeCommon.setTabData(item.id)
 		handleClose()
 		console.log("indexindexindexindex", countryShow.value)
 
@@ -75,6 +100,25 @@ import { ref } from "vue"
 
 	.headerText {
 		margin: 0 10rpx;
+	}
+
+	.poupLeft {
+		height: 100vh;
+		background-color: #333
+	}
+
+	.poupTOP {
+		height: 30vh;
+		background-color: #333
+	}
+
+	.poupLeftText {
+		color: #fff;
+		padding: 40rpx 30rpx;
+	}
+
+	.poupTOP .poupLeftText {
+		text-align: center
 	}
 
 	.headerImg {
