@@ -10,7 +10,7 @@
  </script>
  <style lang="scss">
  	@import "uview-plus/index.scss";
-
+	@import url("@/static/css/animate.css");
  	uni-page-body {
  		height: 100%;
  	}

@@ -1,14 +1,12 @@
 <template>
-
-
-	<view class="bettingInput7">
+ <view class="bettingInput7">
 		<view class="bettingInput8">
 			<view class="bettingInput3">
-				<u-input class="bettingI" border="none" placeholder="10"></u-input>
+				<u-input class="bettingI" border="none" v-model="storeCreactGame.price" placeholder="10"></u-input>
 				<text class="bettingT">Tmis</text>
 			</view>
 			<view class="bettingIIs bettingIIsCenter">
-				<u-input class="bettingII" border="none" placeholder="Condinm"></u-input>
+				<u-input class="bettingII" border="none"   placeholder="Condinm"></u-input>
 			</view>
 		</view>
 		<view class="headerStyles1">
@@ -35,9 +33,27 @@
 
 <script setup lang="ts">
 	import { useGame } from "@/plugins/pinia/Game.pinia";
+	import { useCreactGame } from "@/plugins/pinia/CreactGame.pinia";
 	const storeGame = useGame()
+	const storeCreactGame = useCreactGame()
 	const handleBetting = () => {
-		storeGame.isBetting = !storeGame.isBetting
+		storeCreactGame.addHistoryList()
+		storeGame.isBetting = !storeGame.isBetting;
+		uni.showModal({
+			title: '投注成功',
+			content: '恭喜你，投注成功',
+			cancelText: 'Cancel',
+			confirmText: 'ok',
+			success: function (res) {
+				if (res.confirm) {
+				 
+
+				} else if (res.cancel) {
+					console.log('取消');
+				}
+			}
+
+		})
 	}
 </script>
 
@@ -168,12 +184,13 @@
 	}
 
 	.bettingII {
-		display: flex; 
+		display: flex;
 		background: #FFFFFF;
 		border-radius: 4px;
 		border: 1px solid #EFEFEF;
 	}
-	:deep(.uni-input-wrapper){
+
+	:deep(.uni-input-wrapper) {
 		text-align: center;
 	}
 </style>
