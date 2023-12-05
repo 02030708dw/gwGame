@@ -1,25 +1,22 @@
+
+
+
 <template>
 	<view class="headerTabAll">
 		<view class="headerLabelAll" :style="{
-			backgroundColor:item.id ==  countId ?props.backActive:'',
-			'color':item.id ==  countId?'#fff':''
+			backgroundColor:item.checked ?props.backActive:'',
+			'color':item.checked ?'#fff':''
 			}" @click="handleActive(item.id)" v-for="(item,index) in props.typeTab" :key="index">{{item.label}} </view>
 	</view>
 </template>
 
 <script setup lang="ts">
 	// import { useCommon } from "@/plugins/pinia/common.pinia";
-
-	import { ref } from 'vue';
-
 	// const storeCommon = useCommon();
-	const props = defineProps(['typeTab', 'backActive']);
+	const props = defineProps(['typeTab', 'countId', 'backActive']);
 	const emits = defineEmits(['handleActives'])
-	const countId = ref(0);
-
 	const handleActive = (id : number) => {
-		countId.value = id;
-		emits('handleActives', id)
+	   emits('handleActives', id)
 	}
 </script>
 
@@ -53,4 +50,4 @@
 
 		border-radius: 4px;
 	}
-</style> 
+</style>

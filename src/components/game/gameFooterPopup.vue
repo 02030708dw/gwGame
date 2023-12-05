@@ -2,7 +2,7 @@
  <view class="bettingInput7">
 		<view class="bettingInput8">
 			<view class="bettingInput3">
-				<u-input class="bettingI" border="none" v-model="storeCreactGame.price" placeholder="10"></u-input>
+				<u-input class="bettingI" border="none" @change="handleChange" v-model="storeCreactGame.price" placeholder="10"></u-input>
 				<text class="bettingT">Tmis</text>
 			</view>
 			<view class="bettingIIs bettingIIsCenter">
@@ -36,6 +36,7 @@
 	import { useCreactGame } from "@/plugins/pinia/CreactGame.pinia";
 	const storeGame = useGame()
 	const storeCreactGame = useCreactGame()
+	storeCreactGame.price =1
 	const handleBetting = () => {
 		storeCreactGame.addHistoryList()
 		storeGame.isBetting = !storeGame.isBetting;
@@ -43,6 +44,12 @@
 			title:"投注成功"
 		})
 		 
+	}
+	const handleChange=()=>{
+		console.log(storeCreactGame.price)
+		storeCreactGame.historyList.forEach((item:any)=>{
+			item.price = storeCreactGame.price
+		})
 	}
 </script>
 

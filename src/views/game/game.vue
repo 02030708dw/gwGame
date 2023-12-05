@@ -9,8 +9,8 @@
 
 	</slotFredHill>
 	<slotFredHill v-if="contryId==2">
-		<gameFredHill @handleId="handleId1D2D3D" :backActive="oneActive" :TabData="TabData" :urls="urls1" />
-		<gameFredHill @handleId="handleId" :backActive="twoActive" :TabData="TabDataTwo1D2D3D" :urls="urls2" />
+		<gameFredHill @handleId="handleId1D2D3D" :backActive="oneActive" :TabData="TabDataTaiGuo" :urls="urls1" />
+		<gameFredHill2 @handleId="handleIdFredHill" :backActive="twoActive" :TabData="TabDataTwo1D2D3D" :urls="urls2" />
 
 	</slotFredHill>
 	<gameFredHillAuto @handleId="handleId" :backActive="threeActive" :TabData="TabDataAll" :urls="urls3" />
@@ -31,6 +31,7 @@
 
 	import slotFredHill from "@/components/game/slotFredHill";
 	import gameFredHill from "@/components/game/gameFredHill";
+	import gameFredHill2 from "@/components/game/gameFredHill2";
 
 	import gameFredHillAuto from "@/components/game/gameFredHillAuto";
 	import gameHeaderTab from "@/components/game/gameHeaderTab";
@@ -42,14 +43,27 @@
 	let urls3 = ref('../../static/images/fredHill3.png')
 
 	const storeCommon = useCommon();
-	const { contryId, TabData, oneActive, twoActive, threeActive, TabDataTwo, TabDataAll, TabDataTwo1D2D3D } = storeToRefs(storeCommon)
+	const { contryId, TabData, TabDataTaiGuo,oneActive, twoActive, threeActive, TabDataTwo, TabDataAll, TabDataTwo1D2D3D } = storeToRefs(storeCommon)
 
 	const handleId1D2D3D = (id : number) => {
-		storeCommon.setTabDataTwo1D2D3D(id)
-		console.log('选择的ID', id)
+		   
+		 storeCommon.TabDataTwoCheckedID =0
+		 storeCommon.TabDataTwo1D2D3DID =id 
+		 
+		 storeCommon.handletabs()
+		 storeCommon.setTabDataTwo1D2D3D(storeCommon.TabDataTwo1D2D3DID)
+		console.log('选择的ID11111', id)
+	}
+
+	const handleIdFredHill = () => {
+		console.log('选择的ID33333', storeCommon.TabDataTwo1D2D3DID)
+		 
+		// storeCommon.handletabs()
+		storeCommon.setTabDataTwo1D2D3D(storeCommon.TabDataTwo1D2D3DID)
 	}
 	const handleId = (id : number) => {
-		console.log('选择的ID', id)
+		console.log('选择的ID22222', id)
+
 	}
 
 	/**
