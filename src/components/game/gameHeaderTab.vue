@@ -6,11 +6,14 @@
 </template>
 
 <script setup lang="ts">
+	import { useCommon } from "@/plugins/pinia/common.pinia"; 
+	 
+    const storeCommon =useCommon();
 	const props = defineProps(['typeTab']);
 	const emits = defineEmits(['handleContry']);
-
 	const handleContrys = (item : any) => {
 		console.log('9999-----',item)
+		storeCommon.setTabData(item.id)
 		// emits('handleContry', item)
 	}
 </script>

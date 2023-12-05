@@ -16,10 +16,11 @@
 	// import { useCommon } from "@/plugins/pinia/common.pinia";
 	const props = defineProps(['urls','TabData', 'backActive']);
 	const emits=defineEmits(['handleId'])
-	const countId = ref(1);
+	const countId = ref(0);
     // const storeCommon = useCommon();
 	const handleActives = (id : number) => {
 		countId.value = id;
+	 
 		emits('handleId',id)
 	}
 </script>

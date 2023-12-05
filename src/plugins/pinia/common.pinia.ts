@@ -51,6 +51,21 @@ export const useCommon = defineStore("Common", {
 				{ label: "头", id: 0 },
 				{ label: "尾", id: 1 },
 			],
+			TabDataTwoStartEnd2D: [
+				{ label: "头", id: 0 },
+				{ label: "尾", id: 1 },
+				{ label: "头奖组选15", id: 2 },
+			],
+			TabDataTwoStartEnd3D: [
+				{ label: "头", id: 0 },
+				{ label: "前三", id: 1 },
+				{ label: "后三", id: 2 },
+				{ label: "头奖组选", id: 3 },
+			],
+			TabDataTwo1D2D3D:[
+				{ label: "头", id: 0 },
+				{ label: "尾", id: 1 },
+			],
 			contryId: 1,
 			H: 200,
 			W: 18,
@@ -73,10 +88,22 @@ export const useCommon = defineStore("Common", {
 				this.TabData = this.TabDataTaiGuo
 				this.TabDataTwo = this.TabDataTwoStartEnd
 			} else {
-						console.log('===2=====', n)
+				 console.log('===2=====', n)
 				this.TabData = this.TabDataAll
 				this.TabDataTwo = this.TabDataAll
 			}
+		},
+		setTabDataTwo1D2D3D(n:number){
+			if(n==0){
+			 this.TabDataTwo1D2D3D = this.TabDataTwoStartEnd
+			}
+			if(n==1){
+			 this.TabDataTwo1D2D3D = this.TabDataTwoStartEnd2D
+			}
+			if(n==2){
+			 this.TabDataTwo1D2D3D = this.TabDataTwoStartEnd3D
+			}
+	 
 		}
 
 	},
