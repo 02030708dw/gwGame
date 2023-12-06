@@ -15,7 +15,7 @@
 				<view class="bettingList animate__backOutLeft" v-for="(item,index) in historyList" :key="index"
 					v-if='historyList.length>0'>
 					<view class="bettingTit"> [{{item.title}}]</view>
-					<view class="bettingTitN"> {{Number(item.price)+100}}</view>
+					<view class="bettingTitN"> {{item.price}}</view>
 					<view class="bettingInput bettingList2">
 						<u-input class="bettingI" border="none" v-model="item.price" placeholder=""></u-input>
 						<text class="bettingT">Tmis</text>
