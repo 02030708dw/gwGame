@@ -1,13 +1,32 @@
 {
 	"pages": [
-		 
 		{
-			"path": "views/game/game",
-			"style": {
-			"navigationStyle": "custom"
+			"path" : "views/gameList/gameList",
+			"style" :
+			{
+				"navigationStyle": "custom"
 			}
-		} 
-		 
+		} ,
+		{
+			"path": "views/game/thailandLottery",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path" : "views/game/vietnameseLottery",
+			"style" :
+			{
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path" : "views/game/philippinesLottery",
+			"style" :
+			{
+				"navigationStyle": "custom"
+			}
+		}
 	],
 	"subPackages": [],
 	"globalStyle": {

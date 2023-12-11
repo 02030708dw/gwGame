@@ -2,6 +2,7 @@
 import { createSSRApp } from "vue";
 import App from "./App.vue";
 import "./static/css/them.scss"
+// @ts-ignore
 import uviewPlus from "uview-plus";
 // npm i --save-dev @types/uview-plus
 // import messages from './locale/index'

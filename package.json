@@ -50,6 +50,8 @@
     "@dcloudio/uni-quickapp-webview": "3.0.0-alpha-3061020221121002",
     "@tencentcloud/chat": "^3.2.1",
     "default-passive-events": "^2.0.0",
+    "less": "^4.2.0",
+    "less-loader": "^11.1.3",
     "pinia": "^2.0.27",
     "tim-profanity-filter-plugin": "^0.9.0",
     "tim-upload-plugin": "^1.3.0",
@@ -64,6 +66,7 @@
     "@dcloudio/uni-stacktracey": "3.0.0-alpha-3061020221121002",
     "@dcloudio/vite-plugin-uni": "3.0.0-alpha-3061020221121002",
     "@types/node": "^18.11.9",
+    "@vitejs/plugin-vue-jsx": "^3.1.0",
     "sass": "^1.56.1",
     "typescript": "^4.8.4",
     "vite": "^3.2.4"

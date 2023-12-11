@@ -1,5 +1,5 @@
 <template>
-	<gameHeader />
+	<gameHeader active-title="泰国彩"/>
 	<gameHeaderTab :typeTab="typeTab" />
 	<gameContent />
 	<gameTime />

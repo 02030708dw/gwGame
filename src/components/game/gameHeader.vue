@@ -1,141 +1,167 @@
 <template>
-	<view class="headerStyle">
-		<view class="headerMore" @click="handleCountry">
-			<image class="headerMoreimage" src="@/static/images/more.png" />
-		</view>
-		<view class="headerTitle" @click="handleTopCountry">
-			<image class="headerImg" src="@/static/images/heart.png" alt="" srcset="" />
-			<view class="headerText">
-				游戏列表
-			</view>
-			<image class="headerImg" src="@/static/images/selects.png" alt="" srcset="" />
-		</view>
-		<view class="headerMore">
-			<image class="headerMoreimage" src="@/static/images/home.png" alt="" srcset="" />
-		</view>
-	</view>
-	<u-popup :show="show"  mode="left" @close="close" @open="open">
-		<view class="poupLeft">
-			<view class="poupLeftText"> 人生若只如初见 </view>
-			<view class="poupLeftText"> 人生若只如初见 </view>
-			<view class="poupLeftText"> 人生若只如初见 </view>
-			<view class="poupLeftText"> 人生若只如初见 </view>
-			<view class="poupLeftText"> 人生若只如初见 </view>
-			<view class="poupLeftText"> 人生若只如初见 </view>
-			<view class="poupLeftText"> 人生若只如初见 </view>
-		</view>
-	</u-popup>
-	<u-popup :show="topShow" :round="20" mode="bottom" @close="TopClose" @open="TopOpen">
-		<view class="poupTOP">
-			<view class="poupLeftText"> 人生若只如初见 </view>
-			<view class="poupLeftText"> 人生若只如初见 </view>
-			<view class="poupLeftText"> 人生若只如初见 </view>
-
-		</view>
-	</u-popup>
-	<u-action-sheet @close="handleClose" @select="handleSelect" :actions="countryList" :title="countryTitle"
-		:show="countryShow"></u-action-sheet>
+  <view class="headerStyle">
+    <view class="headerMore" @click="handleCountry">
+      <image class="headerMoreimage" src="@/static/images/more.png" />
+    </view>
+    <view class="headerTitle" v-if="activeTitle==='游戏列表'">
+      <view class="headerText">
+        {{activeTitle}}
+      </view>
+    </view>
+    <view v-else class="headerTitle" @click="handleTopCountry">
+      <image class="headerImg" src="@/static/images/heart.png" alt="" srcset="" />
+      <view class="headerText">
+        {{activeTitle}}
+      </view>
+      <image class="headerImg" :src="topShow?closeImg:openImg" alt="" srcset="" />
+    </view>
+    <view class="headerMore">
+      <image class="headerMoreimage" src="@/static/images/home.png" alt="" srcset="" />
+    </view>
+  </view>
+  <u-popup :show="show"  mode="left" @close="close" @open="open">
+    <view class="poupLeft">
+      <view class="poupLeftText"  v-for="l in headers.sliderLists" :key="l.id" @click="onSlideClick(l.path)">{{l.title}}</view>
+    </view>
+  </u-popup>
+  <u-popup :show="topShow" :round="20" mode="top" @close="TopClose" @open="TopOpen">
+    <view class="poupTOP">
+      <view class="poupLeftText" :class="l.title===activeTitle?'active':''" v-for="l in headers.topLists" :key="l.id" @click="onTopClick(l.path)">{{l.title}}</view>
+    </view>
+  </u-popup>
+  <u-action-sheet @close="handleClose" @select="handleSelect" :actions="countryList" :title="countryTitle"
+                  :show="countryShow"></u-action-sheet>
 </template>
 
 <script setup lang="ts">
-	import { useCommon } from "@/plugins/pinia/common.pinia";
-	import { ref } from "vue"
-	const storeCommon = useCommon();
-	const emits = defineEmits(['handleContry']);
-	const countryTitle = ref('Select a country')
-	const countryShow = ref(false)
-	const countryList = ref([
+import openImg from '@/static/images/selects.png'
+import closeImg from '@/static/images/selectsTop.png'
+import { useCommon } from "@/plugins/pinia/common.pinia";
+import { ref } from "vue"
+import {headers} from "@/constants";
+const storeCommon = useCommon();
+const props=defineProps<{
+  activeTitle:string
+}>()
+const emits = defineEmits(['handleContry']);
 
-		{
-			name: 'Japan',
-			id: 1
-		},
-		{
-			name: 'Malaysia',
-			id: 2
-		}
-	])
-	const show = ref(false)
-	const close = () => { show.value = false }
-	const open = () => { }
-	const topShow = ref(false)
-	const TopClose = () => { topShow.value = false }
-	const TopOpen = () => { }
-	const handleTopCountry = () => {
-		topShow.value = true
-	}
-	const handleCountry = () => {
-		show.value = true
-	}
-	const handleClose = () => {
-		countryShow.value = false
-	}
-	const handleSelect = (item : any) => {
-		storeCommon.setTabData(item.id)
-		handleClose()
-		console.log("indexindexindexindex", countryShow.value)
+const countryTitle = ref('Select a country')
+const countryShow = ref(false)
+const countryList = ref([
 
-	}
+  {
+    name: 'Japan',
+    id: 1
+  },
+  {
+    name: 'Malaysia',
+    id: 2
+  }
+])
+const show = ref(false)
+const close = () => { show.value = false }
+const open = () => { }
+const topShow = ref(false)
+const TopClose = () => { topShow.value = false }
+const TopOpen = () => { }
+const handleTopCountry = () => {
+  topShow.value = !topShow.value
+  show.value = false
+}
+const handleCountry = () => {
+  topShow.value=false
+  show.value = !show.value
+}
+const handleClose = () => {
+  countryShow.value = false
+}
+const onSlideClick = (p:string) => {
+  console.log(p)
+}
+const onTopClick = (p:string) => {
+  uni.redirectTo({
+    url:`/views/game/${p}`,
+  })
+  topShow.value=false
+  show.value = false
+}
+const handleSelect = (item : any) => {
+  storeCommon.setTabData(item.id)
+  handleClose()
+  console.log("indexindexindexindex", countryShow.value)
+
+}
 </script>
 
 <style scoped lang="scss">
-	.headerStyle {
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		justify-content: space-between;
-		background-color: #333;
-		padding: 40rpx;
-	}
+.u-popup:deep(.u-slide-down-enter-active){
+  margin-top: 120rpx !important;
+}
+.poupLeft:deep(.poupLeftText):first-child{
+  margin-top: 120rpx !important
+}
+.headerStyle {
+  position: relative;
+  z-index: 999999;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #333;
+  padding: 40rpx;
+}
 
-	.headerTitle {
-		font-size: 32rpx;
-		color: #fff;
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		justify-content: center;
+.headerTitle {
+  font-size: 32rpx;
+  color: #fff;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 
-	}
+}
 
-	.headerText {
-		margin: 0 10rpx;
-	}
+.headerText {
+  margin: 0 10rpx;
+}
 
-	.poupLeft {
-		height: 100vh;
-		background-color: #333
-	}
+.poupLeft {
+  height: 100vh;
+  background-color: #333
+}
 
-	.poupTOP {
-		height: 30vh;
-		background-color: #333
-	}
+.poupTOP {
+  height: 25vh;
+  background-color: #333
+}
 
-	.poupLeftText {
-		color: #fff;
-		padding: 40rpx 30rpx;
-	}
+.poupLeftText {
+  color: #fff;
+  padding: 40rpx 30rpx;
+}
 
-	.poupTOP .poupLeftText {
-		text-align: center
-	}
+.poupTOP .poupLeftText {
+  text-align: center;
+  &.active{
+    color: red;
+  }
+}
 
-	.headerImg {
-		width: 30rpx;
-		height: 30rpx;
-	}
+.headerImg {
+  width: 30rpx;
+  height: 30rpx;
+}
 
-	.headerMore {
-		display: flex;
-		width: 40rpx;
-		height: 40rpx;
+.headerMore {
+  display: flex;
+  width: 40rpx;
+  height: 40rpx;
 
-	}
+}
 
-	.headerMoreimage {
-		display: flex;
-		width: 100%;
-		height: 100%;
-	}
+.headerMoreimage {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
 </style>
