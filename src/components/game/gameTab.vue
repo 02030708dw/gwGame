@@ -29,11 +29,7 @@
 		flex-direction: row;
 		justify-content: space-between;
 		padding-bottom: 20rpx;
-
-
-
 	}
-
 	.headerLabel {
 		width: 18%;
 		padding: 5px 4rpx; 
@@ -43,7 +39,6 @@
 		margin-bottom: 20rpx;
 		color: #000;
 	}
-
 	.active {
 
 		border-radius: 4px;

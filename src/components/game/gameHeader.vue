@@ -101,7 +101,10 @@ const handleSelect = (item : any) => {
   margin-top: 120rpx !important
 }
 .headerStyle {
-  position: relative;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
   z-index: 999999;
   display: flex;
   flex-direction: row;

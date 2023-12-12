@@ -26,6 +26,13 @@
 			{
 				"navigationStyle": "custom"
 			}
+		},
+		{
+			"path" : "views/game/game",
+			"style" :
+			{
+				"navigationStyle": "custom"
+			}
 		}
 	],
 	"subPackages": [],
