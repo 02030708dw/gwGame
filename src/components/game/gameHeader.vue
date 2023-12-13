@@ -13,24 +13,24 @@
       <view class="headerText">
         {{activeTitle}}
       </view>
-      <image class="headerImg" :src="topShow?closeImg:openImg" alt="" srcset="" />
+      <image  v-if="showContent" class="headerImg" :src="topShow?closeImg:openImg" alt="" srcset="" />
     </view>
     <view class="headerMore">
       <image class="headerMoreimage" src="@/static/images/home.png" alt="" srcset="" />
     </view>
   </view>
-  <u-popup :show="show"  mode="left" @close="close" @open="open">
+  <u-popup  :show="show"  mode="left" @close="close" @open="open">
     <view class="poupLeft">
       <view class="poupLeftText"  v-for="l in headers.sliderLists" :key="l.id" @click="onSlideClick(l.path)">{{l.title}}</view>
     </view>
   </u-popup>
-  <u-popup :show="topShow" :round="20" mode="top" @close="TopClose" @open="TopOpen">
+  <u-popup v-if="showContent" :show="topShow" :round="20" mode="top" @close="TopClose" @open="TopOpen">
     <view class="poupTOP">
       <view class="poupLeftText" :class="l.title===activeTitle?'active':''" v-for="l in headers.topLists" :key="l.id" @click="onTopClick(l.path)">{{l.title}}</view>
     </view>
   </u-popup>
-  <u-action-sheet @close="handleClose" @select="handleSelect" :actions="countryList" :title="countryTitle"
-                  :show="countryShow"></u-action-sheet>
+ <u-action-sheet  @close="handleClose" @select="handleSelect" :actions="countryList" :title="countryTitle"
+                 :show="countryShow"></u-action-sheet>
 </template>
 
 <script setup lang="ts">
@@ -39,10 +39,11 @@ import closeImg from '@/static/images/selectsTop.png'
 import { useCommon } from "@/plugins/pinia/common.pinia";
 import { ref } from "vue"
 import {headers} from "@/constants";
-const storeCommon = useCommon();
-const props=defineProps<{
-  activeTitle:string
-}>()
+
+const props = defineProps<{
+  activeTitle: string;
+  showContent: boolean; // 添加 showContent prop
+}>();
 const emits = defineEmits(['handleContry']);
 
 const countryTitle = ref('Select a country')
@@ -77,6 +78,11 @@ const handleClose = () => {
 }
 const onSlideClick = (p:string) => {
   console.log(p)
+    uni.redirectTo({
+      url: `/views/game/${p}`,
+    });
+	  show.value = false;
+
 }
 const onTopClick = (p:string) => {
   uni.redirectTo({
@@ -84,6 +90,7 @@ const onTopClick = (p:string) => {
   })
   topShow.value=false
   show.value = false
+ 
 }
 const handleSelect = (item : any) => {
   storeCommon.setTabData(item.id)

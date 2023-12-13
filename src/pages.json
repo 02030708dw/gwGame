@@ -26,6 +26,48 @@
 			{
 				"navigationStyle": "custom"
 			}
+		},
+		{
+			"path" : "views/game/explain",
+			"style" :
+			{
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path" : "views/game/check",
+			"style" :
+			{
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path" : "views/game/bet",
+			"style" :
+			{
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path" : "views/game/statement",
+			"style" :
+			{
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path" : "views/game/language",
+			"style" :
+			{
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path" : "views/game/gameHall",
+			"style" :
+			{
+				"navigationStyle": "custom"
+			}
 		}
 	],
 	"subPackages": [],
@@ -37,19 +79,21 @@
 	},
 	"easycom": {
 		"custom": {
-			"^u-(.*)": "uview-plus/components/u-$1/u-$1.vue"
+			"^u-(.*)": "uview-plus/components/u-$1/u-$1.vue",
+			"^up-(.*)": "uview-plus/components/u-$1/u-$1.vue",
+			"^u-([^-].*)": "uview-plus/components/u-$1/u-$1.vue"
 		}
 	}
-	// ,
-	// "tabBar": {
-	// 	"custom": true,
-	// 	"list": [
-	// 		{
-	// 			"pagePath": "views/login/login"
-	// 		},
-	// 		{
-	// 			"pagePath": "views/login/regiter"
-	// 		}
-	// 	]
-	// }
+	,
+	"tabBar": {
+		"custom": true,
+		"list": [
+			{
+				"pagePath": "views/login/login"
+			},
+			{
+				"pagePath": "views/login/regiter"
+			}
+		]
+	}
 }

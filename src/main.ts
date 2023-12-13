@@ -10,7 +10,9 @@ import uviewPlus from "uview-plus";
 // import TIMPlugins from "./plugins/TIM-plugin";
 import { Pinia } from "./plugins/pinia/pinia";
 import 'default-passive-events'
- 
+ // 引入 Vant 样式
+import Vant from 'vant';
+import 'vant/lib/index.css';
 // let i18nConfig = {
 //   locale: uni.getLocale(),
 //   messages
@@ -23,6 +25,7 @@ export function createApp() {
   // app.use(i18n);
   app.use(Pinia);
   app.use(uviewPlus);
+  app.use(Vant);
   // app.use(TIMPlugins);
 
   return {

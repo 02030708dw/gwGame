@@ -49,13 +49,16 @@
     "@dcloudio/uni-mp-weixin": "3.0.0-alpha-3061020221121002",
     "@dcloudio/uni-quickapp-webview": "3.0.0-alpha-3061020221121002",
     "@tencentcloud/chat": "^3.2.1",
+    "clipboard": "^2.0.11",
+    "dayjs": "^1.11.10",
     "default-passive-events": "^2.0.0",
     "less": "^4.2.0",
     "less-loader": "^11.1.3",
     "pinia": "^2.0.27",
     "tim-profanity-filter-plugin": "^0.9.0",
     "tim-upload-plugin": "^1.3.0",
-    "uview-plus": "^3.1.19",
+    "uview-plus": "^3.1.41",
+    "vant": "^4.8.0",
     "vue": "^3.2.45",
     "vue-i18n": "^9.1.9"
   },
@@ -68,6 +71,7 @@
     "@types/node": "^18.11.9",
     "@vitejs/plugin-vue-jsx": "^3.1.0",
     "sass": "^1.56.1",
+    "sass-loader": "^10.5.0",
     "typescript": "^4.8.4",
     "vite": "^3.2.4"
   }
