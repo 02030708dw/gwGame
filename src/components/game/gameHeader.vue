@@ -15,9 +15,11 @@
       </view>
       <image  v-if="showContent" class="headerImg" :src="topShow?closeImg:openImg" alt="" srcset="" />
     </view>
-    <view class="headerMore">
+	<router-link :to="{ path:`/views/gameList/gameList`}">
+     <view class="headerMore">
       <image class="headerMoreimage" src="@/static/images/home.png" alt="" srcset="" />
-    </view>
+	 </view>
+	</router-link>
   </view>
   <u-popup  :show="show"  mode="left" @close="close" @open="open">
     <view class="poupLeft">

@@ -1,29 +1,31 @@
 <template>
-	<view style="background-color: gainsboro;height: 100%;">
+	<view >
 		<gameHeader :showContent="!showHeaderContent" activeTitle="投注纪录详情" />
-		<view style="margin: 10px;">
-			<view class="item-box"
-				:class="['box', {'lost-status': status === '0','win-status': status === '1', 'other-status': status === '2'}]">
-				<u-cell-group>
-					<u-cell title="注单编号:" :value="name" center></u-cell>
-					<u-cell title="注单时间:" :value="date" center></u-cell>
-				</u-cell-group>
-				<span class="triangle-text"
-					:style="{ color: status === '1' ? 'white' : (status === '0' ? '#333' : 'white') }">
-					{{ status === '1' ? '中奖' : (status === '0' ? '未中奖' : '未开奖') }}
-				</span>
-			</view>
-			<view class="item-box" style="margin-top: 2%;" >
-				<u-cell-group>
-					<u-cell title="输入:" :value="name" center></u-cell>
-					<u-cell title="输入:" :value="date" center></u-cell>
-					<u-cell title="输入:" :value="name" center></u-cell>
-					<u-cell title="输入:" :value="date" center></u-cell>
-					<u-cell title="输入:" ></u-cell>
-					<u-cell title="输入:" ></u-cell>
-					<u-cell title="输入:" ></u-cell>
-					<u-cell title="输入:" ></u-cell>
-				</u-cell-group>
+		<view class="bgcolor">
+			<view class="box-body">
+				<view
+					:class="['box', {'lost-status': status === '0','win-status': status === '1', 'other-status': status === '2'}]">
+					<u-cell-group>
+						<u-cell title="注单编号:" :value="name" center></u-cell>
+						<u-cell title="注单时间:" :value="date" center></u-cell>
+					</u-cell-group>
+					<span class="triangle-text"
+						:style="{ color: status === '1' ? 'white' : (status === '0' ? '#333' : 'white') }">
+						{{ status === '1' ? '中奖' : (status === '0' ? '未中奖' : '未开奖') }}
+					</span>
+				</view>
+				<view style="margin-top: 2%;" >
+					<u-cell-group>
+						<u-cell title="输入:" :value="name" center></u-cell>
+						<u-cell title="输入:" :value="date" center></u-cell>
+						<u-cell title="输入:" :value="name" center></u-cell>
+						<u-cell title="输入:" :value="date" center></u-cell>
+						<u-cell title="输入:" ></u-cell>
+						<u-cell title="输入:" ></u-cell>
+						<u-cell title="输入:" ></u-cell>
+						<u-cell title="输入:" ></u-cell>
+					</u-cell-group>
+				</view>
 			</view>
 		</view>
 	</view>

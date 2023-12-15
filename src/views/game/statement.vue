@@ -18,10 +18,10 @@ const showHeaderContent = ref(true);
 const selectedDates = ref('');
 
 const timeItems = [
-  { title: '时间:', value: 5 },
-  { title: '时间:', value: 5 },
-  { title: '时间:', value: 5 },
-  { title: '时间:', value: 5 },
+  { title: '时间:', value: -0.8 },
+  { title: '时间:', value: -0.8 },
+  { title: '时间:', value: -0.8 },
+  { title: '时间:', value: -0.8 },
 ];
 
 const totalTime = computed(() => {

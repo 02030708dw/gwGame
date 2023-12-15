@@ -13,5 +13,14 @@
 	@import url("@/static/css/animate.css");
  	uni-page-body {
  		height: 100%;
+		background-color: ghostwhite
  	}
+	
+	.bgcolor{
+		padding: 10px 15px;
+	}
+	.box-body{
+		//background-color: #fff;
+		//padding: 10px;
+	}
  </style>
