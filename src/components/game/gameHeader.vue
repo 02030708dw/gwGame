@@ -3,111 +3,148 @@
     <view class="headerMore" @click="handleCountry">
       <image class="headerMoreimage" src="@/static/images/more.png" />
     </view>
-    <view class="headerTitle" v-if="activeTitle==='游戏列表'">
+    <view class="headerTitle" v-if="activeTitle === '游戏列表'">
       <view class="headerText">
-        {{activeTitle}}
+        {{ activeTitle }}
       </view>
     </view>
     <view v-else class="headerTitle" @click="handleTopCountry">
-      <image class="headerImg" src="@/static/images/heart.png" alt="" srcset="" />
+      <image
+        class="headerImg"
+        src="@/static/images/heart.png"
+        alt=""
+        srcset=""
+      />
       <view class="headerText">
-        {{activeTitle}}
+        {{ activeTitle }}
       </view>
-      <image  v-if="showContent" class="headerImg" :src="topShow?closeImg:openImg" alt="" srcset="" />
+      <image
+        v-if="showContent"
+        class="headerImg"
+        :src="topShow ? closeImg : openImg"
+        alt=""
+        srcset=""
+      />
     </view>
-	<router-link :to="{ path:`/views/gameList/gameList`}">
-     <view class="headerMore">
-      <image class="headerMoreimage" src="@/static/images/home.png" alt="" srcset="" />
-	 </view>
-	</router-link>
+    <router-link :to="{ path:`/views/gameList/gameList`}">     <view class="headerMore">      <image class="headerMoreimage" src="@/static/images/home.png" alt="" srcset="" />	 </view>	</router-link>
   </view>
-  <u-popup  :show="show"  mode="left" @close="close" @open="open">
+  <u-popup :show="show" mode="left" @close="close" @open="open">
     <view class="poupLeft">
-      <view class="poupLeftText"  v-for="l in headers.sliderLists" :key="l.id" @click="onSlideClick(l.path)">{{l.title}}</view>
+      <view
+        class="poupLeftText"
+        v-for="l in headers.sliderLists"
+        :key="l.id"
+        @click="onSlideClick(l.path)"
+        >{{ l.title }}</view
+      >
     </view>
   </u-popup>
-  <u-popup v-if="showContent" :show="topShow" :round="20" mode="top" @close="TopClose" @open="TopOpen">
+  <u-popup
+    v-if="showContent"
+    :show="topShow"
+    :round="20"
+    mode="top"
+    @close="TopClose"
+    @open="TopOpen"
+  >
     <view class="poupTOP">
-      <view class="poupLeftText" :class="l.title===activeTitle?'active':''" v-for="l in headers.topLists" :key="l.id" @click="onTopClick(l.path)">{{l.title}}</view>
+      <view
+        class="poupLeftText"
+        :class="l.title === activeTitle ? 'active' : ''"
+        v-for="l in headers.topLists"
+        :key="l.id"
+        @click="onTopClick(l.path)"
+        >{{ l.title }}</view
+      >
     </view>
   </u-popup>
- <u-action-sheet  @close="handleClose" @select="handleSelect" :actions="countryList" :title="countryTitle"
-                 :show="countryShow"></u-action-sheet>
+  <u-action-sheet
+    @close="handleClose"
+    @select="handleSelect"
+    :actions="countryList"
+    :title="countryTitle"
+    :show="countryShow"
+  ></u-action-sheet>
 </template>
 
 <script setup lang="ts">
-import openImg from '@/static/images/selects.png'
-import closeImg from '@/static/images/selectsTop.png'
+import openImg from "@/static/images/selects.png";
+import closeImg from "@/static/images/selectsTop.png";
 import { useCommon } from "@/plugins/pinia/common.pinia";
-import { ref } from "vue"
-import {headers} from "@/constants";
+import { ref } from "vue";
+import { headers } from "@/constants";
 
 const props = defineProps<{
   activeTitle: string;
   showContent: boolean; // 添加 showContent prop
 }>();
-const emits = defineEmits(['handleContry']);
+const emits = defineEmits(["handleContry"]);
 
-const countryTitle = ref('Select a country')
-const countryShow = ref(false)
+const countryTitle = ref("Select a country");
+const countryShow = ref(false);
 const countryList = ref([
-
   {
-    name: 'Japan',
-    id: 1
+    name: "Japan",
+    id: 1,
   },
   {
-    name: 'Malaysia',
-    id: 2
-  }
-])
-const show = ref(false)
-const close = () => { show.value = false }
-const open = () => { }
-const topShow = ref(false)
-const TopClose = () => { topShow.value = false }
-const TopOpen = () => { }
+    name: "Malaysia",
+    id: 2,
+  },
+]);
+const show = ref(false);
+const close = () => {
+  show.value = false;
+};
+const open = () => {};
+const topShow = ref(false);
+const TopClose = () => {
+  topShow.value = false;
+};
+const TopOpen = () => {};
 const handleTopCountry = () => {
-  topShow.value = !topShow.value
-  show.value = false
-}
+  topShow.value = !topShow.value;
+  show.value = false;
+};
 const handleCountry = () => {
-  topShow.value=false
-  show.value = !show.value
-}
+  topShow.value = false;
+  show.value = !show.value;
+};
 const handleClose = () => {
-  countryShow.value = false
-}
-const onSlideClick = (p:string) => {
-  console.log(p)
+  countryShow.value = false;
+};
+const onSlideClick = (p: string) => {
+  console.log(p);
+  if (p === "gameList") {
     uni.redirectTo({
-      url: `/views/game/${p}`,
+      url: `views/gameList/${p}`,
     });
-	  show.value = false;
-
-}
-const onTopClick = (p:string) => {
+  }
   uni.redirectTo({
-    url:`/views/game/${p}`,
-  })
-  topShow.value=false
-  show.value = false
- 
-}
-const handleSelect = (item : any) => {
-  storeCommon.setTabData(item.id)
-  handleClose()
-  console.log("indexindexindexindex", countryShow.value)
-
-}
+    url: `/views/game/${p}`,
+  });
+  show.value = false;
+};
+const onTopClick = (p: string) => {
+  uni.redirectTo({
+    url: `/views/game/${p}`,
+  });
+  topShow.value = false;
+  show.value = false;
+};
+const handleSelect = (item: any) => {
+  storeCommon.setTabData(item.id);
+  handleClose();
+  console.log("indexindexindexindex", countryShow.value);
+};
 </script>
 
 <style scoped lang="scss">
-.u-popup:deep(.u-slide-down-enter-active){
+.u-popup:deep(.u-slide-down-enter-active) {
   margin-top: 120rpx !important;
 }
-.poupLeft:deep(.poupLeftText):first-child{
-  margin-top: 120rpx !important
+.poupLeft:deep(.poupLeftText):first-child {
+  margin-top: 120rpx !important;
 }
 .headerStyle {
   position: relative;
@@ -127,7 +164,6 @@ const handleSelect = (item : any) => {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-
 }
 
 .headerText {
@@ -136,12 +172,12 @@ const handleSelect = (item : any) => {
 
 .poupLeft {
   height: 100vh;
-  background-color: #333
+  background-color: #333;
 }
 
 .poupTOP {
   height: 25vh;
-  background-color: #333
+  background-color: #333;
 }
 
 .poupLeftText {
@@ -151,7 +187,7 @@ const handleSelect = (item : any) => {
 
 .poupTOP .poupLeftText {
   text-align: center;
-  &.active{
+  &.active {
     color: red;
   }
 }
@@ -165,7 +201,6 @@ const handleSelect = (item : any) => {
   display: flex;
   width: 40rpx;
   height: 40rpx;
-
 }
 
 .headerMoreimage {

@@ -1,5 +1,5 @@
 <template>
-	<gameHeader active-title="泰国彩"/>
+	<gameHeader active-title="样板"/>
 	<gameHeaderTab :typeTab="typeTab" />
 	<gameContent />
 	<gameTime />
@@ -11,7 +11,6 @@
 	<slotFredHill v-if="contryId==2">
 		<gameFredHill @handleId="handleId1D2D3D" :backActive="oneActive" :TabData="TabDataTaiGuo" :urls="urls1" />
 		<gameFredHill2 @handleId="handleIdFredHill" :backActive="twoActive" :TabData="TabDataTwo1D2D3D" :urls="urls2" />
-
 	</slotFredHill>
 	<gameFredHillAuto @handleId="handleId" :backActive="threeActive" :TabData="TabDataAll" :urls="urls3" />
 	<gameFooter />
@@ -36,8 +35,6 @@
 	import gameFredHillAuto from "@/components/game/gameFredHillAuto";
 	import gameHeaderTab from "@/components/game/gameHeaderTab";
 	import { useCommon } from "@/plugins/pinia/common.pinia";
-
-
 	let urls1 = ref('../../static/images/fredHill1.png')
 	let urls2 = ref('../../static/images/fredHill2.png')
 	let urls3 = ref('../../static/images/fredHill3.png')

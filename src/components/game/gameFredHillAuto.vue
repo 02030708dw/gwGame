@@ -3,9 +3,7 @@
 		<view class="headerFredTitle">
 			Fred Hill
 		</view>
-		 
 		<gameTab  :backActive="props.backActive"   @handleActives="handleActives" :countId="countId" :typeTab="props.TabData" />
-        
 	</view>
 </template>
 
@@ -40,6 +38,7 @@
 		flex-direction: column;
         margin: 0 auto; 
 		background-size: cover;
+		//background-size: 100% 100%;
 		background-repeat: no-repeat;
 	}
 </style>

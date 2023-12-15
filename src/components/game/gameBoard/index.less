@@ -1,0 +1,58 @@
+.gameBoard{
+  font-family: PingFangSC-Semibold, PingFang SC;
+  margin: 0 16rpx;
+  background-size: cover;
+  background-repeat: no-repeat;
+  box-sizing: border-box;
+  //border: #F6AB1E solid 1px;
+  .title{
+    padding-top: 30rpx;
+    padding-left: 22rpx;
+    font-size: 44rpx;
+    color: #fff;
+  }
+  .main{
+    .top{
+      padding: 28rpx;
+      display: grid;
+      grid-template-columns: repeat(5,1fr);
+      gap: 16rpx;
+      border-bottom: 2px solid #81D1F1;
+      >div{
+        font-size: 36rpx;
+        display: flex;
+        border-radius: 4px;
+        align-items: center;
+        justify-content: center;
+        padding: 12rpx;
+        background: #81D1F1;
+        color: #CCE8F3;
+        transition:0.3s ease-in-out all;
+        &.active{
+          background:var(--color);
+          color: #fff;
+        }
+      }
+    }
+    .content{
+      padding: 28rpx;
+      display: grid;
+      grid-template-columns: repeat(5,1fr);
+      gap: 16rpx;
+      >div{
+        font-size: 36rpx;
+        display: flex;
+        border-radius: 4px;
+        align-items: center;
+        justify-content: center;
+        padding: 12rpx;
+        background: #fff;
+        transition:0.3s ease-in-out all;
+        &.active{
+          background:var(--color);
+          color: #fff;
+        }
+      }
+    }
+  }
+}
