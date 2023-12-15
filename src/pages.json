@@ -56,14 +56,14 @@
 			}
 		},
 		{
-			"path" : "views/game/language",
+			"path" : "views/game/gameHall",
 			"style" :
 			{
 				"navigationStyle": "custom"
 			}
 		},
 		{
-			"path" : "views/game/gameHall",
+			"path" : "views/game/betDetails",
 			"style" :
 			{
 				"navigationStyle": "custom"

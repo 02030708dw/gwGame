@@ -1,7 +1,7 @@
 <template>
-  <van-tabs v-model:active="active">
-    <van-tab v-for="(tab, index) in tabs" :key="index" :title="tab.title">
-      {{ tab.content }}
+  <van-tabs color="red" v-model:active="active">
+    <van-tab  v-for="(tab, index) in tabs" :key="index" :title="tab.title">
+      <slot :name="`content`" :tab="tab"></slot>
     </van-tab>
   </van-tabs>
 </template>
