@@ -9,7 +9,7 @@
 		<van-overlay z-index="100" :show="showOverlay" @click="onCancel">
 			<div class="wrapper" @click.stop>
 			    <div class="block">
-					<van-picker-group  title="预约日期" :tabs="['开始日期', '结束日期']" @confirm="onConfirmHandler"
+					<van-picker-group  title="查询日期" :tabs="['开始日期', '结束日期']" @confirm="onConfirmHandler"
 						@cancel="onCancel">
 						<van-date-picker v-model="startDate" :min-date="minDate" :max-date="maxDate" />
 						<van-date-picker v-model="endDate" :min-date="minDate" :max-date="maxDate" />
@@ -69,7 +69,7 @@
 		showOverlay.value = false; 
 	};
 </script>
-<style scoped lang="scss">
+<style scoped >
 	 .wrapper {
 	    display: flex;
 	    align-items: center;
@@ -78,5 +78,9 @@
 		.block{
 			width: 80%;
 		}
+	  }
+	 /deep/ .van-tabs__wrap{
+		  display: flex;
+		  justify-content: center;
 	  }
 </style>

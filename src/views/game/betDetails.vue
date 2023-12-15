@@ -1,5 +1,5 @@
 <template>
-	<view >
+	<view>
 		<gameHeader :showContent="!showHeaderContent" activeTitle="投注纪录详情" />
 		<view class="bgcolor">
 			<view class="box-body">
@@ -14,17 +14,31 @@
 						{{ status === '1' ? '中奖' : (status === '0' ? '未中奖' : '未开奖') }}
 					</span>
 				</view>
-				<view style="margin-top: 2%;" >
+				<view style="margin-top: 2%;">
 					<u-cell-group>
 						<u-cell title="输入:" :value="name" center></u-cell>
 						<u-cell title="输入:" :value="date" center></u-cell>
 						<u-cell title="输入:" :value="name" center></u-cell>
 						<u-cell title="输入:" :value="date" center></u-cell>
-						<u-cell title="输入:" ></u-cell>
-						<u-cell title="输入:" ></u-cell>
-						<u-cell title="输入:" ></u-cell>
-						<u-cell title="输入:" ></u-cell>
+						<u-cell title="输入:"></u-cell>
+						<u-cell title="输入:"></u-cell>
+						<u-cell title="输入:"></u-cell>
+						<u-cell title="输入:"></u-cell>
 					</u-cell-group>
+				</view>
+			</view>
+			<view class="" v-for="(item, index) in items" :key="index">
+				<view class="bottom-box" style="background-color:lightgray ;">
+					<p>{{item.value }}</p>
+					<p>{{item.position }}</p>
+					<p>{{item.name }}</p>
+					<p>{{item.type }}</p>
+				</view>
+				<view class="bottom-box" style="background-color: gainsboro;">
+					<p>{{item.value }}</p>
+					<p>{{item.position }}</p>
+					<p>{{item.name }}</p>
+					<p>{{item.type }}</p>
 				</view>
 			</view>
 		</view>
@@ -38,15 +52,21 @@
 	const showHeaderContent = ref(true);
 
 	const { name, date, status } = defineProps(['name', 'date', 'status']);
+
+	const items = ref([
+		{ value: '1', position: '1', name: '1', type: '1' },
+	]);
 </script>
 
 <style scoped>
 	.box {
 		position: relative;
 	}
-	.item-box{
+
+	.item-box {
 		background-color: #FFF;
 	}
+
 	/deep/.u-cell__body__content {
 		flex: none;
 	}
@@ -78,17 +98,24 @@
 		right: 1px;
 		transform: rotate(30deg);
 	}
-	
-	
-	 .wrap {
-	        padding: 12px;
-	    }
-	
-	    .demo-layout {
-	        height: 25px;
-	        border-radius: 4px;
+	.wrap {
+		padding: 12px;
+	}
+
+	.demo-layout {
+		height: 25px;
+		border-radius: 4px;
+		text-align: center;
+	}
+
+	.bottom-box {
+		height: 50px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		p {
+			flex: 1;
 			text-align: center;
-	    }
-	
-	
+		}
+	}
 </style>

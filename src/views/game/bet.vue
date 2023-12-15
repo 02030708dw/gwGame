@@ -37,8 +37,8 @@ const onSelectedDates = (dates) => {
 const pageTabs = ref([
   {
     title: '标签 1', dataList: [
-      { name: '名字1', date: '2009', status: 1 },
-      { name: '名字2', date: '2010', status: 0 },
+      { name: 'name', date: '2009', status: 1 },
+      { name: 'name', date: '2010', status: 0 },
     ]
   },
   {

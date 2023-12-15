@@ -8,7 +8,7 @@
     <view class="box-body">
       <div class="flex-container" v-for="(item, index) in items" :key="index">
         <ul class="left-content">
-          <li   :style="{ color: item.color }">{{ item.value }}</li>
+          <li :style="{ color: item.color }">{{ item.value }}</li>
 		  <li :style="{ color: item.color }">{{ item.position }}</li>
 		  <li :style="{ color: item.color }">{{ item.color }}</li>
         </ul>
@@ -40,7 +40,6 @@ const items = ref([
   { value: '4', position: 'left', color: '1' ,name:'2',type:'3'},
   { value: '4', position: 'left', color: '1' ,name:'2',type:'3'},
   { value: '4', position: 'left', color: '1' ,name:'2',type:'3'},
-  
 ]);
 </script>
 
