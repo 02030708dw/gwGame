@@ -1,50 +1,67 @@
-<script setup lang="ts" name="tabnav">
-defineEmits<{
-  (e:'onSelect',d:any):void
-}>()
-interface btnG{
-  t:string
-  i:number
-  d:boolean
-}
-withDefaults(defineProps<{
-  img:string
-  title:string,
-  path:string
-  btns?:btnG[]
-}>(),{
-  btns:()=>[
-      {d: false, i: 0, t: "动画"},
-      {d: false, i: 1, t: "直播"},
-      {d: false, i: 2, t: "视频"},
-      {d: false, i: 3, t: "新闻"},
-  ]
-})
-</script>
-
 <template>
-<view @click="$emit('onSelect',{title,path})">
-  <view class="t">
-    <img :src="img"/>
-    <text>{{title}}</text>
+  <view @click="$emit('onSelect', { title, path })">
+    <view class="t">
+      <img :src="img" />
+      <text>{{ title }}</text>
+    </view>
+    <view class="selectTab">
+      <view
+        class="li"
+        @click.stop="$emit('onSelect', { title: title + item.i, path })"
+        v-for="item in btns"
+        :key="item.i"
+      >
+        <text>
+          {{ item.t }}
+        </text>
+      </view>
+    </view>
   </view>
-  <view class="selectTab">
-    <view class="li" @click.stop="$emit('onSelect',{title:title+item.i,path})" v-for="item in btns" :key="item.i">
-      {{item.t}} </view>
-  </view>
-</view>
 </template>
 
+<script setup lang="ts" name="tabnav">
+defineEmits<{
+  (e: "onSelect", d: any): void;
+}>();
+interface btnG {
+  t: string;
+  i: number;
+  d: boolean;
+}
+withDefaults(
+  defineProps<{
+    img: string;
+    title: string;
+    path: string;
+    btns?: btnG[];
+  }>(),
+  {
+    btns: () => [
+      { d: false, i: 0, t: "动画" },
+      { d: false, i: 1, t: "直播" },
+      { d: false, i: 2, t: "视频" },
+      { d: false, i: 3, t: "新闻" },
+    ],
+  }
+);
+</script>
+
 <style scoped lang="less">
-.t{
+.t {
   margin: 32rpx;
   margin-bottom: 10rpx;
   height: 218rpx;
-  border: solid 1px red;
-  border-radius: 10px;
+  // border: solid 1px red;
+  border-radius: 32rpx;
   position: relative;
   overflow: hidden;
-  >text{
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+
+  > text {
     display: flex;
     justify-content: center;
     position: absolute;
@@ -59,14 +76,16 @@ withDefaults(defineProps<{
   }
 }
 .selectTab {
-  display: flex;
+  width: 688rpx;
+  height: 60rpx;
+  margin-top: 16rpx;
   flex-direction: row;
-  align-items: center;
+  display: flex;
   justify-content: space-between;
-  background-color: #fff;
-  padding: 20rpx 32rpx;
+  margin: 0 auto;
+  // justify-content: center;
   .li {
-    background-color: #FCEFD5;
+    background-color: #fcefd5;
     width: 20%;
     height: 60rpx;
     text-align: center;
@@ -74,6 +93,17 @@ withDefaults(defineProps<{
     border-radius: 8px;
     color: #333;
     font-size: 28rpx;
+
+    text {
+      overflow-wrap: break-word;
+      color: rgba(51, 51, 51, 1);
+      font-size: 28rpx;
+      font-family: PingFangSC-Regular;
+      font-weight: normal;
+      text-align: center;
+      white-space: nowrap;
+      line-height: 28rpx;
+    }
   }
 }
 </style>

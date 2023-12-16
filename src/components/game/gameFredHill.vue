@@ -38,11 +38,12 @@
 	}
 
 	.headerFred {
-		width: 96%;
+		width: 100%;
 		display: flex;
 		flex-direction: column;
 		margin: 0 auto;
 		background-size: cover;
 		background-repeat: no-repeat;
+		font-weight: 600;
 	}
 </style>

@@ -41,11 +41,12 @@
 		align-items: center;
 		justify-content: space-between;
 		background-color: #fff;
-		height: 96rpx;
 		position: fixed;
 		left: 0;
 		right: 0;
 		bottom: 0;
+		padding: 12rpx 32rpx 12rpx 32rpx;
+		font-family: PingFangSC-Semibold;
 	}
 
 	.headerTitle {
@@ -78,8 +79,7 @@
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
-
-
+		align-items: center;
 	}
 
 	.footerleft {

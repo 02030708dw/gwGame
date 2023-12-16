@@ -66,8 +66,7 @@
 		align-items: center;
 		justify-content: space-between;
 		background-color: #fff;
-		height: 96rpx;
-
+		padding: 12rpx 32rpx 12rpx 32rpx;
 	}
 
 	.headerTitle {
@@ -100,8 +99,7 @@
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
-
-
+		align-items: center;
 	}
 
 	.footerleft {
@@ -151,14 +149,14 @@
 		height: 48rpx;
 		line-height: 48rpx;
 		text-align: center;
-		font-size: 12px;
+		font-size: 15px;
 		color: #999;
 	}
 
 	.bettingInput7 {
 		background-color: #FFFFFF;
-		padding-top: 30rpx;
-		margin-top: 20rpx;
+		// padding-top: 30rpx;
+		// margin-top: 20rpx;
 		position: absolute;
 		left: 0;
 		right: 0;
@@ -169,6 +167,7 @@
 		display: flex;
 		flex-direction: row;
 		align-items: center;
+		padding: 32rpx 238rpx 26rpx 32rpx;
 	}
 
 	.bettingIIs {
