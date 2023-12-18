@@ -7,14 +7,10 @@
         <view class="navHeaderCenter">{{ propDtata.title }}</view>
         <view class="navHeaderRight">
             <image src="@/static/images/xioaxiright.png"></image>
-
         </view>
-
     </view>
 </template>
- 
 <script setup lang="ts">
-
 // https://blog.csdn.net/qq_27517377/article/details/123163381
 import { ref, reactive } from 'vue'
 const propDtata = defineProps({
