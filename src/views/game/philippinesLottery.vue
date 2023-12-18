@@ -21,7 +21,7 @@
 				</view>
 			</view>
 
-			<view class="box_20">
+			<view class="box_20" v-show="currentOption === 1||currentOption === 2">
 				<view class="group_1" :class="{ 'highlighted': currentOptionTwo === 1 }" @click="changeOptionTwo(1)">
 					<image v-show="currentOptionTwo === 1"
 						src="https://lanhu.oss-cn-beijing.aliyuncs.com/SketchPng48a1ecb2a14ef1845289baf45e29f20ff7b00e5e244fa770a63ca2821b7cfc93"
@@ -218,7 +218,6 @@
 			
 			</view>
 
-
 			<view class="box_21"
 				v-show="currentOption === 1 && currentOptionTwo ===1 || currentOption === 2 && currentOptionTwo === 1 || currentOption===3">
 				<view class="text-wrapper_20">
@@ -254,8 +253,7 @@
 			</view>
 
 
-			<view class="Keyboard1"
-				v-show="currentOption === 1 && currentOptionTwo === 1 || currentOption === 2 && currentOptionTwo === 1">
+			<view class="Keyboard1" v-show="currentOption === 1 && currentOptionTwo === 1 || currentOption === 2 && currentOptionTwo === 1">
 				<view class="box_22">
 					<view class="box_23">
 						<view class="text-wrapper_22">
@@ -459,8 +457,7 @@
 				</view>
 			</view>
 
-
-			<view v-show="currentOption === 1 && currentOptionTwo === 2" class="Keyboard9">
+			<view class="Keyboard9" v-show="currentOption === 1 && currentOptionTwo === 2">
 				<view class="box_12">
 					<view class="text-wrapper_23">
 						<text lines="1" class="text_29">1</text>
@@ -578,8 +575,6 @@
 					</view>
 				</view>
 			</view>
-
-			<!-- 键盘 -->
 		</view>
 		<template #bot>
 			<GameFooter />
