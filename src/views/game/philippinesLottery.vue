@@ -735,14 +735,14 @@
 	}
 
 	.image-text_3 {
-		width: 150rpx;
+		// width: 150rpx;
 		flex-direction: row;
 		display: flex;
 		justify-content: space-between;
 	}
 
 	.image-text_4 {
-		width: 180rpx;
+		// width: 180rpx;
 		flex-direction: row;
 		display: flex;
 		justify-content: space-between;
