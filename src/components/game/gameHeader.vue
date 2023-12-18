@@ -114,21 +114,27 @@ const handleClose = () => {
   countryShow.value = false;
 };
 const onSlideClick = (p: string) => {
-  console.log(p);
   if (p === "gameList") {
     uni.redirectTo({
-      url: `views/gameList/${p}`,
+      url: `/views/gameList/${p}`,
+    });
+  } else {
+    uni.redirectTo({
+      url: `/views/game/${p}`,
     });
   }
-  uni.redirectTo({
-    url: `/views/game/${p}`,
-  });
   show.value = false;
 };
 const onTopClick = (p: string) => {
-  uni.redirectTo({
-    url: `/views/game/${p}`,
-  });
+  if (p === "gameList") {
+    uni.redirectTo({
+      url: `/views/gameList/${p}`,
+    });
+  } else {
+    uni.redirectTo({
+      url: `/views/game/${p}`,
+    });
+  }
   topShow.value = false;
   show.value = false;
 };
@@ -149,12 +155,14 @@ const handleSelect = (item: any) => {
 .headerStyle {
   position: relative;
   z-index: 999999;
-  display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   background-color: #333;
-  padding: 40rpx;
+  flex-direction: row;
+  display: flex;
+  justify-content: flex-center;
+  padding: 28rpx 32rpx 22rpx 32rpx;
 }
 
 .headerTitle {

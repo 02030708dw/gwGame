@@ -4,7 +4,7 @@ export const topLists:Record<'title'|'id'|'path', string>[]=[
     {id: "003", path: "philippinesLottery", title: "菲律宾彩"},
 ]
 export const sliderLists:Record<'title'|'id'|'path', string>[]=[
-    {id: "001", path: "gameHall", title: "游戏大厅"},
+    {id: "001", path: "gameList", title: "游戏大厅"},
     {id: "002", path: "bet", title: "投注纪录"},
     {id: "003", path: "check", title: "帐变纪录"},
     {id: "004", path: "statement", title: "盈亏报表"},
