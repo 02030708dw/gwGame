@@ -23,6 +23,7 @@
 					<image class="bettingDel" src="../../../static/images/del.png" @click="handleDelete(item)" mode="">
 					</image>
 				</view>
+				
 				<view class="noData" v-else>
 					暂无历史记录
 				</view>

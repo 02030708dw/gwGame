@@ -58,10 +58,11 @@
       <GameFooter />
     </template>
   </Layout>
+  <popup/>
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, computed } from "vue";
+import { reactive, ref } from "vue";
 import { storeToRefs } from "pinia";
 import { useCommon } from "@/plugins/pinia/common.pinia";
 import GameHeader from "@/components/game/gameHeader.vue";
@@ -75,6 +76,7 @@ import GameType from "./components/Yuenan/GameType.vue";
 import FredHilloneD1 from "./components/Yuenan/FredHilloneD1.vue";
 import FredHilloneD2 from "./components/Yuenan/FredHilloneD2.vue";
 import FredHilltwoD1 from "./components/Yuenan/FredHilltwoD1.vue";
+import popup from "@/components/game/popup/popup.vue";
 const typeTab = reactive([
   { label: "动画", id: 1 },
   { label: "直播", id: 2 },
