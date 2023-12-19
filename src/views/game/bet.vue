@@ -57,9 +57,6 @@
       .right {
         display: flex;
         align-items: center;
-        .state{
-          // margin-left: 10rpx;
-        }
         .detail {
           margin-left: 10rpx;
           width: 108rpx;
