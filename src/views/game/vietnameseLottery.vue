@@ -6,17 +6,53 @@
     <GameHeaderTab :typeTab="typeTab" />
     <GameContent />
     <GameTime />
-    <gameFredHill
-      @handleId="handleId1D2D3D"
-      :backActive="oneActive"
-      :TabData="TabDataYueNan"
-      :urls="urls1"
+
+    <!-- 选择1d 2d PL1 PL2 -->
+    <GameType :typeList="TabDataYueNan" @cutGameType="cutGameType" />
+
+    <!-- 1D 里的第一个fred -->
+    <FredHilloneD1
+      :fredList="TabDataTwoYueNan1D"
+      :background-image="urls1"
+      @change="changeFredHilloneD1"
+      :row="3"
+      :itemWidth="'198rpx'"
+      v-if="playingMethod == 0"
     />
-    <gameFredHill2
-      @handleId="handleIdFredHill"
-      :backActive="twoActive"
-      :TabData="TabDataTwoYueNan1D"
-      :urls="urls2"
+
+    <!-- 1D 里的第二个fred -->
+    <FredHilloneD2
+      :fredList="TabDataTwo"
+      :background-image="urls2"
+      @change="changeFredHilloneD2"
+      :row="5"
+      :itemWidth="'114rpx'"
+      :activeNumber="activeNumber1D"
+      v-if="playingMethod == 0"
+    />
+    <!-- 2d -->
+    <FredHilltwoD1
+      :background-image="urls1"
+      :showHeader="true"
+      @changeThreeNum="changeThreeNum"
+      @changeNum="changeNum2D"
+      v-if="playingMethod == 1"
+    />
+
+    <!-- PL2 -->
+    <FredHilltwoD1
+      :background-image="urls1"
+      :showHeader="false"
+      @changeNum="changeNumPL2"
+      v-if="playingMethod == 2"
+    />
+
+    <!-- PL3 -->
+    <FredHilltwoD1
+      :background-image="urls1"
+      :showHeader="false"
+      @changeNum="changeNumPL3"
+      v-if="playingMethod == 3"
     />
     <template #bot>
       <GameFooter />
@@ -25,7 +61,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from "vue";
+import { reactive, ref, computed } from "vue";
 import { storeToRefs } from "pinia";
 import { useCommon } from "@/plugins/pinia/common.pinia";
 import GameHeader from "@/components/game/gameHeader.vue";
@@ -34,25 +70,21 @@ import Layout from "@/layout/index.vue";
 import GameHeaderTab from "@/components/game/gameHeaderTab";
 import GameContent from "@/components/game/gameContent";
 import GameFooter from "@/components/game/gameFooter";
-import gameFredHill from "@/components/game/gameFredHill";
-import gameFredHill2 from "@/components/game/gameFredHill2";
 
-// import GameTab from "@/components/keyboard/gameTab";
-
-/**
- *
- * 类型切换
- */
+import GameType from "./components/Yuenan/GameType.vue";
+import FredHilloneD1 from "./components/Yuenan/FredHilloneD1.vue";
+import FredHilloneD2 from "./components/Yuenan/FredHilloneD2.vue";
+import FredHilltwoD1 from "./components/Yuenan/FredHilltwoD1.vue";
 const typeTab = reactive([
   { label: "动画", id: 1 },
   { label: "直播", id: 2 },
   { label: "视频", id: 3 },
   { label: "新闻", id: 4 },
 ]);
+let urls1 = ref("src/static/images/fredHill1.png");
+let urls2 = ref("src/static/images/fredHill2.png");
+let urls3 = ref("src/static/images/fredHill3M.png");
 
-let urls1 = ref("../../static/images/fredHill1.png");
-let urls2 = ref("../../static/images/fredHill2.png");
-let urls3 = ref("../../static/images/fredHill3M.png");
 const storeCommon = useCommon();
 const {
   contryId,
@@ -66,23 +98,65 @@ const {
   TabDataAll,
   TabDataTwo1D2D3D,
   TabDataTwo1D2D3DID,
-  TabDataTwoYueNan1D
+  TabDataTwoYueNan1D,
 } = storeToRefs(storeCommon);
 
-const handleId1D2D3D = (id: number) => {
-  storeCommon.TabDataTwoCheckedID = 0;
-  storeCommon.TabDataTwo1D2D3DID = id;
-  storeCommon.handletabs();
-  storeCommon.setTabDataTwo1D2D3D(storeCommon.TabDataTwo1D2D3DID);
-  storeCommon.changeBoard(id);
-  console.log("选择的ID11111", id);
+const playingMethod = ref(0); //用来展示不同玩法
+// 玩法切换------------------------------------------------玩法切换
+const cutGameType = ({ id }: any) => {
+  // 当1D,2D,PL2,PL3切换时触发,传过来的是点击这一项的数据
+  TabDataYueNan.value.forEach((item) => (item.checked = false));
+  TabDataYueNan.value[id].checked = true; //选中
+  console.log("当前选中的是" + TabDataYueNan.value[id].label);
+  activeNumber1D.length = 0; //切换后清空上一次的选择
+  activeNumber2D.length = 0; //切换后清空上一次的选择
+  activeNumberPL2.length = 0; //切换后清空上一次的选择
+  activeNumberPL3.length = 0; //切换后清空上一次的选择
+  playingMethod.value = id; //切换玩法
 };
 
-const handleIdFredHill = () => {
-  console.log("选择的ID33333", storeCommon.TabDataTwo1D2D3DID);
-  // storeCommon.handletabs()
-  storeCommon.setTabDataTwo1D2D3D(storeCommon.TabDataTwo1D2D3DID);
+// 1d-----------------------------------------------------1d
+const changeFredHilloneD1 = ({ id }: any) => {
+  // 切换头尾包组时触发,传过来的是点击这一项的数据
+  TabDataTwoYueNan1D.value.forEach((item) => (item.checked = false));
+  TabDataTwoYueNan1D.value[id].checked = true;
+  console.log("当前选中的是" + TabDataTwoYueNan1D.value[id].label);
+};
+// 用来存储选中的号码
+const activeNumber1D = reactive([] as any[]);
+const changeFredHilloneD2 = (item: any) => {
+  // 选择0-9的号码触发
+  activeNumber1D.push(item.id);
+  console.log("选中了" + item.id, activeNumber1D);
+};
+
+// 2d---------------------------------------2d
+const changeThreeNum = (item: any) => {
+  // 2d里的 000-900
+  console.log("当前选中的是", item.label);
+};
+const activeNumber2D = reactive([] as any[]);
+const changeNum2D = (item: any) => {
+  // 2d下面的数字
+  item.checked = true;
+  activeNumber2D.push(item.id);
+  console.log("选中了:" + item.id, activeNumber2D);
+};
+
+// PL2----------------------------------PL2
+const activeNumberPL2 = reactive([] as any[]);
+const changeNumPL2 = (item: any) => {
+  item.checked = true;
+  activeNumberPL2.push(item.id);
+  console.log("选中了:" + item.id, activeNumberPL2);
+};
+
+// PL3----------------------------------PL3
+const activeNumberPL3 = reactive([] as any[]);
+const changeNumPL3 = (item: any) => {
+  item.checked = true;
+  activeNumberPL3.push(item.id);
+  console.log("选中了:" + item.id, activeNumberPL3);
 };
 </script>
-
 <style scoped lang="scss"></style>
