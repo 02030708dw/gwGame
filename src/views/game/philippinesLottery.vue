@@ -7,7 +7,6 @@
 		<gameFlb />
 		<GameTime />
 		<view class="block_7">
-
 			<view class="box_19">
 				<view class="text-wrapper_16" :class="{ 'highlight': currentOption === 1 }" @click="changeOption(1)">
 					<text lines="1" decode="true" class="text_21">2&nbsp;Digits</text>
@@ -657,8 +656,8 @@
 		// width: 482rpx;
 		flex-direction: row;
 		display: flex;
-		justify-content: space-between;
-		margin: 16rpx 76rpx 0 68rpx;
+		justify-content: space-around;
+		margin: 16rpx 0rpx 0rpx 0rpx;
 
 		.text-wrapper_21 {
 			background-color: rgba(162, 162, 162, 0.180000);
@@ -702,13 +701,13 @@
 	}
 
 	.Keyboard1 {
-
+		
 		.text-wrapper_83:active,
 		.text-wrapper_22:active,
 		.text-wrapper_52:active {
 			background-color: #FFB023;
-			transition: transform 0.2s ease-out;
-			transform: scale(0.95);
+			
+			animation: text-wrapper_23 0.4s infinite;
 		}
 
 		.box_22 {
@@ -716,6 +715,14 @@
 			flex-direction: row;
 			display: flex;
 			justify-content: center;
+			.box_9 {
+				background-color: rgba(255, 176, 35, 0.300000);
+				width: 2rpx;
+				height: 506rpx;
+				display: flex;
+				flex-direction: column;
+				margin: 0 0 26rpx 16rpx;
+			}
 		}
 
 		.box_23 {
@@ -751,14 +758,7 @@
 		}
 
 
-		.box_9 {
-			background-color: rgba(255, 176, 35, 0.300000);
-			width: 2rpx;
-			height: 506rpx;
-			display: flex;
-			flex-direction: column;
-			margin: 0 0 26rpx 16rpx;
-		}
+		
 
 	}
 
@@ -858,6 +858,7 @@
 			display: flex;
 			flex: 1;
 			justify-content: center;
+			align-items: center;
 			// padding: 10rpx 32rpx 10rpx 40rpx;
 		}
 
@@ -884,16 +885,28 @@
 			display: flex;
 			flex-direction: column;
 			padding: 24rpx 82rpx 22rpx 84rpx;
-			transition: transform 0.3s ease-out;
 		}
 
 		.text-wrapper_23:active,
 		.section_6:active,
 		.section_7:active {
 			background-color: #FFB023;
-			transform: scale(0.8);
+			animation: text-wrapper_23 0.4s infinite;
 		}
-
+		@keyframes text-wrapper_23 {
+		      25% {
+		        transform: scaleX(1.2);
+		      }
+		      50% {
+		        transform: scaleX(0.8);
+		      }
+		      75% {
+		        transform: scaleX(1.1);
+		      }
+		      100% {
+		        transform: scaleX(1);
+		      }
+		    }
 		.text_29 {
 			overflow-wrap: break-word;
 			color: rgba(51, 51, 51, 1);
@@ -905,12 +918,6 @@
 			line-height: 48rpx;
 		}
 
-
-
-
-
-
-
 		.box_12 {
 			// width: 622rpx;
 			margin-top: 32rpx;
@@ -918,10 +925,6 @@
 			display: flex;
 			justify-content: space-evenly;
 		}
-
-
-
-
 
 		.section_6 {
 			background-color: rgba(255, 255, 255, 1.000000);
@@ -1152,8 +1155,9 @@
 
 		.block_2:active,
 		.block_3:active {
-			transform: scale(0.8);
+		
 			background-color: #FFB023;
+			animation: text-wrapper_23 0.4s infinite;
 		}
 
 		.text-group_12 {
@@ -1343,7 +1347,7 @@
 		.box_8:active,
 		.tag_4:active,
 		{
-		transform: scale(0.8);
+		animation: text-wrapper_23 0.4s infinite;
 		background-color: #FFB023;
 	}
 
