@@ -12,10 +12,9 @@
  	@import "uview-plus/index.scss";
 	@import url("@/static/css/animate.css");
  	uni-page-body {
- 		height: 100%;
+ 		// height: 100%;
 		background-color: ghostwhite
  	}
-	
 	.bgcolor{
 		padding: 10px 15px;
 	}

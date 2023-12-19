@@ -27,7 +27,6 @@
       @change="changeFredHilloneD2"
       :row="5"
       :itemWidth="'114rpx'"
-      :activeNumber="activeNumber1D"
       v-if="playingMethod == 0"
     />
     <!-- 2d -->
@@ -110,10 +109,7 @@ const cutGameType = ({ id }: any) => {
   TabDataYueNan.value.forEach((item) => (item.checked = false));
   TabDataYueNan.value[id].checked = true; //选中
   console.log("当前选中的是" + TabDataYueNan.value[id].label);
-  activeNumber1D.length = 0; //切换后清空上一次的选择
-  activeNumber2D.length = 0; //切换后清空上一次的选择
-  activeNumberPL2.length = 0; //切换后清空上一次的选择
-  activeNumberPL3.length = 0; //切换后清空上一次的选择
+  TabDataTwo.value.forEach(item=>item.checked=false)//切换后清空上一次的选择
   playingMethod.value = id; //切换玩法
 };
 
@@ -124,12 +120,12 @@ const changeFredHilloneD1 = ({ id }: any) => {
   TabDataTwoYueNan1D.value[id].checked = true;
   console.log("当前选中的是" + TabDataTwoYueNan1D.value[id].label);
 };
-// 用来存储选中的号码
-const activeNumber1D = reactive([] as any[]);
 const changeFredHilloneD2 = (item: any) => {
   // 选择0-9的号码触发
-  activeNumber1D.push(item.id);
-  console.log("选中了" + item.id, activeNumber1D);
+  item.checked=!item.checked
+  // 选中的id
+  let arr=TabDataTwo.value.filter(item=>item.checked).map(item=>item.id)
+  console.log("当前选中的有",arr)
 };
 
 // 2d---------------------------------------2d
@@ -137,28 +133,20 @@ const changeThreeNum = (item: any) => {
   // 2d里的 000-900
   console.log("当前选中的是", item.label);
 };
-const activeNumber2D = reactive([] as any[]);
-const changeNum2D = (item: any) => {
-  // 2d下面的数字
-  item.checked = true;
-  activeNumber2D.push(item.id);
-  console.log("选中了:" + item.id, activeNumber2D);
+const changeNum2D = (arr: any) => {
+  // 点击2d下面的数字触发
+  console.log("2D选中的号码是"+arr)
 };
 
 // PL2----------------------------------PL2
-const activeNumberPL2 = reactive([] as any[]);
-const changeNumPL2 = (item: any) => {
-  item.checked = true;
-  activeNumberPL2.push(item.id);
-  console.log("选中了:" + item.id, activeNumberPL2);
+const changeNumPL2 = (arr:any) => {
+  console.log("PL2选中的号码是",arr)
 };
 
 // PL3----------------------------------PL3
-const activeNumberPL3 = reactive([] as any[]);
-const changeNumPL3 = (item: any) => {
-  item.checked = true;
-  activeNumberPL3.push(item.id);
-  console.log("选中了:" + item.id, activeNumberPL3);
+const changeNumPL3 = (arr: any) => {
+  console.log("PL3选中的号码是",arr)
+
 };
 </script>
 <style scoped lang="scss"></style>

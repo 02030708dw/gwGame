@@ -57,12 +57,16 @@ const props = defineProps(["backgroundImage", "showHeader", ]);
 const emits=defineEmits(["changeThreeNum","changeNum"])
 const numHeight=ref(((data2D2.value.length/5)-1) *78 +"rpx")//计算容器的高
 const changeThreeNum=(item:any)=>{
+  // 点击000-999触发
     data2D1.forEach((item) => (item.checked = false));
     item.checked = true;
     emits("changeThreeNum",item)
 }
 const changeNum=(item:any)=>{
-    emits("changeNum",item)
+  // 点击下面100个数字触发
+  item.checked = !item.checked;
+   let arr=data2D2.value.filter(item=>item.checked).map(item=>item.label)
+    emits("changeNum",arr)
 }
 
 </script>
