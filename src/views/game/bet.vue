@@ -83,7 +83,9 @@ const pageTabs = ref([
 ]);
 </script>
 <style scoped lang="scss">
+
 .bet {
+  background-color: #F9F9F9;
   .tabs {
     width: 750rpx;
     height: 100rpx;
@@ -115,7 +117,7 @@ const pageTabs = ref([
       margin-top: 20rpx;
       width: 686rpx;
       height: 148rpx;
-      background: #ffffff;
+      background: #fff;
       border-radius: 24rpx;
       box-sizing: border-box;
       padding: 32rpx;

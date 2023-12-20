@@ -32,6 +32,7 @@ const onSelectedDates = (dates: string) => {
 </script>
 <style scoped lang="scss">
 .profit {
+  background-color: #F9F9F9;
   .synthesize {
     width: 622rpx;
     box-sizing: border-box;
