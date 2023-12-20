@@ -1,6 +1,6 @@
 export const topLists:Record<'title'|'id'|'path', string>[]=[
     {id: "001", path: "thailandLottery", title: "泰国彩"},
-    {id: "002", path: "vietnameseLottery", title: "越南彩"},
+    {id: "002", path: "vietnameseLottery/vietnameseLottery", title: "越南彩"},
     {id: "003", path: "philippinesLottery", title: "菲律宾彩"},
 ]
 export const sliderLists:Record<'title'|'id'|'path', string>[]=[

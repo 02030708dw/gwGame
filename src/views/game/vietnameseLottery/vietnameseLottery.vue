@@ -1,7 +1,7 @@
 <template>
   <Layout>
     <template #top>
-      <GameHeader active-title="越南彩" />
+      <GameHeader :showContent="false" activeTitle="越南彩" />
     </template>
     <GameHeaderTab :typeTab="typeTab" />
     <GameContent />
@@ -61,21 +61,21 @@
   <popup />
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { reactive, ref } from "vue";
 import { storeToRefs } from "pinia";
 import { useCommon } from "@/plugins/pinia/common.pinia";
 import GameHeader from "@/components/game/gameHeader.vue";
 import GameTime from "@/components/game/gameTime.vue";
 import Layout from "@/layout/index.vue";
-import GameHeaderTab from "@/components/game/gameHeaderTab";
-import GameContent from "@/components/game/gameContent";
-import GameFooter from "@/components/game/gameFooter";
+import GameHeaderTab from "@/components/game/gameHeaderTab.vue";
+import GameContent from "@/components/game/gameContent.vue";
+import GameFooter from "@/components/game/gameFooter.vue";
+import FredHilloneD1 from "@/views/game/vietnameseLottery/components/FredHilloneD1.vue";
+import FredHilloneD2 from "@/views/game/vietnameseLottery/components/FredHilloneD2.vue";
+import FredHilltwoD1 from "@/views/game/vietnameseLottery/components/FredHilltwoD1.vue";
+import GameType from "@/views/game/vietnameseLottery/components/GameType.vue";
 
-import GameType from "./components/Yuenan/GameType.vue";
-import FredHilloneD1 from "./components/Yuenan/FredHilloneD1.vue";
-import FredHilloneD2 from "./components/Yuenan/FredHilloneD2.vue";
-import FredHilltwoD1 from "./components/Yuenan/FredHilltwoD1.vue";
 import popup from "@/components/game/popup/popup.vue";
 const typeTab = reactive([
   { label: "动画", id: 1 },
@@ -88,20 +88,8 @@ let urls2 = ref("src/static/images/fredHill2.png");
 let urls3 = ref("src/static/images/fredHill3M.png");
 
 const storeCommon = useCommon();
-const {
-  contryId,
-  TabData,
-  TabDataTaiGuo,
-  TabDataYueNan,
-  oneActive,
-  twoActive,
-  threeActive,
-  TabDataTwo,
-  TabDataAll,
-  TabDataTwo1D2D3D,
-  TabDataTwo1D2D3DID,
-  TabDataTwoYueNan1D,
-} = storeToRefs(storeCommon);
+const { TabDataYueNan, TabDataTwo, TabDataTwoYueNan1D } =
+  storeToRefs(storeCommon);
 
 const playingMethod = ref(0); //用来展示不同玩法
 // 玩法切换------------------------------------------------玩法切换
@@ -117,7 +105,7 @@ const cutGameType = ({ id }: any) => {
 // 1d-----------------------------------------------------1d
 const changeFredHilloneD1 = (item: any) => {
   // 切换头尾包组时触发,传过来的是点击这一项的数据
-  console.log("当前选中的是:"+item.label)
+  console.log("当前选中的是:" + item.label);
 };
 const changeFredHilloneD2 = (item: any) => {
   // 选择0-9的号码触发
@@ -149,4 +137,3 @@ const changeNumPL3 = (arr: Array<number>) => {
   console.log("PL3选中的号码是", arr);
 };
 </script>
-<style scoped lang="scss"></style>
