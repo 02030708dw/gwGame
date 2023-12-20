@@ -53,162 +53,13 @@
 					</text>
 				</view>
 				<view class="box_4">
-					<view class="block_2">
-						<view class="text-group_11">
-							<text lines="1" class="text_31">01</text>
-							<text lines="1" class="text_32">8.4398</text>
-						</view>
-					</view>
-					<view class="block_3">
-						<view class="text-group_12">
-							<text lines="1" class="text_33">01</text>
-							<text lines="1" class="text_34">8.4398</text>
-						</view>
-					</view>
-					<view class="block_3">
-						<view class="text-group_13">
-							<text lines="1" class="text_35">01</text>
-							<text lines="1" class="text_36">8.4398</text>
-						</view>
-					</view>
-					<view class="block_3">
-						<view class="text-group_14">
-							<text lines="1" class="text_37">01</text>
-							<text lines="1" class="text_38">8.4398</text>
-						</view>
-					</view>
-					<view class="block_3">
-						<view class="text-group_15">
-							<text lines="1" class="text_39">01</text>
-							<text lines="1" class="text_40">8.4398</text>
-						</view>
-					</view>
-				</view>
-				<view class="box_4">
-					<view class="block_2">
-						<view class="text-group_11">
-							<text lines="1" class="text_31">01</text>
-							<text lines="1" class="text_32">8.4398</text>
-						</view>
-					</view>
-					<view class="block_3">
-						<view class="text-group_12">
-							<text lines="1" class="text_33">01</text>
-							<text lines="1" class="text_34">8.4398</text>
-						</view>
-					</view>
-					<view class="block_3">
-						<view class="text-group_13">
-							<text lines="1" class="text_35">01</text>
-							<text lines="1" class="text_36">8.4398</text>
-						</view>
-					</view>
-					<view class="block_3">
-						<view class="text-group_14">
-							<text lines="1" class="text_37">01</text>
-							<text lines="1" class="text_38">8.4398</text>
-						</view>
-					</view>
-					<view class="block_3">
-						<view class="text-group_15">
-							<text lines="1" class="text_39">01</text>
-							<text lines="1" class="text_40">8.4398</text>
-						</view>
-					</view>
-				</view>
-				<view class="box_4">
-					<view class="block_2">
-						<view class="text-group_11">
-							<text lines="1" class="text_31">01</text>
-							<text lines="1" class="text_32">8.4398</text>
-						</view>
-					</view>
-					<view class="block_3">
-						<view class="text-group_12">
-							<text lines="1" class="text_33">01</text>
-							<text lines="1" class="text_34">8.4398</text>
-						</view>
-					</view>
-					<view class="block_3">
-						<view class="text-group_13">
-							<text lines="1" class="text_35">01</text>
-							<text lines="1" class="text_36">8.4398</text>
-						</view>
-					</view>
-					<view class="block_3">
-						<view class="text-group_14">
-							<text lines="1" class="text_37">01</text>
-							<text lines="1" class="text_38">8.4398</text>
-						</view>
-					</view>
-					<view class="block_3">
-						<view class="text-group_15">
-							<text lines="1" class="text_39">01</text>
-							<text lines="1" class="text_40">8.4398</text>
-						</view>
-					</view>
-				</view>
-				<view class="box_4">
-					<view class="block_2">
-						<view class="text-group_11">
-							<text lines="1" class="text_31">01</text>
-							<text lines="1" class="text_32">8.4398</text>
-						</view>
-					</view>
-					<view class="block_3">
-						<view class="text-group_12">
-							<text lines="1" class="text_33">01</text>
-							<text lines="1" class="text_34">8.4398</text>
-						</view>
-					</view>
-					<view class="block_3">
-						<view class="text-group_13">
-							<text lines="1" class="text_35">01</text>
-							<text lines="1" class="text_36">8.4398</text>
-						</view>
-					</view>
-					<view class="block_3">
-						<view class="text-group_14">
-							<text lines="1" class="text_37">01</text>
-							<text lines="1" class="text_38">8.4398</text>
-						</view>
-					</view>
-					<view class="block_3">
-						<view class="text-group_15">
-							<text lines="1" class="text_39">01</text>
-							<text lines="1" class="text_40">8.4398</text>
-						</view>
-					</view>
-				</view>
-				<view class="box_4">
-					<view class="block_2">
-						<view class="text-group_11">
-							<text lines="1" class="text_31">01</text>
-							<text lines="1" class="text_32">8.4398</text>
-						</view>
-					</view>
-					<view class="block_3">
-						<view class="text-group_12">
-							<text lines="1" class="text_33">01</text>
-							<text lines="1" class="text_34">8.4398</text>
-						</view>
-					</view>
-					<view class="block_3">
-						<view class="text-group_13">
-							<text lines="1" class="text_35">01</text>
-							<text lines="1" class="text_36">8.4398</text>
-						</view>
-					</view>
-					<view class="block_3">
-						<view class="text-group_14">
-							<text lines="1" class="text_37">01</text>
-							<text lines="1" class="text_38">8.4398</text>
-						</view>
-					</view>
-					<view class="block_3">
-						<view class="text-group_15">
-							<text lines="1" class="text_39">01</text>
-							<text lines="1" class="text_40">8.4398</text>
+					<view class="box_item">
+						<view v-for="(item, index) in data1R" :key="index" @click="handleClick1R(item,selectedData1R)"
+							:class="{ 'highlighted': selectedData1R.includes(item), 'block_3': !selectedData1R.includes(item)}">
+							<view class="text-group_11">
+								<text lines="1" class="text_31">01</text>
+								<text lines="1" class="text_32">8.4398</text>
+							</view>
 						</view>
 					</view>
 				</view>
@@ -252,96 +103,41 @@
 			<view class="Keyboard1"
 				v-show="currentOption === 1 && currentOptionTwo === 1 || currentOption === 2 && currentOptionTwo === 1">
 				<view class="box_22">
-					<view class="box_25">
-						<view v-for="(item, index) in items1" :key="index" class="text-wrapper_22"
-							@click="handleClick(item)">
+					<view class="box_25" style="margin-left: 8rpx;">
+						<view v-for="(item, index) in items1" :key="index" @click="handleClick1(item, selectedItems1)"
+							:class="{ 'highlighted': selectedItems1.includes(item), 'text-wrapper_22': !selectedItems1.includes(item) }">
 							<text lines="1" class="text_27">{{ item }}</text>
 						</view>
 					</view>
-					<view class="box_25">
-						<view v-for="(item, index) in items1" :key="index" class="text-wrapper_22"
-							@click="handleClick(item)">
-							<text lines="1" class="text_27">{{ item }}</text>
-						</view>
-					</view>
-					<view class="box_25">
-						<view v-for="(item, index) in items1" :key="index" class="text-wrapper_22"
-							@click="handleClick(item)">
-							<text lines="1" class="text_27">{{ item }}</text>
-						</view>
-					</view>
-					<view class="box_25">
-						<view v-for="(item, index) in items1" :key="index" class="text-wrapper_22"
-							@click="handleClick(item)">
-							<text lines="1" class="text_27">{{ item }}</text>
-						</view>
-					</view>
-					<!-- <view class="text-wrapper_52">
-						<text lines="1" class="text_57">01</text>
-					</view> -->
 					<view class="box_9"></view>
-					<view class="box_25">
-						<view v-for="(item, index) in items1" :key="index" class="text-wrapper_22"
-							@click="handleClick(item)">
+					<view class="box_25" style="padding-left: 17rpx;">
+						<view v-for="(item, index) in items2" :key="index" @click="handleClick2(item, selectedItems2)"
+							:class="{ 'highlighted': selectedItems2.includes(item), 'text-wrapper_22': !selectedItems2.includes(item) }">
 							<text lines="1" class="text_27">{{ item }}</text>
 						</view>
 					</view>
-					<view class="box_25">
-						<view v-for="(item, index) in items1" :key="index" class="text-wrapper_22"
-							@click="handleClick(item)">
-							<text lines="1" class="text_27">{{ item }}</text>
-						</view>
-					</view>
-					<view class="box_25">
-						<view v-for="(item, index) in items1" :key="index" class="text-wrapper_22"
-							@click="handleClick(item)">
-							<text lines="1" class="text_27">{{ item }}</text>
-						</view>
-					</view>
-					<view class="box_25">
-						<view v-for="(item, index) in items1" :key="index" class="text-wrapper_22"
-							@click="handleClick(item)">
-							<text lines="1" class="text_27">{{ item }}</text>
-						</view>
-					</view>
-					<!-- <view class="text-wrapper_83">
-						<text lines="1" class="text_88">01</text>
-					</view> -->
 				</view>
 			</view>
 
+
+			<!-- 九宫格键盘 -->
 			<view class="Keyboard9" v-show="currentOption === 1 && currentOptionTwo === 2">
 				<view class="box_12">
-					<view @click="handleClick9(1)" class="text-wrapper_23">
-						<text lines="1" class="text_29">1</text>
-					</view>
-					<view @click="handleClick9(2)" class="text-wrapper_23">
-						<text lines="1" class="text_29">2</text>
-					</view>
-					<view @click="handleClick9(3)" class="text-wrapper_23">
-						<text lines="1" class="text_29">3</text>
+					<view v-for="num in [1, 2, 3]" :key="num" @click="handleClick9(num)"
+						:class="{ 'highlighted': isSelected9(num), 'text-wrapper_23': !isSelected9(num) }">
+						<text lines="1" class="text_29">{{ num }}</text>
 					</view>
 				</view>
 				<view class="box_12">
-					<view @click="handleClick9(4)" class="text-wrapper_23">
-						<text lines="1" class="text_29">4</text>
-					</view>
-					<view @click="handleClick9(5)" class="text-wrapper_23">
-						<text lines="1" class="text_29">5</text>
-					</view>
-					<view @click="handleClick9(6)" class="text-wrapper_23">
-						<text lines="1" class="text_29">6</text>
+					<view v-for="num in [4, 5, 6]" :key="num" @click="handleClick9(num)" class="text-wrapper_23"
+						:class="{ 'highlighted': isSelected9(num) }">
+						<text lines="1" class="text_29">{{ num }}</text>
 					</view>
 				</view>
 				<view class="box_12">
-					<view @click="handleClick9(7)" class="text-wrapper_23">
-						<text lines="1" class="text_29">7</text>
-					</view>
-					<view @click="handleClick9(8)" class="text-wrapper_23">
-						<text lines="1" class="text_29">8</text>
-					</view>
-					<view @click="handleClick9(9)" class="text-wrapper_23">
-						<text lines="1" class="text_29">9</text>
+					<view v-for="num in [7, 8, 9]" :key="num" @click="handleClick9(num)" class="text-wrapper_23"
+						:class="{ 'highlighted': isSelected9(num) }">
+						<text lines="1" class="text_29">{{ num }}</text>
 					</view>
 				</view>
 				<view class="box_12">
@@ -350,10 +146,10 @@
 							<image
 								src="https://lanhu.oss-cn-beijing.aliyuncs.com/SketchPngf3c8e4ebcd5196c552597442ed829665a963ebaf6243656914f0fec1d2250a38"
 								class="thumbnail_5"></image>
-							<text lines="1" class="text-group_3">Delete</text>
+							<text lines="1" class="text-group_3" @click="handleDelete">Delete</text>
 						</view>
 					</view>
-					<view @click="handleClick9(0)" class="text-wrapper_23">
+					<view @click="handleClick9(0)" class="text-wrapper_23" :class="{ 'highlighted': isSelected9(0) }">
 						<text lines="1" class="text_29">0</text>
 					</view>
 					<view class="section_7">
@@ -361,73 +157,41 @@
 							<image
 								src="https://lanhu.oss-cn-beijing.aliyuncs.com/SketchPng1467db9dd09d153c0a03c0067e6f8d0ddc00973e4ffc2ea976954ce3b8532687"
 								class="thumbnail_6"></image>
-							<text lines="1" class="text-group_4">Back</text>
+							<text lines="1" class="text-group_4" @click="handleBack">Back</text>
 						</view>
 					</view>
 				</view>
 			</view>
-
+			<!-- 九宫格键盘 -->
+			<!-- combinations -->
 			<view class="Keyboard8" v-show="currentOption === 3">
 				<view class="group_14">
 					<view class="group_15">
-						<view class="box_8">
-							<view class="text-group_12">
-								<text lines="1" class="text_26">Big</text>
-								<text lines="1" class="text_27">8.4398</text>
-							</view>
-						</view>
-						<view class="tag_4">
-							<view class="text-group_12">
-								<text lines="1" class="text_28">Odd</text>
-								<text lines="1" class="text_29">8.4398</text>
+						<view class="group_15_box" style="display: flex;flex-wrap: wrap;">
+							<view v-for="(item, index) in data8" :key="index" @click="handleClick8(item,index)"
+								:class="{ 'highlighted': item.highlighted, 'box_8': !item.highlighted }">
+								<view class="text-group_12">
+									<text lines="1" class="text_26">{{ item.label }}</text>
+									<text lines="1" class="text_27">{{ item.value }}</text>
+								</view>
 							</view>
 						</view>
 					</view>
-					<view class="group_16">
-						<view class="box_8">
-							<view class="text-group_12">
-								<text lines="1" class="text_30">Small</text>
-								<text lines="1" class="text_31">8.4398</text>
-							</view>
-						</view>
-						<view class="tag_4">
-							<view class="text-group_12">
-								<text lines="1" class="text_32">Even</text>
-								<text lines="1" class="text_33">8.4398</text>
-							</view>
-						</view>
-					</view>
-					<view class="box_10"></view>
-					<view class="group_17">
-						<view class="box_8">
-							<view class="text-group_12">
-								<text lines="1" class="text_34">Big</text>
-								<text lines="1" class="text_35">8.4398</text>
-							</view>
-						</view>
-						<view class="tag_4">
-							<view class="text-group_12">
-								<text lines="1" class="text_36">Odd</text>
-								<text lines="1" class="text_37">8.4398</text>
-							</view>
-						</view>
-					</view>
-					<view class="group_18">
-						<view class="box_8">
-							<view class="text-group_12">
-								<text lines="1" class="text_38">Small</text>
-								<text lines="1" class="text_39">8.4398</text>
-							</view>
-						</view>
-						<view class="tag_4">
-							<view class="text-group_12">
-								<text lines="1" class="text_40">Even</text>
-								<text lines="1" class="text_41">8.4398</text>
+					<div class="box_10 flex-col"></div>
+					<view class="group_15">
+						<view class="group_15_box" style="display: flex;flex-wrap: wrap;">
+							<view v-for="(item, index) in data9" :key="index" @click="handleClick8(item,index)"
+								:class="{ 'highlighted': item.highlighted, 'box_88': !item.highlighted }">
+								<view class="text-group_12">
+									<text lines="1" class="text_26">{{ item.label }}</text>
+									<text lines="1" class="text_27">{{ item.value }}</text>
+								</view>
 							</view>
 						</view>
 					</view>
 				</view>
 			</view>
+			<!-- combinations -->
 		</view>
 		<template #bot>
 			<GameFooter />
@@ -438,15 +202,13 @@
 
 <script setup lang="ts">
 	import { reactive, ref } from "vue";
-	import { storeToRefs } from "pinia";
-	import popup from "@/components/game/popup/popup";
+	import popup from "@/components/game/popup/popup.vue";
 	import GameHeader from "@/components/game/gameHeader.vue";
 	import GameTime from "@/components/game/gameTime.vue";
 	import Layout from "@/layout/index.vue";
-	import GameHeaderTab from "@/components/game/gameHeaderTab";
-	import gameFlb from "@/components/game/gameFLB";
-	import GameTab from "@/components/keyboard/gameTab";
-	import GameFooter from "@/components/game/gameFooter";
+	import GameHeaderTab from "@/components/game/gameHeaderTab.vue";
+	import gameFlb from "@/components/game/gameFLB.vue";
+	import GameFooter from "@/components/game/gameFooter.vue";
 
 
 	/**
@@ -473,22 +235,131 @@
 		currentOptionTwo.value = option;
 	};
 
-	const items1 = ref([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
-	const handleClick = (value : number) => {
-		console.log('值:', value);
+	const items1 = ref([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
+	const items2 = ref([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
+	const selectedItems1 = ref([]);
+	const selectedItems2 = ref([]);
+	const handleClick1 = (item) => {
+		if (selectedItems1.value.includes(item)) {
+			selectedItems1.value = selectedItems1.value.filter((selectedItem1) => selectedItem1 !== item);
+		} else {
+			selectedItems1.value.push(item);
+		}
+		console.log('选中的值:', selectedItems1.value);
 	};
-	const handleClick9 = (value : number) => {
-		console.log('值:', value);
+
+	const handleClick2 = (item) => {
+		if (selectedItems2.value.includes(item)) {
+			selectedItems2.value = selectedItems2.value.filter((selectedItem2) => selectedItem2 !== item);
+		} else {
+			selectedItems2.value.push(item);
+		}
+		console.log('选中的值:', selectedItems2.value);
 	};
+
+	// 九宫格键盘 
+	const selectedNumbers = ref([]);
+	const handleClick9 = (num) => {
+		if (isSelected9(num)) {
+			// 如果已经被选中，则从数组中移除
+			selectedNumbers.value = selectedNumbers.value.filter((selectedNum) => selectedNum !== num);
+			console.log(selectedNumbers)
+		} else {
+			// 如果没有被选中，则添加到数组中
+			selectedNumbers.value.push(num);
+			console.log(selectedNumbers)
+		}
+	};
+
+	const isSelected9 = (num) => {
+		// 判断数字是否在数组中
+		return selectedNumbers.value.includes(num);
+	};
+
+	const handleBack = () => {
+		if (selectedNumbers.value.length > 0) {
+			selectedNumbers.value.splice(-1, 1);
+			console.log(selectedNumbers)
+		}
+	};
+
+	const handleDelete = () => {
+		selectedNumbers.value = [];
+		console.log(selectedNumbers)
+	};
+	// 九宫格键盘 
 	const textItems = ref(['All', 'Big', 'Small', 'Odd', 'Even', 'Delete']);
 	const activeText = ref('All');
 
 	const handleTextClick = (item : string) => {
 		activeText.value = item;
 	};
+
+
+	const data8 = ref([
+		{ label: 'Big', value: '8.4398', highlighted: false },
+		{ label: 'Odd', value: '8.4398', highlighted: false },
+		{ label: 'Small', value: '8.4398', highlighted: false },
+		{ label: 'Even', value: '8.4398', highlighted: false },
+
+	]);
+	const data9 = ref([
+		{ label: 'Big', value: '8.4398', highlighted: false },
+		{ label: 'Odd', value: '8.4398', highlighted: false },
+		{ label: 'Small', value: '8.4398', highlighted: false },
+		{ label: 'Even', value: '8.4398', highlighted: false },
+
+	]);
+	const clickedValues8 = ref([]);
+	const handleClick8 = (item, index) => {
+		item.highlighted = !item.highlighted;
+		if (item.highlighted) {
+			clickedValues8.value.push(item);
+		} else {
+			clickedValues8.value = clickedValues8.value.filter(value => value !== item);
+		}
+		console.log(clickedValues8)
+	};
+
+	const data1R = ref([
+		{ id: 1, label: '01', value: '8.4398' },
+		{ id: 2, label: '01', value: '8.4398' },
+		{ id: 3, label: '01', value: '8.4398' },
+		{ id: 4, label: '01', value: '8.4398' },
+		{ id: 5, label: '01', value: '8.4398' },
+		{ id: 6, label: '01', value: '8.4398' },
+		{ id: 7, label: '01', value: '8.4398' },
+		{ id: 8, label: '01', value: '8.4398' },
+		{ id: 9, label: '01', value: '8.4398' },
+		{ id: 10, label: '01', value: '8.4398' },
+	]);
+	const selectedData1R = ref([]);
+
+	const handleClick1R = (item) => {
+		// 判断是否已经在数组中
+		const index = selectedData1R.value.findIndex((selectedItem1R) => selectedItem1R.id === item.id);
+
+		// 切换选中状态
+		if (index !== -1) {
+			// 如果数组中已经有该项，则从数组中移除
+			selectedData1R.value.splice(index, 1);
+		} else {
+			// 如果数组中没有该项，则添加
+			selectedData1R.value.push(item);
+		}
+
+		console.log('选中的数据:', selectedData1R.value);
+	};
+	const isSelected = (item) => {
+		return selectedData1R.value.some((selectedItem1R) => selectedItem1R.id === item.id);
+	};
 </script>
 
 <style scoped lang="scss">
+	.highlighted {
+		background-color: #FFB023;
+	}
+
 	.text-wrapper_16.highlight,
 	.text-wrapper_17.highlight,
 	.text-wrapper_18.highlight,
@@ -701,12 +572,12 @@
 	}
 
 	.Keyboard1 {
-		
+
+		.highlighted:active,
 		.text-wrapper_83:active,
 		.text-wrapper_22:active,
 		.text-wrapper_52:active {
 			background-color: #FFB023;
-			
 			animation: text-wrapper_23 0.4s infinite;
 		}
 
@@ -715,13 +586,14 @@
 			flex-direction: row;
 			display: flex;
 			justify-content: center;
+
 			.box_9 {
 				background-color: rgba(255, 176, 35, 0.300000);
 				width: 2rpx;
 				height: 506rpx;
 				display: flex;
 				flex-direction: column;
-				margin: 0 0 26rpx 16rpx;
+
 			}
 		}
 
@@ -731,12 +603,14 @@
 		}
 
 		.text-wrapper_22 {
+			width: 25rpx;
+			text-align: center;
 			background-color: rgba(255, 255, 255, 1.000000);
 			border-radius: 8rpx;
 			margin-top: 8rpx;
-			display: flex;
-			flex-direction: column;
-			padding: 8rpx 18rpx 10rpx 20rpx;
+			float: left;
+			padding: 0rpx 20rpx;
+			margin-right: 10rpx;
 		}
 
 		.text_27 {
@@ -752,13 +626,21 @@
 
 
 		.box_25 {
-			margin-left: 8rpx;
-			display: flex;
-			flex-direction: column;
+
+			.highlighted {
+				background-color: #FFB023;
+				width: 25rpx;
+				text-align: center;
+				border-radius: 8rpx;
+				margin-top: 8rpx;
+				float: left;
+				padding: 0rpx 20rpx;
+				margin-right: 10rpx;
+			}
 		}
 
 
-		
+
 
 	}
 
@@ -887,26 +769,40 @@
 			padding: 24rpx 82rpx 22rpx 84rpx;
 		}
 
+		.highlighted {
+			background-color: #FFB023;
+			border-radius: 8rpx;
+			display: flex;
+			flex-direction: column;
+			padding: 24rpx 82rpx 22rpx 84rpx;
+		}
+
+		.highlighted:active,
 		.text-wrapper_23:active,
 		.section_6:active,
 		.section_7:active {
 			background-color: #FFB023;
 			animation: text-wrapper_23 0.4s infinite;
 		}
+
 		@keyframes text-wrapper_23 {
-		      25% {
-		        transform: scaleX(1.2);
-		      }
-		      50% {
-		        transform: scaleX(0.8);
-		      }
-		      75% {
-		        transform: scaleX(1.1);
-		      }
-		      100% {
-		        transform: scaleX(1);
-		      }
-		    }
+			25% {
+				transform: scaleX(1.2);
+			}
+
+			50% {
+				transform: scaleX(0.8);
+			}
+
+			75% {
+				transform: scaleX(1.1);
+			}
+
+			100% {
+				transform: scaleX(1);
+			}
+		}
+
 		.text_29 {
 			overflow-wrap: break-word;
 			color: rgba(51, 51, 51, 1);
@@ -1097,9 +993,19 @@
 
 		.box_4 {
 			margin-top: 20rpx;
-			flex-direction: row;
-			display: flex;
-			justify-content: center;
+
+			.box_item {
+				display: flex;
+				flex-wrap: wrap;
+			}
+
+			.highlighted {
+				border-radius: 8rpx;
+				margin: 10rpx;
+				flex: 1;
+				padding: 16rpx 20rpx 16rpx 22rpx;
+				background-color: #FFB023;
+			}
 		}
 
 		.block_2 {
@@ -1142,9 +1048,8 @@
 		.block_3 {
 			background-color: rgba(255, 255, 255, 1.000000);
 			border-radius: 8rpx;
-			margin-left: 20rpx;
-			display: flex;
-			flex-direction: row;
+			margin: 10rpx;
+			flex: 1;
 			padding: 16rpx 20rpx 16rpx 22rpx;
 		}
 
@@ -1153,9 +1058,10 @@
 			transition: transform 0.3s ease-out;
 		}
 
+		.highlighted:active,
 		.block_2:active,
 		.block_3:active {
-		
+
 			background-color: #FFB023;
 			animation: text-wrapper_23 0.4s infinite;
 		}
@@ -1309,41 +1215,51 @@
 			margin-top: 32rpx;
 			flex-direction: row;
 			display: flex;
-			justify-content: center;
+			justify-content: space-between;
+			padding: 0rpx 25rpx 0rpx 25rpx;
 
 			.box_10 {
 				background-color: rgba(255, 176, 35, 0.300000);
 				width: 2rpx;
 				height: 586rpx;
-				margin-left: 36rpx;
+				margin-right: 15rpx;
 				display: flex;
 				flex-direction: column;
 			}
 		}
 
 		.group_15 {
-			margin-bottom: 394rpx;
-			display: flex;
-			flex-direction: column;
+			.highlighted {
+				background-color: #FFB023;
+				border-radius: 4px;
+				width: 140rpx;
+				margin-bottom: 20rpx;
+				margin-right: 15rpx;
+				padding: 10rpx 0rpx;
+			}
 		}
-
-		.box_8 {
-			background-color: rgba(255, 255, 255, 1.000000);
-			border-radius: 8rpx;
-			display: flex;
-			flex-direction: row;
-			padding: 16rpx 32rpx 16rpx 32rpx;
+		.box_8,.box_88 {
+			background-color: rgba(255, 255, 255, 1);
+			border-radius: 4px;
+			width: 140rpx;
+			margin-bottom: 20rpx;
+			margin-right: 15rpx;
+			padding: 10rpx 0rpx;
 		}
 
 		.text-group_12 {
 			display: flex;
 			flex-direction: column;
-
 		}
+
 		.tag_4,
-		.box_8 {
+		.box_8,
+		.box_88 {
 			transition: transform 0.3s ease-out;
 		}
+
+		.highlighted:active,
+		.box_88:active,
 		.box_8:active,
 		.tag_4:active,
 		{
