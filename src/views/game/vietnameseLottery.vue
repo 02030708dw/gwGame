@@ -48,16 +48,17 @@
 
     <!-- PL3 -->
     <FredHilltwoD1
-      :background-image="urls1"
-      :showHeader="false"
       @changeNum="changeNumPL3"
       v-if="playingMethod == 3"
+      :background-image="urls1"
+      :showHeader="false"
     />
+
     <template #bot>
       <GameFooter />
     </template>
   </Layout>
-  <popup/>
+  <popup />
 </template>
 
 <script setup lang="ts">
@@ -109,7 +110,7 @@ const cutGameType = ({ id }: any) => {
   TabDataYueNan.value.forEach((item) => (item.checked = false));
   TabDataYueNan.value[id].checked = true; //选中
   console.log("当前选中的是" + TabDataYueNan.value[id].label);
-  TabDataTwo.value.forEach(item=>item.checked=false)//切换后清空上一次的选择
+  TabDataTwo.value.forEach((item) => (item.checked = false)); //切换后清空上一次的选择
   playingMethod.value = id; //切换玩法
 };
 
@@ -122,10 +123,12 @@ const changeFredHilloneD1 = ({ id }: any) => {
 };
 const changeFredHilloneD2 = (item: any) => {
   // 选择0-9的号码触发
-  item.checked=!item.checked
+  item.checked = !item.checked;
   // 选中的id
-  let arr=TabDataTwo.value.filter(item=>item.checked).map(item=>item.id)
-  console.log("当前选中的有",arr)
+  let arr = TabDataTwo.value
+    .filter((item) => item.checked)
+    .map((item) => item.id);
+  console.log("当前选中的有", arr);
 };
 
 // 2d---------------------------------------2d
@@ -135,17 +138,17 @@ const changeThreeNum = (item: any) => {
 };
 const changeNum2D = (arr: any) => {
   // 点击2d下面的数字触发
-  console.log("2D选中的号码是"+arr)
+  console.log("2D选中的号码是" + arr);
 };
 
 // PL2----------------------------------PL2
-const changeNumPL2 = (arr:any) => {
-  console.log("PL2选中的号码是",arr)
+const changeNumPL2 = (arr: any) => {
+  console.log("PL2选中的号码是", arr);
 };
 
 // PL3----------------------------------PL3
 const changeNumPL3 = (arr: Array<number>) => {
-  console.log("PL3选中的号码是",arr)
+  console.log("PL3选中的号码是", arr);
 };
 </script>
 <style scoped lang="scss"></style>
