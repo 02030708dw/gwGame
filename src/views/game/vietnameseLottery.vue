@@ -115,11 +115,9 @@ const cutGameType = ({ id }: any) => {
 };
 
 // 1d-----------------------------------------------------1d
-const changeFredHilloneD1 = ({ id }: any) => {
+const changeFredHilloneD1 = (item: any) => {
   // 切换头尾包组时触发,传过来的是点击这一项的数据
-  TabDataTwoYueNan1D.value.forEach((item) => (item.checked = false));
-  TabDataTwoYueNan1D.value[id].checked = true;
-  console.log("当前选中的是" + TabDataTwoYueNan1D.value[id].label);
+  console.log("当前选中的是:"+item.label)
 };
 const changeFredHilloneD2 = (item: any) => {
   // 选择0-9的号码触发

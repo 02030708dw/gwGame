@@ -26,7 +26,9 @@
 // 背景颜色,数据,这个组件有num个子元素
 const props = defineProps(["backgroundImage", "fredList", "row", "itemWidth"]);
 const emits = defineEmits(["change"]);
-const change = (item: object) => {
+const change = (item: any) => {
+  props.fredList.forEach((item:any)=>item.checked=false);
+  item.checked=!item.checked
   emits("change", item);
 };
 </script>
