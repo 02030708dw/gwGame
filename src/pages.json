@@ -28,7 +28,7 @@
 			}
 		},
 		{
-			"path" : "views/game/explain",
+			"path" : "views/game/explain/explain",
 			"style" :
 			{
 				"navigationStyle": "custom"

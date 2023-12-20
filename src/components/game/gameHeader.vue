@@ -26,7 +26,11 @@
         srcset=""
       />
     </view>
-    <router-link :to="{ path:`/views/gameList/gameList`}">     <view class="headerMore">      <image class="headerMoreimage" src="@/static/images/home.png" alt="" srcset="" />	 </view>	</router-link>
+    <router-link :to="{ path:`/views/gameList/gameList`}">
+     <view class="headerMore">
+      <image class="headerMoreimage" src="@/static/images/home.png" alt="" srcset="" />
+	 </view>
+	</router-link>
   </view>
   <u-popup :show="show" mode="left" @close="close" @open="open">
     <view class="poupLeft">
@@ -114,6 +118,7 @@ const handleClose = () => {
   countryShow.value = false;
 };
 const onSlideClick = (p: string) => {
+  console.log(p)
   if (p === "gameList") {
     uni.redirectTo({
       url: `/views/gameList/${p}`,
@@ -126,6 +131,7 @@ const onSlideClick = (p: string) => {
   show.value = false;
 };
 const onTopClick = (p: string) => {
+  console.log(p)
   if (p === "gameList") {
     uni.redirectTo({
       url: `/views/gameList/${p}`,
