@@ -7,6 +7,7 @@
       <view
         class="fred-item"
         v-for="item in fredList"
+        :key="item.id"
         @click="change(item)"
         :style="{ width: `${itemWidth}` }"
         :class="item.checked?'item-active':null"
@@ -17,6 +18,7 @@
       <view
         class="fred-item"
         v-for="item in row - (fredList.length % row ? fredList.length % row : row)"
+        :key="item"
         style="visibility: hidden"
         :style="{ width: `${itemWidth}` }"
       ></view>

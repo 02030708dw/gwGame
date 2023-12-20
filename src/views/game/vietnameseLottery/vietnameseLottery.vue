@@ -59,6 +59,7 @@
     </template>
   </Layout>
   <popup />
+
 </template>
 
 <script lang="ts" setup>
@@ -77,12 +78,14 @@ import FredHilltwoD1 from "@/views/game/vietnameseLottery/components/FredHilltwo
 import GameType from "@/views/game/vietnameseLottery/components/GameType.vue";
 
 import popup from "@/components/game/popup/popup.vue";
+
 const typeTab = reactive([
   { label: "动画", id: 1 },
   { label: "直播", id: 2 },
   { label: "视频", id: 3 },
   { label: "新闻", id: 4 },
 ]);
+
 let urls1 = ref("src/static/images/fredHill1.png");
 let urls2 = ref("src/static/images/fredHill2.png");
 let urls3 = ref("src/static/images/fredHill3M.png");

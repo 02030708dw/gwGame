@@ -9,6 +9,7 @@
         <view
           class="header-item"
           v-for="item in data2D1"
+          :key="item.id"
           @click="changeThreeNum(item)"
           :class="item.checked ? 'header-active' : null"
         >
@@ -25,6 +26,7 @@
       <view
         class="num-item"
         v-for="item in data2D2"
+        :key="item.id"
         @click="changeNum(item)"
         :class="item.checked ? 'num-active' : null"
       >

@@ -588,10 +588,10 @@
 	import GameHeader from "@/components/game/gameHeader.vue";
 	import GameTime from "@/components/game/gameTime.vue";
 	import Layout from "@/layout/index.vue";
-	import GameHeaderTab from "@/components/game/gameHeaderTab";
-	import gameFlb from "@/components/game/gameFLB";
-	import GameTab from "@/components/keyboard/gameTab";
-	import GameFooter from "@/components/game/gameFooter";
+	import GameHeaderTab from "@/components/game/gameHeaderTab.vue";
+	import gameFlb from "@/components/game/gameFLB.vue";
+	import GameTab from "@/components/keyboard/gameTab.vue";
+	import GameFooter from "@/components/game/gameFooter.vue";
 
 
 	/**
