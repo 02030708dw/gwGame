@@ -144,9 +144,8 @@ const changeNumPL2 = (arr:any) => {
 };
 
 // PL3----------------------------------PL3
-const changeNumPL3 = (arr: any) => {
+const changeNumPL3 = (arr: Array<number>) => {
   console.log("PL3选中的号码是",arr)
-
 };
 </script>
 <style scoped lang="scss"></style>

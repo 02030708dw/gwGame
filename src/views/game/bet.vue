@@ -1,78 +1,3 @@
-<style scoped lang="scss">
-.bet {
-  .tabs {
-    width: 750rpx;
-    height: 100rpx;
-    background-color: #fff;
-    display: flex;
-    align-items: center;
-    position: relative;
-    .tabs-item {
-      font-family: PingFangSC, PingFang SC;
-      font-weight: 600;
-      font-size: 32rpx;
-      text-align: center;
-      flex: 1;
-    }
-    .line {
-      width: 56rpx;
-      height: 8rpx;
-      background: #c2611c;
-      border-radius: 4rpx;
-      position: absolute;
-      top: 76rpx;
-      transition: all 0.2s linear;
-    }
-  }
-  .record-box {
-    padding: 0 32rpx;
-    box-sizing: border-box;
-    .record-item {
-      margin-top: 20rpx;
-      width: 686rpx;
-      height: 148rpx;
-      background: #ffffff;
-      border-radius: 24rpx;
-      box-sizing: border-box;
-      padding: 32rpx;
-      display: flex;
-      justify-content: space-between;
-      font-family: PingFangSC, PingFang SC;
-      .left {
-        display: flex;
-        flex-direction: column;
-        .name {
-          font-size: 36rpx;
-          font-weight: 600;
-          color: #333333;
-          line-height: 36rpx;
-        }
-        .time {
-          font-size: 32rpx;
-          font-weight: 400;
-          color: #c1c1c1;
-          margin-top: 10rpx;
-        }
-      }
-      .right {
-        display: flex;
-        align-items: center;
-        .detail {
-          margin-left: 10rpx;
-          width: 108rpx;
-          height: 84rpx;
-          background: #ffb023;
-          border-radius: 16rpx;
-          text-align: center;
-          color: #fff;
-          line-height: 84rpx;
-          font-size: 32rpx;
-        }
-      }
-    }
-  }
-}
-</style>
 <template>
   <view class="bet">
     <gameHeader :showContent="!showHeaderContent" activeTitle="投注记录" />
@@ -157,3 +82,78 @@ const pageTabs = ref([
   },
 ]);
 </script>
+<style scoped lang="scss">
+.bet {
+  .tabs {
+    width: 750rpx;
+    height: 100rpx;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    position: relative;
+    .tabs-item {
+      font-family: PingFangSC, PingFang SC;
+      font-weight: 600;
+      font-size: 32rpx;
+      text-align: center;
+      flex: 1;
+    }
+    .line {
+      width: 56rpx;
+      height: 8rpx;
+      background: #c2611c;
+      border-radius: 4rpx;
+      position: absolute;
+      top: 76rpx;
+      transition: all 0.2s linear;
+    }
+  }
+  .record-box {
+    padding: 0 32rpx;
+    box-sizing: border-box;
+    .record-item {
+      margin-top: 20rpx;
+      width: 686rpx;
+      height: 148rpx;
+      background: #ffffff;
+      border-radius: 24rpx;
+      box-sizing: border-box;
+      padding: 32rpx;
+      display: flex;
+      justify-content: space-between;
+      font-family: PingFangSC, PingFang SC;
+      .left {
+        display: flex;
+        flex-direction: column;
+        .name {
+          font-size: 36rpx;
+          font-weight: 600;
+          color: #333333;
+          line-height: 36rpx;
+        }
+        .time {
+          font-size: 32rpx;
+          font-weight: 400;
+          color: #c1c1c1;
+          margin-top: 10rpx;
+        }
+      }
+      .right {
+        display: flex;
+        align-items: center;
+        .detail {
+          margin-left: 10rpx;
+          width: 108rpx;
+          height: 84rpx;
+          background: #ffb023;
+          border-radius: 16rpx;
+          text-align: center;
+          color: #fff;
+          line-height: 84rpx;
+          font-size: 32rpx;
+        }
+      }
+    }
+  }
+}
+</style>
