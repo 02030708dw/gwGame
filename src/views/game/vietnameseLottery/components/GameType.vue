@@ -5,19 +5,20 @@
       v-for="item in typeList"
       @click="cutGameType(item)"
       :class="item.checked ? 'type-active' : ''"
-	  :key="item.id"
+      :key="item.id"
     >
       {{ item.label }}
     </view>
   </view>
 </template>
 <script setup lang="ts">
-const props = defineProps(["typeList"]);
+const props =defineProps(["typeList"])
 const emits = defineEmits(["cutGameType"]);
 const cutGameType = (item: any) => {
+  props.typeList.forEach((item:any)=>item.checked=false)
+  item.checked=true
   emits("cutGameType", item);
 };
-console.log(props.typeList);
 </script>
 <style scoped lang="scss">
 .game-type {

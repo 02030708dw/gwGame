@@ -8,12 +8,12 @@
 		console.log("App Hide");
 	});
  </script>
- <style lang="scss" scoped>
+ <style lang="scss">
  	@import "uview-plus/index.scss";
 	@import url("@/static/css/animate.css");
- 	uni-page-body {
+ 	 uni-page-body {
  		// height: 100%;
-		// background-color: ghostwhite;
+		background-color: ghostwhite;
 		// 页面背景色
  	}
 	.bgcolor{
