@@ -7,9 +7,10 @@
       <view
         class="fred-item"
         v-for="item in fredList"
+        :key="item.id"
         @click="change(item)"
         :style="{ width: `${itemWidth}` }"
-        :class="activeNumber.includes(item.id)?'item-active':null"
+        :class="item.checked?'item-active':null"
       >
         {{ item.label }}
       </view>
@@ -17,6 +18,7 @@
       <view
         class="fred-item"
         v-for="item in row - (fredList.length % row ? fredList.length % row : row)"
+        :key="item"
         style="visibility: hidden"
         :style="{ width: `${itemWidth}` }"
       ></view>
@@ -24,7 +26,7 @@
   </template>
   <script setup lang="ts">
   // 背景颜色,数据,这个组件有num个子元素
-  const props = defineProps(["backgroundImage", "fredList", "row", "itemWidth","activeNumber"]);
+  const props = defineProps(["backgroundImage", "fredList", "row", "itemWidth"]);
   const emits = defineEmits(["change"]);
   const change = (item: object) => {
     emits("change", item);

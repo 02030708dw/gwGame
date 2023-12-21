@@ -208,6 +208,10 @@
 	import Layout from "@/layout/index.vue";
 	import GameHeaderTab from "@/components/game/gameHeaderTab.vue";
 	import gameFlb from "@/components/game/gameFLB.vue";
+<<<<<<< HEAD
+=======
+	import GameTab from "@/components/keyboard/gameTab.vue";
+>>>>>>> 193d073bf8e7650b7d0952c374f674b0381a1568
 	import GameFooter from "@/components/game/gameFooter.vue";
 
 

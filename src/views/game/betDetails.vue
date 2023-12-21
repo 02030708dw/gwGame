@@ -45,6 +45,7 @@ console.log(props);
 </script>
 <style scoped lang="scss">
 .bet-detail {
+  background-color: #F9F9F9;
   font-size: 24rpx;
   font-family: PingFangSC, PingFang SC;
   font-weight: 400;

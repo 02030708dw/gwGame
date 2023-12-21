@@ -1,7 +1,7 @@
 <template>
   <Layout>
     <template #top>
-      <GameHeader active-title="越南彩" />
+      <GameHeader :showContent="false" activeTitle="越南彩" />
     </template>
     <GameHeaderTab :typeTab="typeTab" />
     <GameContent />
@@ -27,7 +27,6 @@
       @change="changeFredHilloneD2"
       :row="5"
       :itemWidth="'114rpx'"
-      :activeNumber="activeNumber1D"
       v-if="playingMethod == 0"
     />
     <!-- 2d -->
@@ -49,59 +48,51 @@
 
     <!-- PL3 -->
     <FredHilltwoD1
-      :background-image="urls1"
-      :showHeader="false"
       @changeNum="changeNumPL3"
       v-if="playingMethod == 3"
+      :background-image="urls1"
+      :showHeader="false"
     />
+
     <template #bot>
       <GameFooter />
     </template>
   </Layout>
-  <popup/>
+  <popup />
+
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { reactive, ref } from "vue";
 import { storeToRefs } from "pinia";
 import { useCommon } from "@/plugins/pinia/common.pinia";
 import GameHeader from "@/components/game/gameHeader.vue";
 import GameTime from "@/components/game/gameTime.vue";
 import Layout from "@/layout/index.vue";
-import GameHeaderTab from "@/components/game/gameHeaderTab";
-import GameContent from "@/components/game/gameContent";
-import GameFooter from "@/components/game/gameFooter";
+import GameHeaderTab from "@/components/game/gameHeaderTab.vue";
+import GameContent from "@/components/game/gameContent.vue";
+import GameFooter from "@/components/game/gameFooter.vue";
+import FredHilloneD1 from "@/views/game/vietnameseLottery/components/FredHilloneD1.vue";
+import FredHilloneD2 from "@/views/game/vietnameseLottery/components/FredHilloneD2.vue";
+import FredHilltwoD1 from "@/views/game/vietnameseLottery/components/FredHilltwoD1.vue";
+import GameType from "@/views/game/vietnameseLottery/components/GameType.vue";
 
-import GameType from "./components/Yuenan/GameType.vue";
-import FredHilloneD1 from "./components/Yuenan/FredHilloneD1.vue";
-import FredHilloneD2 from "./components/Yuenan/FredHilloneD2.vue";
-import FredHilltwoD1 from "./components/Yuenan/FredHilltwoD1.vue";
 import popup from "@/components/game/popup/popup.vue";
+
 const typeTab = reactive([
   { label: "动画", id: 1 },
   { label: "直播", id: 2 },
   { label: "视频", id: 3 },
   { label: "新闻", id: 4 },
 ]);
+
 let urls1 = ref("src/static/images/fredHill1.png");
 let urls2 = ref("src/static/images/fredHill2.png");
 let urls3 = ref("src/static/images/fredHill3M.png");
 
 const storeCommon = useCommon();
-const {
-  contryId,
-  TabData,
-  TabDataTaiGuo,
-  TabDataYueNan,
-  oneActive,
-  twoActive,
-  threeActive,
-  TabDataTwo,
-  TabDataAll,
-  TabDataTwo1D2D3D,
-  TabDataTwo1D2D3DID,
-  TabDataTwoYueNan1D,
-} = storeToRefs(storeCommon);
+const { TabDataYueNan, TabDataTwo, TabDataTwoYueNan1D } =
+  storeToRefs(storeCommon);
 
 const playingMethod = ref(0); //用来展示不同玩法
 // 玩法切换------------------------------------------------玩法切换
@@ -110,26 +101,23 @@ const cutGameType = ({ id }: any) => {
   TabDataYueNan.value.forEach((item) => (item.checked = false));
   TabDataYueNan.value[id].checked = true; //选中
   console.log("当前选中的是" + TabDataYueNan.value[id].label);
-  activeNumber1D.length = 0; //切换后清空上一次的选择
-  activeNumber2D.length = 0; //切换后清空上一次的选择
-  activeNumberPL2.length = 0; //切换后清空上一次的选择
-  activeNumberPL3.length = 0; //切换后清空上一次的选择
+  TabDataTwo.value.forEach((item) => (item.checked = false)); //切换后清空上一次的选择
   playingMethod.value = id; //切换玩法
 };
 
 // 1d-----------------------------------------------------1d
-const changeFredHilloneD1 = ({ id }: any) => {
+const changeFredHilloneD1 = (item: any) => {
   // 切换头尾包组时触发,传过来的是点击这一项的数据
-  TabDataTwoYueNan1D.value.forEach((item) => (item.checked = false));
-  TabDataTwoYueNan1D.value[id].checked = true;
-  console.log("当前选中的是" + TabDataTwoYueNan1D.value[id].label);
+  console.log("当前选中的是:" + item.label);
 };
-// 用来存储选中的号码
-const activeNumber1D = reactive([] as any[]);
 const changeFredHilloneD2 = (item: any) => {
   // 选择0-9的号码触发
-  activeNumber1D.push(item.id);
-  console.log("选中了" + item.id, activeNumber1D);
+  item.checked = !item.checked;
+  // 选中的id
+  let arr = TabDataTwo.value
+    .filter((item) => item.checked)
+    .map((item) => item.id);
+  console.log("当前选中的有", arr);
 };
 
 // 2d---------------------------------------2d
@@ -137,28 +125,18 @@ const changeThreeNum = (item: any) => {
   // 2d里的 000-900
   console.log("当前选中的是", item.label);
 };
-const activeNumber2D = reactive([] as any[]);
-const changeNum2D = (item: any) => {
-  // 2d下面的数字
-  item.checked = true;
-  activeNumber2D.push(item.id);
-  console.log("选中了:" + item.id, activeNumber2D);
+const changeNum2D = (arr: any) => {
+  // 点击2d下面的数字触发
+  console.log("2D选中的号码是" + arr);
 };
 
 // PL2----------------------------------PL2
-const activeNumberPL2 = reactive([] as any[]);
-const changeNumPL2 = (item: any) => {
-  item.checked = true;
-  activeNumberPL2.push(item.id);
-  console.log("选中了:" + item.id, activeNumberPL2);
+const changeNumPL2 = (arr: any) => {
+  console.log("PL2选中的号码是", arr);
 };
 
 // PL3----------------------------------PL3
-const activeNumberPL3 = reactive([] as any[]);
-const changeNumPL3 = (item: any) => {
-  item.checked = true;
-  activeNumberPL3.push(item.id);
-  console.log("选中了:" + item.id, activeNumberPL3);
+const changeNumPL3 = (arr: Array<number>) => {
+  console.log("PL3选中的号码是", arr);
 };
 </script>
-<style scoped lang="scss"></style>

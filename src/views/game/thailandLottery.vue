@@ -55,14 +55,14 @@
 <script setup lang="ts">
 import { reactive, ref } from "vue";
 import { storeToRefs } from "pinia";
-import gameHeader from "@/components/game/gameHeader";
-import gameContent from "@/components/game/gameContent";
-import gameTime from "@/components/game/gameTime";
-import gameFooter from "@/components/game/gameFooter";
-import popup from "@/components/game/popup/popup";
-import gameFredHill from "@/components/game/gameFredHill";
-import gameFredHill2 from "@/components/game/gameFredHill2";
-import gameHeaderTab from "@/components/game/gameHeaderTab";
+import gameHeader from "@/components/game/gameHeader.vue";
+import gameContent from "@/components/game/gameContent.vue";
+import gameTime from "@/components/game/gameTime.vue";
+import gameFooter from "@/components/game/gameFooter.vue";
+import popup from "@/components/game/popup/popup.vue";
+import gameFredHill from "@/components/game/gameFredHill.vue";
+import gameFredHill2 from "@/components/game/gameFredHill2.vue";
+import gameHeaderTab from "@/components/game/gameHeaderTab.vue";
 import { useCommon } from "@/plugins/pinia/common.pinia";
 import GameBoard from "@/components/game/gameBoard";
 import Layout from "@/layout/index.vue";

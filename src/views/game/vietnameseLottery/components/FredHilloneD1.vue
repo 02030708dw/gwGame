@@ -7,6 +7,7 @@
     <view
       class="fred-item"
       v-for="item in fredList"
+      :key="item.id"
       @click="change(item)"
       :class="item.checked ? 'active-item' : null"
       :style="{ width: `${itemWidth}` }"
@@ -17,6 +18,7 @@
     <view
       class="fred-item"
       v-for="item in row - (fredList.length % row ? fredList.length % row : row)"
+      :key="item"
       style="visibility: hidden"
       :style="{ width: `${itemWidth}` }"
     ></view>
@@ -26,7 +28,9 @@
 // 背景颜色,数据,这个组件有num个子元素
 const props = defineProps(["backgroundImage", "fredList", "row", "itemWidth"]);
 const emits = defineEmits(["change"]);
-const change = (item: object) => {
+const change = (item: any) => {
+  props.fredList.forEach((item:any)=>item.checked=false);
+  item.checked=!item.checked
   emits("change", item);
 };
 </script>

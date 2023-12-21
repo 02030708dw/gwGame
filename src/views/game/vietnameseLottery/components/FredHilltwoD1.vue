@@ -4,30 +4,39 @@
     :style="{ backgroundImage: `url(${backgroundImage})` }"
   >
     <view class="title"> Fred Hill </view>
-  
     <view class="header" v-if="showHeader">
       <view class="box">
-        <view class="header-item" v-for="item in data2D1" 
-        @click="changeThreeNum(item)"
-        :class="item.checked?'header-active':null"
+        <view
+          class="header-item"
+          v-for="item in data2D1"
+          :key="item.id"
+          @click="changeThreeNum(item)"
+          :class="item.checked ? 'header-active' : null"
         >
           {{ item.label }}
         </view>
       </view>
+      <view class="line"></view>
     </view>
 
-    <view class="num-box" :style="{height:numHeight,marginTop:showHeader?'32rpx':'101rpx'}">
-      <view class="num-item" v-for="item in data2D2" 
-      @click="changeNum(item)"
-      :class="item.checked?'num-active':null"
-      > 
+    <view
+      class="num-box"
+      :style="{ height: numHeight, paddingTop:  showHeader? '32rpx':'0rpx'  }"
+    >
+      <view
+        class="num-item"
+        v-for="item in data2D2"
+        :key="item.id"
+        @click="changeNum(item)"
+        :class="item.checked ? 'num-active' : null"
+      >
         {{ item.label }}
       </view>
     </view>
   </view>
 </template>
 <script setup lang="ts">
-import {  ref,reactive } from "vue";
+import { ref, reactive } from "vue";
 let arr = [];
 for (var i = 0; i < 100; i++) {
   if (i < 10) {
@@ -53,32 +62,38 @@ const data2D1 = reactive([
   { label: "800", id: 800, checked: false },
   { label: "900", id: 900, checked: false },
 ]);
-const props = defineProps(["backgroundImage", "showHeader", ]);
-const emits=defineEmits(["changeThreeNum","changeNum"])
-const numHeight=ref(((data2D2.value.length/5)-1) *78 +"rpx")//计算容器的高
-const changeThreeNum=(item:any)=>{
-    data2D1.forEach((item) => (item.checked = false));
-    item.checked = true;
-    emits("changeThreeNum",item)
-}
-const changeNum=(item:any)=>{
-    emits("changeNum",item)
-}
-
+const props = defineProps(["backgroundImage", "showHeader"]);
+const emits = defineEmits(["changeThreeNum", "changeNum"]);
+const numHeight = ref((data2D2.value.length / 5 - 1) * 78 + "rpx"); //计算容器的高
+const changeThreeNum = (item: any) => {
+  // 点击000-999触发
+  data2D1.forEach((item) => (item.checked = false));
+  item.checked = true;
+  emits("changeThreeNum", item);
+};
+const changeNum = (item: any) => {
+  // 点击下面100个数字触发
+  item.checked = !item.checked;
+  let arr = data2D2.value
+    .filter((item) => item.checked)
+    .map((item) => item.label);
+  emits("changeNum", arr);
+};
 </script>
 <style scoped lang="scss">
 .FredHilloneD1 {
   background-repeat: no-repeat;
   position: relative;
   width: 686rpx;
-//   height: 808rpx;
+  height: 808rpx;
   background-size: 100%;
-  background-color: #FCF0D4;
+  box-sizing: border-box;
+  font-family: PingFangSC, PingFang SC;
+  padding-top: 100rpx;
   .title {
     width: 200rpx;
     height: 44rpx;
     font-size: 44rpx;
-    font-family: PingFangSC, PingFang SC;
     font-weight: 600;
     color: #ffffff;
     line-height: 44rpx;
@@ -87,13 +102,12 @@ const changeNum=(item:any)=>{
     left: 18rpx;
   }
   .header {
+    background-color: #FCF0D4;
     box-sizing: border-box;
-    border-bottom: 1rpx solid #fdb332;
-    width: 634rpx;
+    width: 686rpx;
     height: 173rpx;
-    margin-top: 106rpx;
-    margin-left: 28rpx;
-
+    padding: 0 28rpx;
+    position: relative;
     .box {
       width: 634rpx;
       height: 142rpx;
@@ -112,19 +126,26 @@ const changeNum=(item:any)=>{
         color: #ffffff;
         text-align: center;
         line-height: 62rpx;
-      transition: 0.3s all linear;
-
+        transition: 0.3s all linear;
       }
-      .header-active{
-        background-color: #FDB332;
+      .header-active {
+        background-color: #fdb332;
         color: #fff;
       }
     }
+    .line{
+      width: 634rpx;
+      height: 1rpx;
+      background-color: #fdb332;
+      position: absolute;
+      bottom: 0;
+    }
   }
   .num-box {
-    width: 634rpx;
-    margin: auto;
-    margin-top: 32rpx;
+    width: 686rpx;
+    padding: 0 28rpx;
+    box-sizing: border-box;
+    background-color: #FCF0D4;
     padding-bottom: 32rpx;
     display: flex;
     flex-wrap: wrap;
