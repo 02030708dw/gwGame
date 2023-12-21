@@ -51,7 +51,6 @@
 								emit("changeList", {
 									url: ques 
 								})
-
 							}
 						});
 					}

@@ -35,7 +35,13 @@
 <script setup lang="ts">
 import TabNav from "@/components/tabnav/index.vue";
 import GameHeader from "@/components/game/gameHeader.vue";
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
+import { gameListAPI } from "@/api/game";
+const init=async ()=>{
+  let res:(any)=await gameListAPI(1)
+  console.log(res.resultSet.resultSet)
+}
+init()
 const uTabsIndex = ref<number>(0);
 const tabChange = (e: any) => (uTabsIndex.value = e.index);
 const gameList = ref([
@@ -85,7 +91,6 @@ const onGameSelect = (d: any) => {
     animationDuration: 300,
   });
 };
-onMounted(() => {});
 </script>
 
 <style lang="less" scoped>
