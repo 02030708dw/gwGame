@@ -67,10 +67,10 @@
 
 			<view class="box_21"
 				v-show="currentOption === 1 && currentOptionTwo ===1 || currentOption === 2 && currentOptionTwo === 1 || currentOption===3">
-				<view class="text-wrapper_20">
+				<view  :class="{ 'highlighted': selectedItems1.length > 0 , 'text-wrapper_20':!selectedItems1.length > 0}">
 					<text lines="1" class="text_25">1st</text>
 				</view>
-				<view class="text-wrapper_21">
+				<view :class="{ 'highlighted': selectedItems2.length > 0 , 'text-wrapper_20':!selectedItems2.length > 0}">
 					<text lines="1" class="text_26">2nd</text>
 				</view>
 			</view>
@@ -208,10 +208,6 @@
 	import Layout from "@/layout/index.vue";
 	import GameHeaderTab from "@/components/game/gameHeaderTab.vue";
 	import gameFlb from "@/components/game/gameFLB.vue";
-<<<<<<< HEAD
-=======
-	import GameTab from "@/components/keyboard/gameTab.vue";
->>>>>>> 193d073bf8e7650b7d0952c374f674b0381a1568
 	import GameFooter from "@/components/game/gameFooter.vue";
 
 
@@ -533,7 +529,16 @@
 		display: flex;
 		justify-content: space-around;
 		margin: 16rpx 0rpx 0rpx 0rpx;
-
+		.highlighted{
+			background-color: #FFB023;
+			border-radius: 8rpx;
+			display: flex;
+			flex-direction: column;
+			padding: 8rpx 60rpx 8rpx 62rpx;
+			.text_25,.text_26{
+				color: #fff;
+			}
+		}
 		.text-wrapper_21 {
 			background-color: rgba(162, 162, 162, 0.180000);
 			border-radius: 8rpx;
