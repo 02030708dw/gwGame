@@ -9,7 +9,6 @@ const httpInterceptor = {
     options.timeout = 10000;
     options.header = {
       ...options.header,
-      'source-client': 'miniapp',
       Authorization: uni.getStorageSync("usertoken"),
     };
   },

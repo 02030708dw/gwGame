@@ -67,10 +67,10 @@
 
 			<view class="box_21"
 				v-show="currentOption === 1 && currentOptionTwo ===1 || currentOption === 2 && currentOptionTwo === 1 || currentOption===3">
-				<view  :class="{ 'highlighted': selectedItems1.length > 0 , 'text-wrapper_20':!selectedItems1.length > 0}">
+				<view class='text-wrapper_20'>
 					<text lines="1" class="text_25">1st</text>
 				</view>
-				<view :class="{ 'highlighted': selectedItems2.length > 0 , 'text-wrapper_20':!selectedItems2.length > 0}">
+				<view class='text-wrapper_20'>
 					<text lines="1" class="text_26">2nd</text>
 				</view>
 			</view>
@@ -99,26 +99,16 @@
 				</view>
 			</view>
 
-
-			<view class="Keyboard1"
-				v-show="currentOption === 1 && currentOptionTwo === 1 || currentOption === 2 && currentOptionTwo === 1">
-				<view class="box_22">
-					<view class="box_25" style="margin-left: 8rpx;">
-						<view v-for="(item, index) in items1" :key="index" @click="handleClick1(item, selectedItems1)"
-							:class="{ 'highlighted': selectedItems1.includes(item), 'text-wrapper_22': !selectedItems1.includes(item) }">
-							<text lines="1" class="text_27">{{ item }}</text>
-						</view>
-					</view>
-					<view class="box_9"></view>
-					<view class="box_25" style="padding-left: 17rpx;">
-						<view v-for="(item, index) in items2" :key="index" @click="handleClick2(item, selectedItems2)"
-							:class="{ 'highlighted': selectedItems2.includes(item), 'text-wrapper_22': !selectedItems2.includes(item) }">
-							<text lines="1" class="text_27">{{ item }}</text>
-						</view>
-					</view>
-				</view>
-			</view>
-
+			<!-- mini键盘 -->
+			<!-- 2S -->
+			<GameKeyboard v-show="currentOption === 1 && currentOptionTwo === 1 " :items1="items1"
+				:selectedItems1="selectedItems1" :handleClick1="handleClick1" :items2="items2"
+				:selectedItems2="selectedItems2" :handleClick2="handleClick2" />
+			<!-- 1S -->
+			<GameKeyboard v-show="currentOption === 2 && currentOptionTwo === 1" :items1="items1S"
+				:selectedItems1="selectedItems1S" :handleClick1="handleClick1S" :items2="items2S"
+				:selectedItems2="selectedItems2S" :handleClick2="handleClick2S" />
+			<!-- mini键盘 -->
 
 			<!-- 九宫格键盘 -->
 			<view class="Keyboard9" v-show="currentOption === 1 && currentOptionTwo === 2">
@@ -209,8 +199,7 @@
 	import GameHeaderTab from "@/components/game/gameHeaderTab.vue";
 	import gameFlb from "@/components/game/gameFLB.vue";
 	import GameFooter from "@/components/game/gameFooter.vue";
-
-
+	import GameKeyboard from "@/components/game/gameKeyboard.vue";
 	/**
 	 *
 	 * 类型切换
@@ -235,10 +224,10 @@
 		currentOptionTwo.value = option;
 	};
 
+	// mini键盘
+	// 2S
 	const items1 = ref([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
-	const items2 = ref([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
 	const selectedItems1 = ref([]);
-	const selectedItems2 = ref([]);
 	const handleClick1 = (item) => {
 		if (selectedItems1.value.includes(item)) {
 			selectedItems1.value = selectedItems1.value.filter((selectedItem1) => selectedItem1 !== item);
@@ -248,6 +237,8 @@
 		console.log('选中的值:', selectedItems1.value);
 	};
 
+	const items2 = ref([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
+	const selectedItems2 = ref([]);
 	const handleClick2 = (item) => {
 		if (selectedItems2.value.includes(item)) {
 			selectedItems2.value = selectedItems2.value.filter((selectedItem2) => selectedItem2 !== item);
@@ -256,6 +247,30 @@
 		}
 		console.log('选中的值:', selectedItems2.value);
 	};
+
+	// 1S
+	const items1S = ref([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
+	const selectedItems1S = ref([]);
+	const handleClick1S = (item) => {
+		if (selectedItems1S.value.includes(item)) {
+			selectedItems1S.value = selectedItems1S.value.filter((selectedItem1S) => selectedItem1S !== item);
+		} else {
+			selectedItems1S.value.push(item);
+		}
+		console.log('选中的值:', selectedItems1S.value);
+	};
+
+	const items2S = ref([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
+	const selectedItems2S = ref([]);
+	const handleClick2S = (item) => {
+		if (selectedItems2S.value.includes(item)) {
+			selectedItems2S.value = selectedItems2S.value.filter((selectedItem2S) => selectedItem2S !== item);
+		} else {
+			selectedItems2S.value.push(item);
+		}
+		console.log('选中的值:', selectedItems2S.value);
+	};
+	// mini键盘
 
 	// 九宫格键盘 
 	const selectedNumbers = ref([]);
@@ -378,7 +393,7 @@
 	.block_7 {
 		background-color: rgba(252, 239, 213, 1.000000);
 		border-radius: 16rpx;
-		width: 686rpx;
+		// width: 686rpx;
 		align-self: center;
 		margin-top: 20rpx;
 		display: flex;
@@ -390,6 +405,7 @@
 		margin: 25rpx;
 		flex-direction: row;
 		display: flex;
+		justify-content: space-between
 	}
 
 	.text-wrapper_16 {
@@ -529,16 +545,20 @@
 		display: flex;
 		justify-content: space-around;
 		margin: 16rpx 0rpx 0rpx 0rpx;
-		.highlighted{
+
+		.highlighted {
 			background-color: #FFB023;
 			border-radius: 8rpx;
 			display: flex;
 			flex-direction: column;
 			padding: 8rpx 60rpx 8rpx 62rpx;
-			.text_25,.text_26{
+
+			.text_25,
+			.text_26 {
 				color: #fff;
 			}
 		}
+
 		.text-wrapper_21 {
 			background-color: rgba(162, 162, 162, 0.180000);
 			border-radius: 8rpx;
@@ -578,79 +598,6 @@
 		text-align: center;
 		white-space: nowrap;
 		line-height: 28rpx;
-	}
-
-	.Keyboard1 {
-
-		.highlighted:active,
-		.text-wrapper_83:active,
-		.text-wrapper_22:active,
-		.text-wrapper_52:active {
-			background-color: #FFB023;
-			animation: text-wrapper_23 0.4s infinite;
-		}
-
-		.box_22 {
-			margin: 25rpx;
-			flex-direction: row;
-			display: flex;
-			justify-content: center;
-
-			.box_9 {
-				background-color: rgba(255, 176, 35, 0.300000);
-				width: 2rpx;
-				height: 506rpx;
-				display: flex;
-				flex-direction: column;
-
-			}
-		}
-
-		.box_23 {
-			display: flex;
-			flex-direction: column;
-		}
-
-		.text-wrapper_22 {
-			width: 25rpx;
-			text-align: center;
-			background-color: rgba(255, 255, 255, 1.000000);
-			border-radius: 8rpx;
-			margin-top: 8rpx;
-			float: left;
-			padding: 0rpx 20rpx;
-			margin-right: 10rpx;
-		}
-
-		.text_27 {
-			overflow-wrap: break-word;
-			color: rgba(51, 51, 51, 1);
-			font-size: 28rpx;
-			font-family: PingFangSC-Semibold;
-			font-weight: 600;
-			text-align: center;
-			white-space: nowrap;
-			line-height: 28rpx;
-		}
-
-
-		.box_25 {
-
-			.highlighted {
-				background-color: #FFB023;
-				width: 25rpx;
-				text-align: center;
-				border-radius: 8rpx;
-				margin-top: 8rpx;
-				float: left;
-				padding: 0rpx 20rpx;
-				margin-right: 10rpx;
-			}
-		}
-
-
-
-
 	}
 
 	.itembox_10 {
@@ -1247,7 +1194,9 @@
 				padding: 10rpx 0rpx;
 			}
 		}
-		.box_8,.box_88 {
+
+		.box_8,
+		.box_88 {
 			background-color: rgba(255, 255, 255, 1);
 			border-radius: 4px;
 			width: 140rpx;
