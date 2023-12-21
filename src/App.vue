@@ -14,7 +14,6 @@
  	:deep(body) uni-page-body {
  		// height: 100%;
 		// background-color: ghostwhite
-		background-color: #f9f9f9;
 		// 页面背景色
  	}
 	.bgcolor{
