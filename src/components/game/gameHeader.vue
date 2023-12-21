@@ -26,7 +26,11 @@
         srcset=""
       />
     </view>
-    <router-link :to="{ path:`/views/gameList/gameList`}">     <view class="headerMore">      <image class="headerMoreimage" src="@/static/images/home.png" alt="" srcset="" />	 </view>	</router-link>
+    <router-link :to="{ path:`/views/gameList/gameList`}">
+     <view class="headerMore">
+      <image class="headerMoreimage" src="@/static/images/home.png" alt="" srcset="" />
+	 </view>
+	</router-link>
   </view>
   <u-popup :show="show" mode="left" @close="close" @open="open">
     <view class="poupLeft">
@@ -76,7 +80,7 @@ import { headers } from "@/constants";
 
 const props = defineProps<{
   activeTitle: string;
-  showContent: boolean; // 添加 showContent prop
+  showContent?: boolean; // 添加 showContent prop
 }>();
 const emits = defineEmits(["handleContry"]);
 

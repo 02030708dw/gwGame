@@ -12,13 +12,17 @@
       :TabData="TabDataTaiGuo"
       :urls="urls1"
     />
-    <gameFredHill2
+<!--    <gameFredHill2
       @handleId="handleIdFredHill"
       :backActive="twoActive"
       :TabData="TabDataTwo1D2D3D"
       :urls="urls2"
-    />
+    />-->
     <view v-if="TabDataTwo1D2D3DID === 0">
+      <game-board-type
+          :board-data="boardData1DType"
+          :bg="urls2"
+      />
       <game-board
         :board-data="boardData1D as boardType[]"
         :active-data="activeData1D"
@@ -69,6 +73,7 @@ import Layout from "@/layout/index.vue";
 import use_thailand1d from "@/views/game/composition/thailand/use_thailand1d";
 import use_thailand2d from "@/views/game/composition/thailand/use_thailand2d";
 import use_thailand3d from "@/views/game/composition/thailand/use_thailand3d";
+import GameBoardType from "@/components/game/gameBoardType";
 // import {use_thailand1d,use_thailand2d,use_thailand3d} from "@/views/game/composition/thailand";
 interface boardType {
   label: string;
@@ -120,7 +125,7 @@ const typeTab = reactive([
   { label: "新闻", id: 4 },
 ]);
 // keyboard
-const { boardData1D, activeData1D, onAddAct1D } = use_thailand1d();
+const { boardData1D, activeData1D,boardData1DType,activeData1DType,onAddAct1D } = use_thailand1d();
 const { boardData2D, activeData2D, onAddAct2D } = use_thailand2d();
 const {
   boardData3D,
