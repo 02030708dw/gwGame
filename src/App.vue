@@ -11,9 +11,9 @@
  <style lang="scss" scoped>
  	@import "uview-plus/index.scss";
 	@import url("@/static/css/animate.css");
- 	:deep(body) uni-page-body {
+ 	uni-page-body {
  		// height: 100%;
-		// background-color: ghostwhite
+		// background-color: ghostwhite;
 		// 页面背景色
  	}
 	.bgcolor{
