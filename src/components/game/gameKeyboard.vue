@@ -27,6 +27,23 @@
 
 <style scoped lang="scss">
 .Keyboard1 {
+	@keyframes text-wrapper_23 {
+		25% {
+			transform: scaleX(1.2);
+		}
+	
+		50% {
+			transform: scaleX(0.8);
+		}
+	
+		75% {
+			transform: scaleX(1.1);
+		}
+	
+		100% {
+			transform: scaleX(1);
+		}
+	}
 		.highlighted:active,
 		.text-wrapper_83:active,
 		.text-wrapper_22:active,

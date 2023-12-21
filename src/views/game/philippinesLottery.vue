@@ -131,23 +131,23 @@
 					</view>
 				</view>
 				<view class="box_12">
-					<view class="section_6">
+					<view class="section_6" @click="handleDelete">
 						<view class="image-text_6">
 							<image
 								src="https://lanhu.oss-cn-beijing.aliyuncs.com/SketchPngf3c8e4ebcd5196c552597442ed829665a963ebaf6243656914f0fec1d2250a38"
 								class="thumbnail_5"></image>
-							<text lines="1" class="text-group_3" @click="handleDelete">Delete</text>
+							<text lines="1" class="text-group_3">Delete</text>
 						</view>
 					</view>
 					<view @click="handleClick9(0)" class="text-wrapper_23" :class="{ 'highlighted': isSelected9(0) }">
 						<text lines="1" class="text_29">0</text>
 					</view>
-					<view class="section_7">
+					<view class="section_7" @click="handleBack">
 						<view class="image-text_7">
 							<image
 								src="https://lanhu.oss-cn-beijing.aliyuncs.com/SketchPng1467db9dd09d153c0a03c0067e6f8d0ddc00973e4ffc2ea976954ce3b8532687"
 								class="thumbnail_6"></image>
-							<text lines="1" class="text-group_4" @click="handleBack">Back</text>
+							<text lines="1" class="text-group_4">Back</text>
 						</view>
 					</view>
 				</view>
