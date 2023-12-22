@@ -1,12 +1,11 @@
-import { useUserInfo } from '@/store/userInfo';
 import { showMessage } from '@/utils/status';
 import { HEADER, HEADERPARAMS, TOKENNAME, HTTP_REQUEST_URL } from '@/config/app';
+import {getStorage} from "@/utils/storage";
 
 
 type RequestOptionsMethod = 'OPTIONS' | 'GET' | 'HEAD' | 'POST' | 'PUT' | 'DELETE' | 'TRACE' | 'CONNECT'
 type RequestOptionsMethodAll = RequestOptionsMethod | Lowercase<RequestOptionsMethod>
 
-const userInfo = useUserInfo()
 /**
  * 发送请求
  */
@@ -17,8 +16,9 @@ function baseRequest(
 	{ noAuth = false, noVerify = false } : any,
 	params : unknown
 ) {
-	const token = userInfo.Token;
-	console.log("====token==========>>>>",token)
+	// const token = userInfo.Token;
+	const token=getStorage('token')
+	// console.log("====token==========>>>>",token)
 	const beasUrl = HTTP_REQUEST_URL
 	let header = JSON.parse(JSON.stringify(HEADER))
 	if (params != undefined) {
@@ -59,8 +59,8 @@ function baseRequest(
 					return
 				}
 				// 判断内层code
-				if(res.data.code<=300&&res.data.code>=200){
-					reslove(res.data)
+				if(res.data.resCode==='000000'){
+					reslove(res.data.resultSet)
 					return
 				}else {
 					uni.showToast({

@@ -1,4 +1,4 @@
-import {Ref, ref, toRaw, watch} from "vue";
+import {nextTick, Ref, ref, toRaw, watch} from "vue";
 import {calData} from "@/utils/arrayFun";
 export default function (type:string,lotteryHistory:  Map<string, Ref<{}>>,playTypeSetIndex:Ref) {
     const boardData1DType = ref([
@@ -20,7 +20,7 @@ export default function (type:string,lotteryHistory:  Map<string, Ref<{}>>,playT
     }
     watch(()=>[activeData1D.value,activeData1DType.value],(n,i)=>{
         if (i[1].length===0){
-            activeData1D.value=[]
+            if (activeData1D.value.length) activeData1D.value=[]
             lotteryHistory.set(type,ref([]))
         }else {
             const data=activeData1DType.value.map(it=>({

@@ -11,7 +11,6 @@
 				</view>
 			</view>
 			<scroll-view class="mb100" scroll-y="true" :style="`height:  ${heightH}rpx`" scroll-with-animation="true">
-
 				<view class="bettingList animate__backOutLeft" v-for="(item,index) in historyList" :key="index"
 					v-if='historyList.length>0'>
 					<view class="bettingTit"> [{{item.title}}]</view>
@@ -23,7 +22,6 @@
 					<image class="bettingDel" src="../../../static/images/del.png" @click="handleDelete(item)" mode="">
 					</image>
 				</view>
-				
 				<view class="noData" v-else>
 					暂无历史记录
 				</view>
