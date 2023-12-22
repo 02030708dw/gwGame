@@ -74,12 +74,12 @@ import Layout from "@/layout/index.vue";
 import GameHeaderTab from "@/components/game/gameHeaderTab.vue";
 import GameContent from "@/components/game/gameContent.vue";
 import GameFooter from "@/components/game/gameFooter.vue";
-import GameType from "@/views/game/vietnameseLottery/components/GameType.vue";
 import popup from "@/components/game/popup/popup.vue";
 
-import SelectMethed from "@/views/game/vietnameseLottery/components/SelectMethed.vue";
-import KeyNum from "@/views/game/vietnameseLottery/components/KeyNum.vue";
-import { usethreeMinute } from "./pinia/threeMinute";
+import GameType from "@/components/game/YN/GameType.vue";
+import SelectMethed from "@/components/game/YN/SelectMethed.vue";
+import KeyNum from "@/components/game/YN/KeyNum.vue";
+import { usethreeMinute } from "@/plugins/pinia/YNthreeMinute";
 const storethreeMinute = usethreeMinute();
 const { typeList, methodList } = storeToRefs(storethreeMinute);
 const typeTab = reactive([
