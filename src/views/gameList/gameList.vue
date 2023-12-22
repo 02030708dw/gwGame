@@ -52,7 +52,7 @@ const init=async ()=>{
   })
   console.log(list.value)
 }
-// init()
+init()
 
 const uTabsIndex = ref<number>(0);
 const tabChange = (e: any) => (uTabsIndex.value = e.index);
