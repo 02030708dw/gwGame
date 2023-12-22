@@ -10,9 +10,12 @@
 		<view class="headerMores">
 			<image class="headerMoreimage1" src="@/static/images/footerq1.png" alt="" srcset="" />
 			<image class="headerMoreimage1" src="@/static/images/footerq2.png" alt="" srcset="" />
-			<view class="touzhu" @click="handleBetting">
-				投注
-			</view>
+      <view class="touzhu" >
+        <up-badge class="badge" numberType="limit" :type="'error'" max="99" :value="trolleyCount"></up-badge>
+        <view @click="handleBetting">
+          投注
+        </view>
+      </view>
 		</view>
 
 	</view>
@@ -22,7 +25,14 @@
 
 <script setup lang="ts">
 	import { useGame } from "@/plugins/pinia/Game.pinia";
+  import {toRef} from "vue";
 	const storeGame = useGame()
+  const props=withDefaults(defineProps<{
+    count?:number,
+  }>(),{
+    count:0
+  })
+  const trolleyCount=toRef(props,'count')
 	const handleBetting = () => {
 		storeGame.isBetting = !storeGame.isBetting
 	}
@@ -106,5 +116,12 @@
 		font-family: PingFangSC-Semibold, PingFang SC;
 		font-weight: 600;
 		color: #FFFFFF;
+    position: relative;
+    .badge{
+      position: absolute;
+      right: 0;
+      top:-5rpx;
+      transform: translate(10px,-10rpx);
+    }
 	}
 </style>

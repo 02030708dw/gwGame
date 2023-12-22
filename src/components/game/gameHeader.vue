@@ -80,7 +80,7 @@ import { headers } from "@/constants";
 
 const props = defineProps<{
   activeTitle: string;
-  showContent: boolean; // 添加 showContent prop
+  showContent?: boolean; // 添加 showContent prop
 }>();
 const emits = defineEmits(["handleContry"]);
 
