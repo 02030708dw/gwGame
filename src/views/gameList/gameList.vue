@@ -59,7 +59,7 @@ const router = (url:string,data:any) => {
     animationDuration: 300,
   });
 }
-onBeforeMount(() => {
+onBeforeMount(async () => {
   get({
     url:'/gameRecords/game'+'\\'+1
   }).then(v=>{
