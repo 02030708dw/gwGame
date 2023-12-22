@@ -64,14 +64,14 @@
       />
     </view>
     <template #bot>
-      <gameFooter :count="count"/>
+      <gameFooter />
     </template>
   </layout>
   <popup />
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted, reactive, ref, toRaw, watchEffect} from "vue";
+import { reactive, ref } from "vue";
 import { storeToRefs } from "pinia";
 import gameHeader from "@/components/game/gameHeader";
 import gameContent from "@/components/game/gameContent";
@@ -88,17 +88,15 @@ import use_thailand1d from "@/views/game/composition/thailand/use_thailand1d";
 import use_thailand2d from "@/views/game/composition/thailand/use_thailand2d";
 import use_thailand3d from "@/views/game/composition/thailand/use_thailand3d";
 import GameBoardType from "@/components/game/gameBoardType";
-type lotteryHType={gamePlayCode: number, gamePlayTypeCode: string, oneBetAmount: number, betNums: number[]}[]
 // import {use_thailand1d,use_thailand2d,use_thailand3d} from "@/views/game/composition/thailand";
 const lotteryHistory=reactive(new Map([
-    ['1d',ref<lotteryHType>([])],
-    ['2d',ref<lotteryHType>([])],
-    ['3d',ref<lotteryHType>([])],
+    ['1d',ref({})],
+    ['2d',ref({})],
+    ['3d',ref({})],
 ]))
-const playTypeSet=ref<number>(0)
 // keyboard
 const { boardData1D, activeData1D,boardData1DType
-  ,activeData1DType,onAddAct1D,onAddAct1DType} = use_thailand1d('1d',lotteryHistory,playTypeSet);
+  ,activeData1DType,onAddAct1D,onAddAct1DType} = use_thailand1d('1d',lotteryHistory,ref(1));
 const { boardData2D, activeData2D,
   boardData2DType,onAddAct2DType,
   activeData2DType,
@@ -121,19 +119,37 @@ let urls1 = ref("../../static/images/fredHill1.png");
 let urls2 = ref("../../static/images/fredHill2.png");
 let urls3 = ref("../../static/images/fredHill3M.png");
 const storeCommon = useCommon();
-const {TabData, TabDataTaiGuo, oneActive, TabDataTwo1D2D3DID} = storeToRefs(storeCommon);
+const {
+  contryId,
+  TabData,
+  TabDataTaiGuo,
+  oneActive,
+  twoActive,
+  threeActive,
+  TabDataTwo,
+  TabDataAll,
+  TabDataTwo1D2D3D,
+  TabDataTwo1D2D3DID,
+} = storeToRefs(storeCommon);
+
 const handleId1D2D3D = (id: number) => {
   storeCommon.TabDataTwoCheckedID = 0;
   storeCommon.TabDataTwo1D2D3DID = id;
   storeCommon.handletabs();
   storeCommon.setTabDataTwo1D2D3D(storeCommon.TabDataTwo1D2D3DID);
   storeCommon.changeBoard(id);
-  playTypeSet.value=id
   console.log("选择的ID11111", id);
+};
+
+const handleIdFredHill = () => {
+  console.log("选择的ID33333", storeCommon.TabDataTwo1D2D3DID);
+  // storeCommon.handletabs()
+  storeCommon.setTabDataTwo1D2D3D(storeCommon.TabDataTwo1D2D3DID);
 };
 const handleId = (id: number) => {
   console.log("选择的ID22222", id);
 };
+
 /**
  *
  * 类型切换
@@ -144,22 +160,7 @@ const typeTab = reactive([
   { label: "视频", id: 3 },
   { label: "新闻", id: 4 },
 ]);
-onMounted(()=>{
- /* for (const value of lotteryHistory.keys()) {
-    console.log(toRaw(lotteryHistory.get(value).value)); // Access the reactive value using .value
-  }*/
-  // console.log([...lotteryHistory.values()].map(it=>toRaw(it.value)))
-})
-/*watchEffect(()=>{
-  let d=lotteryHistory
-  const l=[...lotteryHistory.values()].map(it=>toRaw(it.value))
-})*/
-const count=computed(()=>{
-  return [...lotteryHistory.values()].map(it=>toRaw(it.value)).flat().reduce((pre,cur)=>{
-    pre+=cur['betNums']?cur['betNums'].length:0
-    return pre
-  },0)
-})
+
 </script>
 
 <style scoped lang="less"></style>
