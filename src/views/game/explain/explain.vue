@@ -9,10 +9,9 @@
         >{{ item.title }}</text>
       <text
         class="line"
-        :style="{ left: 187.5 * activeTab + 68 + 'rpx' }"
+        :style="{ left: 750/explainData.length * activeTab + (750/explainData.length/2)-28 + 'rpx' }"
       ></text>
     </view>
-
     <view class="explain-box">
       <view class="explain-item" v-for="item in explainData[activeTab].list">
         <text class="name">{{ item.name }}</text>
@@ -25,12 +24,11 @@
 </template>
 
 <script setup lang="ts">
-import gameHeader from "/src/components/game/gameHeader.vue";
+import gameHeader from "@/components/game/gameHeader.vue"
 import {explainData} from "./data"
 import { ref } from "vue";
 const showHeaderContent = ref(true);
 const activeTab = ref(0);
-const yuenanTab=ref(0)
 const changeTab = (index: number) => {
   console.log(index);
   activeTab.value = index;

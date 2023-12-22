@@ -9,7 +9,8 @@
         >{{ item.title }}</text>
       <text
         class="line"
-        :style="{ left: 187.5 * activeTab + 68 + 'rpx' }"
+        :style="{ left: 750/pageTabs.length * activeTab + (750/pageTabs.length/2)-28 + 'rpx' }"
+
       ></text>
     </view>
     <!-- 日期选择 -->

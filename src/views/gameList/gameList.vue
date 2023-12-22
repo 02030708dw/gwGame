@@ -21,7 +21,7 @@
     ></u-tabs>
     <view>
       <TabNav
-        v-for="(g, i) in gameListSub[uTabsIndex]"
+        v-for="(g,i) in gameListSub[uTabsIndex]"
         :title="g.title"
         :path="g.path"
         :img="g.img"
@@ -31,17 +31,29 @@
     </view>
   </view>
 </template>
-
 <script setup lang="ts">
 import TabNav from "@/components/tabnav/index.vue";
 import GameHeader from "@/components/game/gameHeader.vue";
-import { ref } from "vue";
+import { ref,computed } from "vue";
 import { gameListAPI } from "@/api/game";
+let img="https://lanhu-dds-backend.oss-cn-beijing.aliyuncs.com/merge_image/imgs/dd822cb9ec924c43a774b56f655f0c86_mergeImage.png"
+const list=ref([])
 const init=async ()=>{
   let res:(any)=await gameListAPI(1)
-  console.log(res.resultSet.resultSet)
+  let gameList=res.resultSet.resultSet
+  gameList=gameList.map((item:any)=>{
+   return item.games.filter((val:any)=>!val.vndArea)
+  })
+  console.log(gameList)//所有彩种列表
+ list.value= gameList.map((item:any)=>{
+    return item.map((val:any)=>{
+      return {...val,title:val.name,img}
+    })
+  })
+  console.log(list.value)
 }
-init()
+// init()
+
 const uTabsIndex = ref<number>(0);
 const tabChange = (e: any) => (uTabsIndex.value = e.index);
 const gameList = ref([
@@ -92,7 +104,6 @@ const onGameSelect = (d: any) => {
   });
 };
 </script>
-
 <style lang="less" scoped>
 body {
   background: #f9f9f9;
