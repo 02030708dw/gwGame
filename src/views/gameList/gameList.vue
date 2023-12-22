@@ -70,7 +70,7 @@ const gameListSub = [
   ],
   [
     {
-      title: "越南彩666",
+      title: "越南5分彩",
       img: "https://lanhu-dds-backend.oss-cn-beijing.aliyuncs.com/merge_image/imgs/dd822cb9ec924c43a774b56f655f0c86_mergeImage.png",
       path: "vietnameseLottery/vietnameseLottery",
     },

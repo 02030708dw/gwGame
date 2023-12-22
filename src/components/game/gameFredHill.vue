@@ -3,10 +3,8 @@
 		<view class="headerFredTitle">
 			Fred Hill
 		</view>
-
 		<gameTabAuto :backActive="props.backActive" @handleActives="handleActives" :countId="countId"
 			:typeTab="props.TabData" />
-
 	</view>
 </template>
 
