@@ -115,9 +115,11 @@ const changeSelectMethed = (selectData: any) => {
 };
 
 const changeNum2D = (selectNumber: any) => {
+  console.log(twoD.value)
   console.log(selectNumber);
 };
 const changeNum3D = (selectNumber: any) => {
+  console.log(threeD.value)
   console.log(selectNumber);
 };
 const changeNumPL2 = (selectNumber: any) => {
