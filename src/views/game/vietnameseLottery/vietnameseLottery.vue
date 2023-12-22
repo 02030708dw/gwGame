@@ -12,30 +12,32 @@
 
     <!-- 2D----------------------------------- -->
     <SelectMethed
-      :fredList="methodList"
       :background-image="urls1"
       :row="3"
       @change="changeSelectMethed"
-      v-if="playingMethod == 0"
+      v-show="playingMethod == 0"
     />
     <KeyNum
       :background-image="urls1"
       :showHeader="false"
-      v-if="playingMethod == 0"
+      @changeNum="changeNum2D"
+      v-show="playingMethod == 0"
+      :unlock="twoD.length"
     />
 
     <!-- 3D------------------------------------- -->
     <SelectMethed
-      :fredList="methodList"
       :background-image="urls1"
       :row="3"
       @change="changeSelectMethed"
-      v-if="playingMethod == 1"
+      v-show="playingMethod == 1"
     />
     <KeyNum
       :background-image="urls1"
       :showHeader="true"
-      v-if="playingMethod == 1"
+      @changeNum="changeNum3D"
+      v-show="playingMethod == 1"
+      :unlock="threeD.length"
     />
 
     <!-- PL2--------------------------------------- -->
@@ -43,7 +45,9 @@
       :background-image="urls1"
       :showHeader="false"
       :astrict="2"
-      v-if="playingMethod == 2"
+      @changeNum="changeNumPL2"
+      v-show="playingMethod == 2"
+      :unlock="true"
     />
 
     <!-- PL3 ------------------------------------------->
@@ -51,7 +55,9 @@
       :background-image="urls1"
       :showHeader="false"
       :astrict="3"
-      v-if="playingMethod == 3"
+      @changeNum="changeNumPL3"
+      v-show="playingMethod == 3"
+      :unlock="true"
     />
     <template #bot>
       <GameFooter />
@@ -59,20 +65,15 @@
   </Layout>
   <popup />
 </template>
-
 <script lang="ts" setup>
 import { reactive, ref, toRefs } from "vue";
 import { storeToRefs } from "pinia";
-import { useCommon } from "@/plugins/pinia/common.pinia";
 import GameHeader from "@/components/game/gameHeader.vue";
 import GameTime from "@/components/game/gameTime.vue";
 import Layout from "@/layout/index.vue";
 import GameHeaderTab from "@/components/game/gameHeaderTab.vue";
 import GameContent from "@/components/game/gameContent.vue";
 import GameFooter from "@/components/game/gameFooter.vue";
-import FredHilloneD1 from "@/views/game/vietnameseLottery/components/FredHilloneD1.vue";
-import FredHilloneD2 from "@/views/game/vietnameseLottery/components/FredHilloneD2.vue";
-import FredHilltwoD1 from "@/views/game/vietnameseLottery/components/FredHilltwoD1.vue";
 import GameType from "@/views/game/vietnameseLottery/components/GameType.vue";
 import popup from "@/components/game/popup/popup.vue";
 
@@ -87,7 +88,6 @@ const typeTab = reactive([
   { label: "视频", id: 3 },
   { label: "新闻", id: 4 },
 ]);
-
 let urls1 = ref("src/static/images/fredHill1.png");
 let urls2 = ref("src/static/images/fredHill2.png");
 let urls3 = ref("src/static/images/fredHill3M.png");
@@ -97,47 +97,34 @@ const playingMethod = ref(0); //用来展示不同玩法
 // 类型切换------------------------------------
 const cutGameType = (item: any) => {
   // 每次切换类型时,取消游戏玩法的选中
-  methodList.value.forEach(item=>item.checked=false)
+  // methodList.value.forEach((item) => (item.checked = false));
   playingMethod.value = item.id;
 };
 
+const twoD = ref([]); //2d选择的玩法
+const threeD = ref([]); //2d选择的玩法
 // 玩法选中
-const changeSelectMethed = (item: any) => {
-  let arr= methodList.value.filter(item=>item.checked)
-  console.log("当前选中的玩法有",arr)
-};
-// 2d-----------------------------------------------------2d
-// const changeFredHilloneD1 = (item: any) => {
-//   // 切换头尾包组时触发,传过来的是点击这一项的数据
-//   console.log("当前选中的是:" + item.label);
-// };
-// const changeFredHilloneD2 = (item: any) => {
-//   // 选择0-9的号码触发
-//   item.checked = !item.checked;
-//   // 选中的id
-//   let arr = TabDataTwo.value
-//     .filter((item) => item.checked)
-//     .map((item) => item.id);
-//   console.log("当前选中的有", arr);
-// };
-
-// 2d---------------------------------------2d
-const changeThreeNum = (item: any) => {
-  // 2d里的 000-900
-  console.log("当前选中的是", item.label);
-};
-const changeNum2D = (arr: any) => {
-  // 点击2d下面的数字触发
-  console.log("2D选中的号码是" + arr);
+const changeSelectMethed = (selectData: any) => {
+  // 判断当前是2d,还是3d
+  if(playingMethod.value==0){
+    twoD.value=selectData
+  }
+  if(playingMethod.value==1){
+    threeD.value=selectData
+  }
 };
 
-// PL2----------------------------------PL2
-const changeNumPL2 = (arr: any) => {
-  console.log("PL2选中的号码是", arr);
+const changeNum2D = (selectNumber: any) => {
+  console.log(selectNumber);
+};
+const changeNum3D = (selectNumber: any) => {
+  console.log(selectNumber);
+};
+const changeNumPL2 = (selectNumber: any) => {
+  console.log(selectNumber);
+};
+const changeNumPL3 = (selectNumber: any) => {
+  console.log(selectNumber);
 };
 
-// PL3----------------------------------PL3
-const changeNumPL3 = (arr: Array<number>) => {
-  console.log("PL3选中的号码是", arr);
-};
 </script>

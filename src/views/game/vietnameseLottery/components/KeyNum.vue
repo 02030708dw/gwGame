@@ -22,12 +22,20 @@
       class="num-box"
       :style="{ height: numHeight, paddingTop: showHeader ? '32rpx' : '0rpx' }"
     >
+      <!-- @click="unlock ? changeNum(item) : move(index)" -->
+
       <view
         class="num-item"
-        v-for="item in data2D2.slice(numScope - 100, numScope)"
+        v-for="(item, index) in data2D2.slice(numScope - 100, numScope)"
+        @click="
+          () => {
+            unlock ? changeNum(item) : item.checked=false;
+            move(index);
+          }
+        "
         :key="item.id"
-        @click="changeNum(item)"
         :class="item.checked ? 'num-active' : null"
+        :animation="animationIndex == index ? animationData : null"
       >
         {{ item.label }}
       </view>
@@ -35,10 +43,16 @@
   </view>
 </template>
 <script setup lang="ts">
-import { ref, reactive, computed } from "vue";
-//   背景颜色-是否显示3为可选数字-限制选可以选的有几个
-const props = defineProps(["backgroundImage", "showHeader", "astrict"]);
-const emits = defineEmits(["changeThreeNum", "changeNum"]);
+//属性值showHeader如果不传,显示按钮00-99的数字,如果传递true则开启000-999选项
+import { ref, reactive, onMounted } from "vue";
+//   背景颜色-是否显示3位可选数字-限制选可以选的有几个-键盘是否锁住
+const props = defineProps([
+  "backgroundImage",
+  "showHeader",
+  "astrict",
+  "unlock",
+]);
+const emits = defineEmits(["changeSelectNum", "changeNum"]);
 let arr = [];
 
 let flag = props.showHeader ? 1000 : 100;
@@ -81,18 +95,35 @@ const data2D1 = reactive([
   { label: "900", id: 1000, checked: false },
 ]);
 const numScope = ref(100);
-const numData = computed(() => {});
 const numHeight = ref((100 / 5 - 1) * 78 + "rpx"); //计算容器的高
 const changeThreeNum = (item: any) => {
   // 点击000-999触发
   data2D1.forEach((item) => (item.checked = false));
   item.checked = !item.checked;
-  console.log(item.label, "id:", item.id);
   numScope.value = item.id;
+  emits("changeSelectNum", item);
+};
+
+const animationIndex = ref(-1);
+const animationData = ref({});
+const animation = uni.createAnimation({
+  duration: 100,
+  timingFunction: "ease",
+  delay: 0,
+});
+
+const move = (index: number) => {
+  animationIndex.value = index;
+  animation.scale(0.9, 0.9).step();
+  animation.scale(1.2, 1.2).step();
+  animation.scale(0.95, 0.95).step();
+  animation.scale(1.05, 1.05).step();
+  animation.scale(0.98, 0.98).step();
+  animation.scale(1, 1).step();
+  animationData.value = animation.export();
 };
 const changeNum = (item: any) => {
   // 点击下面100个数字触发
-  emits("changeNum", item);
   if (item.checked) {
     // 如果为选中,则取消选中
     item.checked = false;
@@ -108,6 +139,10 @@ const changeNum = (item: any) => {
       item.checked = !item.checked;
     }
   }
+  emits(
+    "changeNum",
+    data2D2.value.filter((item) => item.checked)
+  );
 };
 </script>
 <style scoped lang="scss">

@@ -26,11 +26,19 @@
   </template>
   <script setup lang="ts">
   // 背景颜色,数据,这个组件有num个子元素
-  const props = defineProps(["backgroundImage", "fredList", "row", "itemWidth"]);
+  import { ref } from 'vue';
+  const props = defineProps(["backgroundImage",  "row", "itemWidth"]);
   const emits = defineEmits(["change"]);
+  const fredList = ref([
+    { label: "头", id: 0, checked: false, sum: 1 },
+    { label: "尾", id: 1, checked: false, sum: 1 },
+    { label: "头尾", id: 2, checked: false, sum: 2 },
+    { label: "包组", id: 3, checked: false, sum: 18 },
+    { label: "包组7", id: 4, checked: false, sum: 7 },
+  ]);
   const change = (item: any) => {
     item.checked=!item.checked
-    emits("change", item);
+    emits("change", fredList.value.filter(item=>item.checked));
   };
   </script>
   <style scoped lang="scss">
