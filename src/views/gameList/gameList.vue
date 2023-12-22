@@ -1,6 +1,6 @@
 <template>
   <view>
-    <GameHeader active-title="游戏列表" />
+    <GameHeader active-title="游戏列表" :showContent="false"/>
     <u-tabs
       style="background: #fff"
       @change="tabChange"

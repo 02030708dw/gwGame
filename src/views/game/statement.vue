@@ -31,7 +31,10 @@ const onSelectedDates = (dates: string) => {
 };
 </script>
 <style scoped lang="scss">
+body{
+background-color: #F9F9F9;
 .profit {
+  background-color: #F9F9F9;
   .synthesize {
     width: 622rpx;
     box-sizing: border-box;
@@ -54,5 +57,6 @@ const onSelectedDates = (dates: string) => {
     align-items: center;
     font-size: 36rpx;
   }
+}
 }
 </style>

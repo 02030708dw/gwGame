@@ -7,9 +7,10 @@
       <view
         class="fred-item"
         v-for="item in fredList"
+        :key="item.id"
         @click="change(item)"
+        :class="item.checked ? 'active-item' : null"
         :style="{ width: `${itemWidth}` }"
-        :class="activeNumber.includes(item.id)?'item-active':null"
       >
         {{ item.label }}
       </view>
@@ -17,17 +18,27 @@
       <view
         class="fred-item"
         v-for="item in row - (fredList.length % row ? fredList.length % row : row)"
+        :key="item"
         style="visibility: hidden"
-        :style="{ width: `${itemWidth}` }"
+        :style="{ width: `${itemWidth||'198rpx'}` }"
       ></view>
     </view>
   </template>
   <script setup lang="ts">
   // 背景颜色,数据,这个组件有num个子元素
-  const props = defineProps(["backgroundImage", "fredList", "row", "itemWidth","activeNumber"]);
+  import { ref } from 'vue';
+  const props = defineProps(["backgroundImage",  "row", "itemWidth"]);
   const emits = defineEmits(["change"]);
-  const change = (item: object) => {
-    emits("change", item);
+  const fredList = ref([
+    { label: "头", id: 0, checked: false, sum: 1 },
+    { label: "尾", id: 1, checked: false, sum: 1 },
+    { label: "头尾", id: 2, checked: false, sum: 2 },
+    { label: "包组", id: 3, checked: false, sum: 18 },
+    { label: "包组7", id: 4, checked: false, sum: 7 },
+  ]);
+  const change = (item: any) => {
+    item.checked=!item.checked
+    emits("change", fredList.value.filter(item=>item.checked));
   };
   </script>
   <style scoped lang="scss">
@@ -55,17 +66,21 @@
       left: 18rpx;
     }
     .fred-item {
+        width: 198rpx;
       background-color: #fff;
+      transition: 0.3s all linear;
       height: 62rpx;
       border-radius: 8rpx;
       box-shadow: inset 0rpx -4rpx 0rpx 0rpx rgba(75, 75, 75, 0.5);
       text-align: center;
       line-height: 62rpx;
-      transition: 0.3s all linear;
     }
-    .item-active{
-        background-color: #00CD6A;
-        color: #fff;
+    .active-item {
+      background: #ffb023;
+      box-shadow: inset 0rpx -4rpx 0rpx 0rpx #da900c,
+        inset 0rpx 4rpx 4rpx 0rpx #ffc660;
+      border-radius: 8rpx;
+      color: #fff;
     }
   }
   </style>

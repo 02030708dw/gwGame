@@ -27,6 +27,7 @@ const onSelectedDates = (dates: string) => {
 </script>
 <style scoped lang="scss">
 .billing-details {
+  background-color: #f9f9f9;
   .bill {
     width: 686rpx;
     height: 204rpx;

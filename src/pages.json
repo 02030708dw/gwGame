@@ -14,7 +14,7 @@
 			}
 		},
 		{
-			"path" : "views/game/vietnameseLottery",
+			"path" : "views/game/vietnameseLottery/vietnameseLottery",
 			"style" :
 			{
 				"navigationStyle": "custom"
@@ -28,7 +28,7 @@
 			}
 		},
 		{
-			"path" : "views/game/explain",
+			"path" : "views/game/explain/explain",
 			"style" :
 			{
 				"navigationStyle": "custom"

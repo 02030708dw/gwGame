@@ -86,7 +86,7 @@ export default {
 </style>
 <style scoped lang="less">
 .mb100{
-  padding-bottom: 0;
+  padding-bottom: 0 !important;
   .noData{
     height: 100%;
     display: flex;

@@ -118,6 +118,7 @@ const handleClose = () => {
   countryShow.value = false;
 };
 const onSlideClick = (p: string) => {
+  console.log(p)
   if (p === "gameList") {
     uni.redirectTo({
       url: `/views/gameList/${p}`,
@@ -130,6 +131,7 @@ const onSlideClick = (p: string) => {
   show.value = false;
 };
 const onTopClick = (p: string) => {
+  console.log(p)
   if (p === "gameList") {
     uni.redirectTo({
       url: `/views/gameList/${p}`,
