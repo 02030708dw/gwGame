@@ -63,7 +63,7 @@ onBeforeMount(() => {
   get({
     url:'/gameRecords/game'+'\\'+1
   }).then(v=>{
-    gameList.value=v.resultSet
+    gameList.value=v.resultSet.map((it:any)=>({...it,games:it.games.filter((it:any)=>it.vndArea===null)}))
   })
 });
 </script>
