@@ -45,7 +45,7 @@ const img='https://lanhu-dds-backend.oss-cn-beijing.aliyuncs.com/merge_image/img
 const onGameSelect = (data:any) => {
   switch (uTabsIndex.value) {
     case 0:
-      return router('vietnameseLottery/vietnameseLottery',data)
+      return router('vietnameseLottery',data)
     case 1:
       return router('thailandLottery',data)
     default:
