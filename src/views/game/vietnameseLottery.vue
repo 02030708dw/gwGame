@@ -59,12 +59,16 @@
       :unlock="true"
     />
     <template #bot>
-      <!-- <GameFooter /> -->
       <Footer @click-handle="clickBet" />
     </template>
   </Layout>
-  <popup />
-  <BetListPop :show="show" @close="closeBetList" :list="betlist" @del="delBetList"/>
+
+  <BetListPop
+    :show="show"
+    @close="closeBetList"
+    :list="betlist"
+    @del="delBetList"
+  />
 </template>
 <script lang="ts" setup>
 import { reactive, ref, toRefs, computed } from "vue";
@@ -74,9 +78,7 @@ import GameTime from "@/components/game/gameTime.vue";
 import Layout from "@/layout/index.vue";
 import GameHeaderTab from "@/components/game/gameHeaderTab.vue";
 import GameContent from "@/components/game/gameContent.vue";
-import GameFooter from "@/components/game/gameFooter.vue";
 import Footer from "@/components/game/YN/Footer.vue";
-import popup from "@/components/game/popup/popup.vue";
 import GameType from "@/components/game/YN/GameType.vue";
 import SelectMethed from "@/components/game/YN/SelectMethed.vue";
 import KeyNum from "@/components/game/YN/KeyNum.vue";
@@ -114,7 +116,12 @@ const num2D = ref([]); //2d所选的全部数字
 const active2D = computed(() => {
   //计算2d里面选中的玩法与数字
   return twoD.value.map((item: any) => {
-    return { label: "2D-" + item.label, num: [...num2D.value],sum:item.sum,id:crypto.randomUUID() };
+    return {
+      label: "2D-" + item.label,
+      num: [...num2D.value],
+      sum: item.sum,
+      id: crypto.randomUUID(),
+    };
   });
 });
 const changeNum2D = (selectNumber: any) => {
@@ -125,19 +132,29 @@ const changeNum2D = (selectNumber: any) => {
 const num3D = ref([]); //3D所选的全部数据
 const active3D = computed(() => {
   return threeD.value.map((item: any) => {
-    return { label: "3D-" + item.label, num: [...num3D.value] ,sum:item.sum,id:crypto.randomUUID() };
+    return {
+      label: "3D-" + item.label,
+      num: [...num3D.value],
+      sum: item.sum,
+      id: crypto.randomUUID(),
+    };
   });
 });
 const changeNum3D = (selectNumber: any) => {
   let num = selectNumber.map((item: any) => item.label); //选中的号码
   num3D.value = num;
-  console.log(num)
 };
 // PL2---------------------------
 const numPL2 = ref([]);
 const activePL2 = computed(() => {
-  if(numPL2.value.length==2){
-    return { label: "PL2" , num: [...numPL2.value],sum:36 ,id:crypto.randomUUID()};
+  // PL2选两个号码才会加入列表
+  if (numPL2.value.length == 2) {
+    return {
+      label: "PL2",
+      num: [...numPL2.value],
+      sum: 36,
+      id: crypto.randomUUID(),
+    };
   }
 });
 const changeNumPL2 = (selectNumber: any) => {
@@ -148,8 +165,14 @@ const changeNumPL2 = (selectNumber: any) => {
 // PL3---------------------------
 const numPL3 = ref([]);
 const activePL3 = computed(() => {
-  if(numPL3.value.length==3){
-    return { label: "PL3" , num: [...numPL3.value],sum:54 ,id:crypto.randomUUID()};
+  // PL3选三个号码才会加入列表
+  if (numPL3.value.length == 3) {
+    return {
+      label: "PL3",
+      num: [...numPL3.value],
+      sum: 54,
+      id: crypto.randomUUID(),
+    };
   }
 });
 const changeNumPL3 = (selectNumber: any) => {
@@ -158,17 +181,22 @@ const changeNumPL3 = (selectNumber: any) => {
 };
 
 // 删除一项
-const delBetList=(id:string)=>{
-  console.log(id)
-  betlist.value=betlist.value.filter((item:any)=>item.id!==id)
-}
+const delBetList = (id: string) => {
+  console.log(id);
+  betlist.value = betlist.value.filter((item: any) => item.id !== id);
+};
 const show = ref(false);
 const clickBet = () => {
   // 打开底部弹出层,同时要将选中的号码传入
   show.value = true;
-  let arr=[...active2D.value, ...active3D.value,activePL2.value,activePL3.value];
-  betlist.value = arr.filter(item=>item)
-  console.log(betlist.value)
+  let arr = [
+    ...active2D.value,
+    ...active3D.value,
+    activePL2.value,
+    activePL3.value,
+  ];
+  betlist.value = arr.filter((item) => item);
+  console.log(betlist.value);
 };
 
 const closeBetList = () => {
