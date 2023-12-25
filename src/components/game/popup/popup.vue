@@ -40,7 +40,6 @@
 	import { useGame } from "@/plugins/pinia/Game.pinia";
 	import { useCreactGame } from "@/plugins/pinia/CreactGame.pinia";
 	import gameFooterPopup from "@/components/game/gameFooterPopup";
-
 	const storeGame = useGame();
 	const storeCreactGame = useCreactGame();
 	const storeCommon = useCommon();
