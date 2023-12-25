@@ -14,7 +14,7 @@
         
         <view class="item" v-for="(item,index) in list" v-if="list.length">
           <text style="width: 214rpx; font-size: 24rpx">[{{ item.label }}:{{ item.num.join(',') }}]</text>
-          <text style="width: 52rpx; font-size: 28rpx; color: #00cd6a">{{ item.sum }}</text>
+          <text style="width: 52rpx; font-size: 28rpx; color: #00cd6a">{{ item.sum*item.num.length }}</text>
           <view class="tmis-box">
             <input type="text" />
             <text class="tmis" style="width: 82rpx; height: 44rpx">Tmis</text>
@@ -66,7 +66,6 @@ const del=(id:string)=>{
 </script>
 <style lang="scss" scoped>
 .bet-box {
-  animation: bet-box 0.3s linear forwards;
   background-color: #fff;
   width: 750rpx;
   height: 750rpx;
@@ -138,8 +137,8 @@ const del=(id:string)=>{
       border-radius: 8rpx;
       border: 1rpx solid #dedede;
       display: flex;
+      font-size: 24rpx;
       input {
-        font-size: 24rpx;
         width: 186rpx;
         height: 46rpx;
       }
@@ -148,7 +147,6 @@ const del=(id:string)=>{
         height: 46rpx;
         background-color: #efefef;
         color: #333;
-        font-size: 24rpx;
         text-align: center;
         line-height: 46rpx;
       }
