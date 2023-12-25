@@ -25,14 +25,10 @@ import { useGame } from "@/plugins/pinia/Game.pinia";
 import { useCreactGame } from "@/plugins/pinia/CreactGame.pinia";
 const storeGame = useGame()
 const storeCreactGame = useCreactGame()
+const emits=defineEmits(['onBetting'])
 storeCreactGame.price =1
 const handleBetting = () => {
-  storeCreactGame.addHistoryList()
-  storeGame.isBetting = !storeGame.isBetting;
-  uni.showToast({
-    title:"投注成功"
-  })
-
+  emits('onBetting')
 }
 const handleChange=()=>{
   console.log(storeCreactGame.price)
