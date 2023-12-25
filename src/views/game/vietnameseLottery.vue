@@ -11,54 +11,55 @@
     <GameType @cutGameType="cutGameType" :typeList="typeList" />
 
     <!-- 2D----------------------------------- -->
-    <SelectMethed
-      :background-image="urls1"
-      :row="3"
-      @change="changeSelectMethed"
-      v-show="playingMethod == 0"
-    />
-    <KeyNum
-      :background-image="urls1"
-      :showHeader="false"
-      @changeNum="changeNum2D"
-      v-show="playingMethod == 0"
-      :unlock="twoD.length"
-    />
+        <SelectMethed
+          :background-image="urls1"
+          :row="3"
+          @change="changeSelectMethed"
+          v-show="playingMethod == 0" 
+          />
+        <KeyNum
+          :background-image="urls1"
+          :showHeader="false"
+          @changeNum="changeNum2D"
+          v-show="playingMethod == 0"
+          :unlock="twoD.length"
+      />
 
     <!-- 3D------------------------------------- -->
-    <SelectMethed
-      :background-image="urls1"
-      :row="3"
-      @change="changeSelectMethed"
-      v-show="playingMethod == 1"
-    />
-    <KeyNum
-      :background-image="urls1"
-      :showHeader="true"
-      @changeNum="changeNum3D"
-      v-show="playingMethod == 1"
-      :unlock="threeD.length"
-    />
+        <SelectMethed
+          :background-image="urls1"
+          :row="3"
+          @change="changeSelectMethed"
+          v-show="playingMethod == 1"
+        />
+        <KeyNum
+          :background-image="urls1"
+          :showHeader="true"
+          @changeNum="changeNum3D"
+          v-show="playingMethod == 1"
+          :unlock="threeD.length"
+        />
 
     <!-- PL2--------------------------------------- -->
-    <KeyNum
-      :background-image="urls1"
-      :showHeader="false"
-      :astrict="2"
-      @changeNum="changeNumPL2"
-      v-show="playingMethod == 2"
-      :unlock="true"
-    />
+        <KeyNum
+          :background-image="urls1"
+          :showHeader="false"
+          :astrict="2"
+          @changeNum="changeNumPL2"
+          v-show="playingMethod == 2"
+          :unlock="true"
+        />
+
 
     <!-- PL3 ------------------------------------------->
-    <KeyNum
-      :background-image="urls1"
-      :showHeader="false"
-      :astrict="3"
-      @changeNum="changeNumPL3"
-      v-show="playingMethod == 3"
-      :unlock="true"
-    />
+        <KeyNum
+          :background-image="urls1"
+          :showHeader="false"
+          :astrict="3"
+          @changeNum="changeNumPL3"
+          v-show="playingMethod == 3"
+          :unlock="true"
+        />
     <template #bot>
       <GameFooter />
     </template>
@@ -106,20 +107,20 @@ const threeD = ref([]); //2d选择的玩法
 // 玩法选中
 const changeSelectMethed = (selectData: any) => {
   // 判断当前是2d,还是3d
-  if(playingMethod.value==0){
-    twoD.value=selectData
+  if (playingMethod.value == 0) {
+    twoD.value = selectData;
   }
-  if(playingMethod.value==1){
-    threeD.value=selectData
+  if (playingMethod.value == 1) {
+    threeD.value = selectData;
   }
 };
 
 const changeNum2D = (selectNumber: any) => {
-  console.log(twoD.value)
+  console.log(twoD.value);
   console.log(selectNumber);
 };
 const changeNum3D = (selectNumber: any) => {
-  console.log(threeD.value)
+  console.log(threeD.value);
   console.log(selectNumber);
 };
 const changeNumPL2 = (selectNumber: any) => {
@@ -128,5 +129,4 @@ const changeNumPL2 = (selectNumber: any) => {
 const changeNumPL3 = (selectNumber: any) => {
   console.log(selectNumber);
 };
-
 </script>
