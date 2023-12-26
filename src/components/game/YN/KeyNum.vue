@@ -101,7 +101,7 @@ const changeThreeNum = (item: any) => {
   data2D1.forEach((item) => (item.checked = false));
   item.checked = !item.checked;
   numScope.value = item.id;
-  emits("changeSelectNum", item);
+  // emits("changeSelectNum", item);
 };
 
 const animationIndex = ref(-1);

@@ -85,7 +85,7 @@ import KeyNum from "@/components/game/YN/KeyNum.vue";
 import BetListPop from "@/components/game/YN/BetListPop.vue";
 import { usethreeMinute } from "@/plugins/pinia/YNthreeMinute";
 const storethreeMinute = usethreeMinute();
-const { typeList, methodList } = storeToRefs(storethreeMinute);
+const { typeList } = storeToRefs(storethreeMinute);
 const typeTab = reactive([
   { label: "动画", id: 1 },
   { label: "直播", id: 2 },
@@ -103,7 +103,7 @@ const cutGameType = (item: any) => {
 const betlist: any = ref([]); //全部选中的玩法
 
 const twoD = ref([]); //2d选择的玩法
-const threeD = ref([]); //2d选择的玩法
+const threeD = ref([]); //3d选择的玩法
 
 // 玩法选中-----------------------------------
 const changeSelectMethed = (selectData: any) => {
@@ -115,14 +115,14 @@ const changeSelectMethed = (selectData: any) => {
 const num2D = ref([]); //2d所选的全部数字
 const active2D = computed(() => {
   //计算2d里面选中的玩法与数字
-  return twoD.value.map((item: any) => {
-    return {
-      label: "2D-" + item.label,
-      num: [...num2D.value],
-      sum: item.sum,
-      id: crypto.randomUUID(),
-    };
-  });
+    return twoD.value.map((item: any) => {
+      return {
+        label: "2D-" + item.label,
+        num: [...num2D.value],
+        sum: item.sum,
+        id: crypto.randomUUID(),
+      };
+    });
 });
 const changeNum2D = (selectNumber: any) => {
   let num = selectNumber.map((item: any) => item.label); //选中的号码
@@ -195,7 +195,7 @@ const clickBet = () => {
     activePL2.value,
     activePL3.value,
   ];
-  betlist.value = arr.filter((item) => item);
+  betlist.value = arr.filter((item) =>item?.num.length );
   console.log(betlist.value);
 };
 
