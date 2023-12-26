@@ -33,7 +33,6 @@ function baseRequest(
 			beasUrl=HTTP_REQUEST_URL3
 			break;
 	}
-	console.log(data)
 	let header = JSON.parse(JSON.stringify(HEADER))
 	if (params != undefined) {
 		header = HEADERPARAMS
@@ -44,7 +43,7 @@ function baseRequest(
 				msg: '未登录',
 			})
 		}
-		if (token && token !== 'null') header[TOKENNAME] = 'Bearer ' + token
+		if (token && token !== 'null') header[TOKENNAME] = 'Bearer_' + token
 	}
 
 	return new Promise((reslove, reject) => {
@@ -74,7 +73,7 @@ function baseRequest(
 				}
 				// 判断内层code
 				if(res.data.resCode==='000000'){
-					reslove(res.data.resultSet)
+					reslove(res.data)
 					return
 				}else {
 					uni.showToast({
