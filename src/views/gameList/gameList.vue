@@ -36,8 +36,9 @@
 import TabNav from "@/components/tabnav/index.vue";
 import GameHeader from "@/components/game/gameHeader.vue";
 import {onBeforeMount, onMounted, ref} from "vue";
-import {get} from "@/api";
+import {get, post, UrlType} from "@/api";
 import {disposeUrl} from "@/utils/tools";
+import {setStorage} from "@/utils/storage";
 const uTabsIndex = ref<number>(0);
 const tabChange = (e: any) => (uTabsIndex.value = e.index);
 const gameList = ref([]);
@@ -59,13 +60,33 @@ const router = (url:string,data:any) => {
     animationDuration: 300,
   });
 }
-onBeforeMount(() => {
+onBeforeMount(async () => {
+  try {
+    let r=await post({
+      url:'/api/login',
+      data:{
+        "merchantCode": "test",
+        "plantformId": 1,
+        "token": "test"
+      }
+    },UrlType.info,true)
+    await setStorage('token',r.resultSet.accessToken)
+    get({
+      url:'/gameRecords/game'
+    }).then(v=>{
+      gameList.value=v.resultSet.map((it:any)=>({...it,games:it.games.filter((it:any)=>it.vndArea===null)}))
+    })
+  }catch (e) {
+    console.log(e)
+  }
+});
+/*onMounted(()=>{
   get({
-    url:'/gameRecords/game'+'\\'+1
+    url:'/gameRecords/game'
   }).then(v=>{
     gameList.value=v.resultSet.map((it:any)=>({...it,games:it.games.filter((it:any)=>it.vndArea===null)}))
   })
-});
+})*/
 </script>
 <style lang="less" scoped>
 body {

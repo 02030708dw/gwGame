@@ -1,7 +1,7 @@
 import {nextTick, Ref, ref, toRaw, watch} from "vue";
 import {calData} from "@/utils/arrayFun";
-export default function (type:string,lotteryHistory:  Map<string, Ref<{}>>,playTypeSetIndex:Ref) {
-    const boardData1DType = ref([
+export default function (type:string,lotteryHistory:  Map<string, Ref<{}>>,playTypeCode:Ref) {
+    const boardData1DType = ref<any[]>([
         {label:'头',value:1},
         {label:'尾',value:2},
     ])
@@ -9,8 +9,6 @@ export default function (type:string,lotteryHistory:  Map<string, Ref<{}>>,playT
     const activeData1D = ref<number[]>([])
     const activeData1DType = ref<number[]>([1])
     const onAddAct1DType = (i: number) => {
-        /*if (activeData1DType.value.includes(i)) activeData1DType.value=[]
-        else activeData1DType.value=[i]*/
         if (activeData1DType.value.includes(i)) activeData1DType.value.splice(activeData1DType.value.findIndex(it => it === i), 1)
         else activeData1DType.value = [...activeData1DType.value, i]
     }
@@ -23,12 +21,17 @@ export default function (type:string,lotteryHistory:  Map<string, Ref<{}>>,playT
             if (activeData1D.value.length) activeData1D.value=[]
             lotteryHistory.set(type,ref([]))
         }else {
-            const data=activeData1DType.value.map(it=>({
-                gamePlayCode:it,
-                gamePlayTypeCode:[...lotteryHistory.keys()][playTypeSetIndex.value],
-                oneBetAmount:1,
-                betNums:toRaw(n[0])
-            }))
+            const data=activeData1DType.value.map(it=>{
+                const gPlayType=boardData1DType.value.find(it2=>it2.value===it)
+                return {
+                    gamePlayTypeCode:gPlayType!.gamePlayCode||it,
+                    gamePlayCode:playTypeCode.value,
+                    // gamePlayCode:[...lotteryHistory.keys()][playTypeSetIndex.value],
+                    oneBetAmount:gPlayType.betAmount,
+                    winAmount:gPlayType!.winAmount,
+                    betNums:toRaw(n[0])
+                }
+            })
             lotteryHistory.set(type,ref(data))
         }
     },{

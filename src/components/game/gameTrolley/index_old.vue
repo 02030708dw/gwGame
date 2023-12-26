@@ -1,5 +1,4 @@
 <template>
-<view>
   <u-popup :show="isBetting" mode="bottom" :round="10">
     <view class="bettingBac">
       <view class="betting">
@@ -14,21 +13,14 @@
       <scroll-view class="mb100" scroll-y="true" :style="`height:  ${height}rpx`" scroll-with-animation="true">
         <view class="bettingList animate__backOutLeft" v-for="item in data" :key="item.key"
               v-if='data.length>0'>
-          <view class="bettingTit"> [{{item.key}}]</view>
-          <view class="bettingTitN"> {{item.betNums.slice(0,4).join('-')}}&nbsp;
-            <text class="detailPlay" v-if="item.betNums.length>4" style="color: blue" @click="onDetail(item.betNums)">
-              详情
-              <div class="detail" v-if="show">
-
-              </div>
-            </text>
-          </view>
-          <view class="bettingInput bettingList2">
-            <u-input class="bettingI" border="none" v-model="item.oneBetAmount" placeholder=""></u-input>
-            <text class="bettingT">Tmis</text>
-            <image class="bettingDel" src="@/static/images/del.png" @click="handleDelete(item)" mode="">
-            </image>
-          </view>
+            <view class="bettingTit"> [{{item.key}}]</view>
+            <view class="bettingTitN"> {{item.oneBetAmount}}</view>
+            <view class="bettingInput bettingList2">
+              <u-input class="bettingI" border="none" v-model="item.oneBetAmount" placeholder=""></u-input>
+              <text class="bettingT">Tmis</text>
+              <image class="bettingDel" src="@/static/images/del.png" @click="handleDelete(item)" mode="">
+              </image>
+            </view>
         </view>
         <view class="noData" v-else>
           暂无历史记录
@@ -43,10 +35,9 @@
           <u-input class="r1" border="none"  placeholder="Condinm"></u-input>
         </view>
       </view>
-      <game-footer @onBetting="() => emits('onBetFinish',data)"/>
+      <game-footer/>
     </view>
   </u-popup>
-</view>
 
 </template>
 <script setup lang="ts">
@@ -61,17 +52,16 @@ const props=defineProps({
     type:Array as PropType<lotteryHType>
   }
 })
-const emits=defineEmits<{
-  (e:'onBetFinish',data:any):void
-}>()
-const show=ref(false)
-const title=ref('详情')
-const detailList=ref<number[]>([])
+/*const emits=defineEmits<{
+  ('')
+}>()*/
 const data=computed<(lotteryHType[number]&{key:string})[]>
 (()=>props.trolleyTotal?.reduce((pre:lotteryHType,cur:lotteryHType[number])=>{
-  let obj={...cur}
-  obj.key=cur.gamePlayCode+'-'+cur.gamePlayTypeCode
-  pre.push(obj)
+    cur.betNums.forEach((it:number)=>{
+      let obj={...cur,betNum:undefined,betNumKey:it}
+      obj.key=cur.gamePlayCode+'-'+cur.gamePlayTypeCode+'-'+it
+      pre.push(obj)
+    })
   return pre},[]))
 const storeGame = useGame();
 const storeCommon = useCommon();
@@ -81,10 +71,6 @@ const { isBetting } = storeToRefs(storeGame);
 const handleClose = () => storeGame.isBetting = !storeGame.isBetting
 const changeTotal = () => {
 
-}
-const onDetail = (n:number[]) => {
-  show.value=true
-  detailList.value=n
 }
 const handleDelete = (item : any) => {
   console.log(item)
@@ -106,12 +92,6 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-}
-.detailPlay{
-  position: relative;
-  .detail{
-    position: absolute;
   }
 }
 .edit{

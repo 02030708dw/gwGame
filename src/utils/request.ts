@@ -1,6 +1,7 @@
 import { showMessage } from '@/utils/status';
-import { HEADER, HEADERPARAMS, TOKENNAME, HTTP_REQUEST_URL } from '@/config/app';
+import {HEADER, HEADERPARAMS, TOKENNAME, HTTP_REQUEST_URL, HTTP_REQUEST_URL2, HTTP_REQUEST_URL3} from '@/config/app';
 import {getStorage} from "@/utils/storage";
+import {UrlType} from "@/api";
 
 
 type RequestOptionsMethod = 'OPTIONS' | 'GET' | 'HEAD' | 'POST' | 'PUT' | 'DELETE' | 'TRACE' | 'CONNECT'
@@ -14,12 +15,24 @@ function baseRequest(
 	method : RequestOptionsMethod,
 	data : any,
 	{ noAuth = false, noVerify = false } : any,
-	params : unknown
+	params : unknown,
+	uType:UrlType
 ) {
 	// const token = userInfo.Token;
 	const token=getStorage('token')
+	let beasUrl=''
 	// console.log("====token==========>>>>",token)
-	const beasUrl = HTTP_REQUEST_URL
+	switch (uType) {
+		case UrlType.info:
+			beasUrl=HTTP_REQUEST_URL
+			break;
+		case UrlType.bet:
+			beasUrl=HTTP_REQUEST_URL2
+			break;
+		case UrlType.init:
+			beasUrl=HTTP_REQUEST_URL3
+			break;
+	}
 	let header = JSON.parse(JSON.stringify(HEADER))
 	if (params != undefined) {
 		header = HEADERPARAMS
@@ -30,7 +43,7 @@ function baseRequest(
 				msg: '未登录',
 			})
 		}
-		if (token && token !== 'null') header[TOKENNAME] = 'Bearer ' + token
+		if (token && token !== 'null') header[TOKENNAME] = 'Bearer_' + token
 	}
 
 	return new Promise((reslove, reject) => {
@@ -60,7 +73,7 @@ function baseRequest(
 				}
 				// 判断内层code
 				if(res.data.resCode==='000000'){
-					reslove(res.data.resultSet)
+					reslove(res.data)
 					return
 				}else {
 					uni.showToast({
@@ -96,7 +109,7 @@ const request : { [key in Methods]?: Function } = {}
 
 requestOptions.forEach((method) => {
 	const m = method.toUpperCase() as unknown as RequestOptionsMethod
-	request[method] = (api : any, data : any, opt : any, params : any) => baseRequest(api, m, data, opt || {}, params)
+	request[method] = (api : any, data : any, opt : any, params : any,uType:UrlType) => baseRequest(api, m, data, opt || {}, params,uType)
 })
 
 export default request
