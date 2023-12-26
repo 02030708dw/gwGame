@@ -9,8 +9,7 @@ export default function (playDataType: GamePlayType[]) {
     ])
     const onAddActType = (i: number) => {
         playType.value=i
-        if (activeDataPlayType.value.includes(i)) activeDataPlayType.value=[]
-        else activeDataPlayType.value=[i]
+        activeDataPlayType.value=[i]
     }
     const playTypeCode=computed(()=>playTypeData.value.find(it=>it.value===playType.value)!.code)
     return {
