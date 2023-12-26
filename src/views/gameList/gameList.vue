@@ -36,7 +36,7 @@
 import TabNav from "@/components/tabnav/index.vue";
 import GameHeader from "@/components/game/gameHeader.vue";
 import {onBeforeMount, onMounted, ref} from "vue";
-import {get, post} from "@/api";
+import {get, post, UrlType} from "@/api";
 import {disposeUrl} from "@/utils/tools";
 import {setStorage} from "@/utils/storage";
 const uTabsIndex = ref<number>(0);
@@ -69,20 +69,24 @@ onBeforeMount(async () => {
         "plantformId": 1,
         "token": "test"
       }
+    },UrlType.info,true)
+    await setStorage('token',r.resultSet.accessToken)
+    get({
+      url:'/gameRecords/game'
+    }).then(v=>{
+      gameList.value=v.resultSet.map((it:any)=>({...it,games:it.games.filter((it:any)=>it.vndArea===null)}))
     })
-    setStorage('token',r.resultSet.accessToken)
   }catch (e) {
     console.log(e)
   }
 });
-onMounted(()=>{
+/*onMounted(()=>{
   get({
     url:'/gameRecords/game'
   }).then(v=>{
-    console.log(v.resultSet)
     gameList.value=v.resultSet.map((it:any)=>({...it,games:it.games.filter((it:any)=>it.vndArea===null)}))
   })
-})
+})*/
 </script>
 <style lang="less" scoped>
 body {
