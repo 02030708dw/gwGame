@@ -29,7 +29,7 @@
         v-for="(item, index) in data2D2.slice(numScope - 100, numScope)"
         @click="
           () => {
-            unlock ? changeNum(item) : item.checked=false;
+            unlock ? changeNum(item) : (item.checked = false);
             move(index);
           }
         "

@@ -11,30 +11,81 @@
       </text>
     </view>
   </view>
+
+  <!-- <view class="headerContainer">
+    <table>
+      <tr>
+        <td lass="periods" colspan="4">{{ period }}</td>
+      </tr>
+      <tr>
+        <td>头奖</td>
+        <td>前三</td>
+        <td>后三</td>
+        <td>二星</td>
+      </tr>
+      <tr>
+        <td>{{ head }}</td>
+        <td>{{ firstThree.replace(/,/g, ' ') }}</td>
+        <td>{{ afterThree.replace(/,/g, ' ') }}</td>
+        <td>{{ end }}</td>
+      </tr>
+    </table>
+  </view> -->
 </template>
 
 <script setup lang="ts">
 import { useCommon } from "@/plugins/pinia/common.pinia";
+// import { get } from "vant/lib/utils";
+import { ref, onMounted } from "vue";
+import { post } from "@/api";
 
 const storeCommon = useCommon();
 const props = defineProps(["typeTab"]);
 const emits = defineEmits(["handleContry"]);
 const handleContrys = (item: any) => {
-  console.log("9999-----", item);
   storeCommon.setTabData(item.id);
   // emits('handleContry', item)
 };
+
+const head = ref(""); // 头奖
+const firstThree = ref(""); //前三
+const afterThree = ref(""); //后三
+const end = ref(""); //二星
+const period = ref(""); // 当前期
+const countdown = ref(""); //倒计时
+const gameCode = ref(""); //游戏code
+const lastAwardPeriod = ref(""); //下一期
+
+const fetchData = async () => {
+  try {
+    const data = await post({
+      url: "/getAwardNum",
+      data: { gameCode: "TH" },
+    });
+    const { awardNum } = data;
+
+    head.value = awardNum.head;
+    firstThree.value = awardNum.firstThree;
+    afterThree.value = awardNum.afterThree;
+    end.value = awardNum.end;
+    period.value = awardNum.period;
+
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+onMounted(() => {
+  // fetchData();
+});
 </script>
 
 <style scoped lang="scss">
 .headerTab {
-  position: relative;
+  // position: relative;
   display: flex;
-  flex-direction: column;
   padding-bottom: 34rpx;
-  width: 688rpx;
   flex-direction: row;
-  display: flex;
   justify-content: space-between;
 }
 
@@ -54,6 +105,31 @@ const handleContrys = (item: any) => {
     text-align: center;
     white-space: nowrap;
     line-height: 44rpx;
+  }
+}
+
+.headerContainer {
+  font-family: Arial, sans-serif;
+  max-width: 600px;
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
   }
 }
 </style>

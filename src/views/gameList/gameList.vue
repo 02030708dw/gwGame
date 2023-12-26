@@ -32,7 +32,6 @@
     </view>
   </view>
 </template>
-
 <script setup lang="ts">
 import TabNav from "@/components/tabnav/index.vue";
 import GameHeader from "@/components/game/gameHeader.vue";
@@ -46,7 +45,7 @@ const img='https://lanhu-dds-backend.oss-cn-beijing.aliyuncs.com/merge_image/img
 const onGameSelect = (data:any) => {
   switch (uTabsIndex.value) {
     case 0:
-      return router('vietnameseLottery/vietnameseLottery',data)
+      return router('vietnameseLottery',data)
     case 1:
       return router('thailandLottery',data)
     default:
@@ -60,7 +59,7 @@ const router = (url:string,data:any) => {
     animationDuration: 300,
   });
 }
-onBeforeMount(() => {
+onBeforeMount(async () => {
   get({
     url:'/gameRecords/game'+'\\'+1
   }).then(v=>{
@@ -68,7 +67,6 @@ onBeforeMount(() => {
   })
 });
 </script>
-
 <style lang="less" scoped>
 body {
   background: #f9f9f9;
