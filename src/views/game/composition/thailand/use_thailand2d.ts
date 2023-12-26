@@ -1,8 +1,8 @@
-import {ref} from "vue";
+import {Ref, ref, toRaw, watch} from "vue";
 import {calData} from "@/utils/arrayFun";
-export default function () {
+export default function (type:string,lotteryHistory:  Map<string, Ref<{}>>,playTypeCode:Ref) {
     const boardData2D = ref(calData(30))
-    const boardData2DType = ref([
+    const boardData2DType = ref<any[]>([
         {label:'头',value:1},
         {label:'尾',value:2},
         {label:'头奖选组15',value:3},
@@ -17,6 +17,28 @@ export default function () {
         if (activeData2DType.value.includes(i)) activeData2DType.value.splice(activeData2DType.value.findIndex(it => it === i), 1)
         else activeData2DType.value = [...activeData2DType.value, i]
     }
+    watch(()=>[activeData2D.value,activeData2DType.value],(n,i)=>{
+        if (i[1].length===0){
+            if (activeData2D.value.length) activeData2D.value=[]
+            lotteryHistory.set(type,ref([]))
+        }else {
+            const data=activeData2DType.value.map(it=>{
+                const gPlayType=boardData2DType.value.find(it2=>it2.value===it)
+                return {
+                    gamePlayCode:gPlayType!.gamePlayCode||it,
+                    gamePlayTypeCode:playTypeCode.value,
+                    // gamePlayCode:[...lotteryHistory.keys()][playTypeSetIndex.value],
+                    gameType:type,
+                    oneBetAmount:gPlayType.betAmount,
+                    winAmount:gPlayType!.winAmount,
+                    betNums:toRaw(n[0])
+                }
+            })
+            lotteryHistory.set(type,ref(data))
+        }
+    },{
+        deep:true
+    })
     return {
         boardData2D,
         activeData2D,

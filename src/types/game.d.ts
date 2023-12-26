@@ -29,4 +29,8 @@ declare global {
         afterThree: string;
         lastAwardPeriod: string;
     };
+    interface activeType {
+        id:string
+        value:number
+    }
 }

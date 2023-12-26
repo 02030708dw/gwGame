@@ -2,12 +2,12 @@
   <view>
     <layout>
       <template #top>
-        <gameHeader :active-title="routes.name as string" />
+        <gameHeader :active-title="routes.name as string"/>
       </template>
-      <gameHeaderTab :typeTab="typeTab" />
-      <gameContent />
+      <gameHeaderTab :typeTab="typeTab"/>
+      <gameContent/>
       <gameTime :ac="gameAwardConfig"/>
-<!--      {{playTypeData}}-->
+      <!--      {{playTypeData}}-->
       <game-board-type
           :board-data="playTypeData as boardType[]"
           :bg="urls1"
@@ -64,7 +64,7 @@
         <gameFooter :count="count"/>
       </template>
     </layout>
-    <game-trolley :trolley-total="trolleyShow" @on-bet-finish="onBetting"/>
+    <game-trolley :trolley-total="trolleyShow" @on-bet-finish="onBetting" @onTrolleyDel="TrolleyDel"/>
   </view>
 </template>
 
@@ -73,7 +73,7 @@
 import {computed, reactive, ref, toRaw} from "vue";
 import gameHeader from "@/components/game/gameHeader";
 import gameContent from "@/components/game/gameContent";
-import gameTime from "@/components/game/gameTime";
+import gameTime from "@/components/game/gameTime/index.vue";
 import gameFooter from "@/components/game/gameFooter";
 import gameHeaderTab from "@/components/game/gameHeaderTab";
 import GameBoard from "@/components/game/gameBoard";
@@ -86,34 +86,57 @@ import {onLoad} from "@dcloudio/uni-app";
 import gameTrolley from '@/components/game/gameTrolley/index.vue'
 import {post, UrlType} from "@/api";
 import use_thailandPlayType from "@/views/game/composition/thailand/use_thailandPlayType";
+import {useGame} from "@/plugins/pinia/Game.pinia";
 
 //#endregion
 interface boardType {
   label: string;
   value: number;
 }
-export type lotteryHType={gamePlayCode: number, gamePlayTypeCode: string, oneBetAmount: number, betNums: number[]}[]
-type Routes=Partial<Record<'code'|'gameId'|'name'|'type'|'vndArea', string|null>>
-const routes=ref<Routes>({})
-const gameConfig=ref<GameInfo>({gameId: "", gameName: "", gamePlayAndTypeListRespList: [], sealingTime: ""})
-const gameAwardConfig=ref<AwardNum>({afterThree: "", countdown: "", end: "", firstThree: "", gameCode: "", head: "", lastAwardPeriod: "", period: ""})
-const lotteryHistory=reactive(new Map([
-    ['1d',ref<lotteryHType>([])],
-    ['2d',ref<lotteryHType>([])],
-    ['3d',ref<lotteryHType>([])],
+
+export type lotteryHType = { gamePlayCode: number, gamePlayTypeCode: string, oneBetAmount: number, betNums: number[] }[]
+type Routes = Partial<Record<'code' | 'gameId' | 'name' | 'type' | 'vndArea', string | null>>
+const routes = ref<Routes>({})
+const gameConfig = ref<GameInfo>({gameId: "", gameName: "", gamePlayAndTypeListRespList: [], sealingTime: ""})
+const gameAwardConfig = ref<AwardNum>({
+  afterThree: "",
+  countdown: "",
+  end: "",
+  firstThree: "",
+  gameCode: "",
+  head: "",
+  lastAwardPeriod: "",
+  period: ""
+})
+const lotteryHistory = reactive(new Map([
+  ['1d', ref<lotteryHType>([])],
+  ['2d', ref<lotteryHType>([])],
+  ['3d', ref<lotteryHType>([])],
 ]))
-const playTypeSet=ref<number>(0)
+const playTypeSet = ref<number>(0)
+const origin2DData=ref<any[]>([])
+const origin3DData=ref<any[]>([])
 // type
-const {playType,playTypeData,activeDataPlayType,playTypeCode,onAddActType}=use_thailandPlayType(gameConfig.value.gamePlayAndTypeListRespList)
-// keyboard
-const { boardData1D, activeData1D,boardData1DType
-  ,activeData1DType,onAddAct1D,onAddAct1DType} = use_thailand1d('1d',lotteryHistory,playTypeCode);
-const { boardData2D, activeData2D,
-  boardData2DType,onAddAct2DType,
-  activeData2DType,
-  onAddAct2D } = use_thailand2d();
 const {
-  boardData3DType,onAddAct3DType,
+  playType,
+  playTypeData,
+  activeDataPlayType,
+  playTypeCode,
+  onAddActType
+} = use_thailandPlayType(gameConfig.value.gamePlayAndTypeListRespList)
+// keyboard
+const {
+  boardData1D, activeData1D, boardData1DType
+  , activeData1DType, onAddAct1D, onAddAct1DType
+} = use_thailand1d('1d', lotteryHistory, playTypeCode);
+const {
+  boardData2D, activeData2D,
+  boardData2DType, onAddAct2DType,
+  activeData2DType,
+  onAddAct2D
+} = use_thailand2d('2d', lotteryHistory, playTypeCode);
+const {
+  boardData3DType, onAddAct3DType,
   boardData3D,
   activeData3D,
   boardSubData3D,
@@ -122,188 +145,257 @@ const {
   onAddActSub3D,
   onAddAct3D,
 } = use_thailand3d();
-const count=computed(()=>{
-  return [...lotteryHistory.values()].map(it=>toRaw(it.value)).flat().reduce((pre,cur)=>{
-    pre+=cur['betNums']?cur['betNums'].length:0
+const count = computed(() => {
+  return [...lotteryHistory.values()].map(it => toRaw(it.value)).flat().reduce((pre, cur) => {
+    pre += cur['betNums'] ? cur['betNums'].length : 0
     return pre
-  },0)
+  }, 0)
 })
-const trolleyShow=computed(()=>[...lotteryHistory.values()].map(it=>toRaw(it.value)).flat())
+const trolleyShow = computed(() => [...lotteryHistory.values()].map(it => toRaw(it.value)).flat()
+    .reduce((pre: lotteryHType, cur: lotteryHType[number]) => {
+      let obj: lotteryHType[number] & { key?: string } = {...cur}
+      obj.key = cur.gamePlayCode + '-' + cur.gamePlayTypeCode
+      if (cur.betNums.length === 0) pre.splice(0, 1)
+      else pre.push(obj)
+      return pre
+    }, []))
 //#region
 let urls1 = ref("../../static/images/fredHill1.png");
 let urls2 = ref("../../static/images/fredHill2.png");
 let urls3 = ref("../../static/images/fredHill3M.png");
 const typeTab = reactive([
-  { label: "动画", id: 1 },
-  { label: "直播", id: 2 },
-  { label: "视频", id: 3 },
-  { label: "新闻", id: 4 },
+  {label: "动画", id: 1},
+  {label: "直播", id: 2},
+  {label: "视频", id: 3},
+  {label: "新闻", id: 4},
 ]);
-const onBetting = (data:any) => {
-  post({
-    url:'/bet',
-    data:{
-      awardPeriod:gameAwardConfig.value.lastAwardPeriod,
-      gameCode:routes.value.code,
-      betInfos:data.map((it:any)=>({
-        ...it,sumAmount:it.betNums.length*it.oneBetAmount
-      }))
-    }
-  },UrlType.bet).then(v=>{
-    console.log(v)
-  }).catch(r=>{
-    console.log(r)
-  })
+const onBetting = (data: any) => {
+   post({
+     url:'/bet',
+     data:{
+       awardPeriod:gameAwardConfig.value.lastAwardPeriod,
+       gameCode:routes.value.code,
+       betInfos:data.map((it:any)=>({
+         ...it,sumAmount:it.betNums.length*it.oneBetAmount
+       }))
+     }
+   },UrlType.bet).then(v=>{
+     uni.showToast({
+       icon:'success',
+       title:v.resDesc
+     })
+     clearBet()
+   }).catch(r=>{
+     uni.showToast({
+       icon:'error',
+       title:'投注失败'
+     })
+   })
+}
+const TrolleyDel = (d: any) => {
+  const currentD=lotteryHistory.get(d.gameType)
+  switch (d.gameType) {
+    case '1d':
+      console.log(11)
+      currentD?.value.forEach(it=>{
+        if (it.gamePlayCode===d.gamePlayCode) {
+          if (activeData1DType.value?.length===1)  activeData1D.value=[]
+          let dd=boardData1DType.value?.find(it2=>it2.gamePlayCode===it.gamePlayCode).value
+          activeData1DType.value.splice(boardData1DType.value?.findIndex(it3=>it3.value===dd),1)
+        }
+      })
+      break;
+    case '2d':
+      currentD?.value.forEach(it=>{
+        if (it.gamePlayCode===d.gamePlayCode) {
+          if (activeData2DType.value?.length===1) activeData2D.value=[]
+          let dd=boardData2DType.value?.find(it2=>it2.gamePlayCode===it.gamePlayCode).value
+          // console.log(origin2DData.value?.findIndex(it3=>it3.value===dd),1)
+          /*console.log(origin2DData.value?.findIndex(it3=>it3.value===dd))
+          console.log(boardData2DType.value?.findIndex(it3=>it3.value===dd))*/
+          // origin2DData.value.splice(origin2DData.value?.findIndex(it3=>it3.value===dd),1)
+          activeData2DType.value.splice(boardData2DType.value?.findIndex(it3=>it3.value===dd)-
+              activeData2DType.value?.length===2?1:0,1)
+        }
+      })
+      break;
+    default :
+      // activeData3D.value = []
+      break
+  }
+  /*currentD?.value.splice(currentD?.value
+      .findIndex(it=>{
+        return it.gamePlayCode===d.gamePlayCode
+      }),1)
+  lotteryHistory.set(d.gameType,ref(currentD?.value as lotteryHType))*/
+}
+const clearBet = () => {
+  const storeGame = useGame();
+  lotteryHistory.set('1d', ref([]))
+  lotteryHistory.set('2d', ref([]))
+  lotteryHistory.set('3d', ref([]))
+  activeData1D.value = []
+  activeData1DType.value=[1]
+  activeData2DType.value=[1]
+  activeData3DType.value=[1]
+  activeData2D.value = []
+  activeData3D.value = []
+  storeGame.isBetting=false
 }
 const getAwardData = async () => {
-  const r=await post({
-    url:'/getAwardNum',
-    data:{
-      gameCode:routes.value.code
+  const r = await post({
+    url: '/getAwardNum',
+    data: {
+      gameCode: routes.value.code
     }
-  }) as any
-  gameAwardConfig.value=r.awardNum
+  })
+  console.log(r)
+  gameAwardConfig.value = r.resultSet.awardNum
 }
 //#endregion
-onLoad(async (options)=>{
-  routes.value=options as Routes
+onLoad(async (options) => {
+  routes.value = options as Routes
   getAwardData()
-  const r=await post({
-    url:'/gameRecords/gamePlayAndType',
-    data:{
+  const r = await post({
+    url: '/gameRecords/gamePlayAndType',
+    data: {
       "gameId": routes.value.gameId,
       "merchantId": 1
     }
-  }) as any
-/*  const r={
-    "gameId": "40",
-    "gameName": "泰国官彩",
-    "gamePlayAndTypeListRespList": [
-      {
-        "gamePlayList": [
+  })
+/*    const r={
+      resultSet:{
+        "gameId": "40",
+        "gameName": "泰国官彩",
+        "gamePlayAndTypeListRespList": [
           {
-            "gamePlayId": "103",
-            "gamePlayName": "1d_头",
-            "gamePlayCode": "th_1d_head",
-            "winAmount": 2.00,
-            "betAmount": 4.00
+            "gamePlayList": [
+              {
+                "gamePlayId": "103",
+                "gamePlayName": "1d_头",
+                "gamePlayCode": "th_1d_head",
+                "winAmount": 2.00,
+                "betAmount": 4.00
+              },
+              {
+                "gamePlayId": "104",
+                "gamePlayName": "1d_尾",
+                "gamePlayCode": "th_1d_end",
+                "winAmount": 70.00,
+                "betAmount": 75.00
+              }
+            ],
+            "gamePlayTypeName": "1D",
+            "gamePlayTypeCode": "th_1d"
           },
           {
-            "gamePlayId": "104",
-            "gamePlayName": "1d_尾",
-            "gamePlayCode": "th_1d_end",
-            "winAmount": 70.00,
-            "betAmount": 75.00
+            "gamePlayList": [
+              {
+                "gamePlayId": "105",
+                "gamePlayName": "2d_头",
+                "gamePlayCode": "th_2d_head",
+                "winAmount": 70.00,
+                "betAmount": 75.00
+              },
+              {
+                "gamePlayId": "106",
+                "gamePlayName": "2d_尾",
+                "gamePlayCode": "th_2d_end",
+                "winAmount": 70.00,
+                "betAmount": 75.00
+              },
+              {
+                "gamePlayId": "107",
+                "gamePlayName": "2d_头奖组选",
+                "gamePlayCode": "th_2d_head_prize",
+                "winAmount": 70.00,
+                "betAmount": 75.00
+              }
+            ],
+            "gamePlayTypeName": "2D",
+            "gamePlayTypeCode": "th_2d"
+          },
+          {
+            "gamePlayList": [
+              {
+                "gamePlayId": "110",
+                "gamePlayName": "3d_头",
+                "gamePlayCode": "th_3d_head",
+                "winAmount": 70.00,
+                "betAmount": 75.00
+              },
+              {
+                "gamePlayId": "111",
+                "gamePlayName": "3d_前三",
+                "gamePlayCode": "th_3d_front3",
+                "winAmount": 70.00,
+                "betAmount": 75.00
+              },
+              {
+                "gamePlayId": "112",
+                "gamePlayName": "3d_后三",
+                "gamePlayCode": "th_3d_after3",
+                "winAmount": 70.00,
+                "betAmount": 75.00
+              },
+              {
+                "gamePlayId": "113",
+                "gamePlayName": "3d_头奖组选",
+                "gamePlayCode": "th_3d_head_prize",
+                "winAmount": 70.00,
+                "betAmount": 75.00
+              }
+            ],
+            "gamePlayTypeName": "3D",
+            "gamePlayTypeCode": "th_3d"
           }
         ],
-        "gamePlayTypeName": "1D",
-        "gamePlayTypeCode": "th_1d"
-      },
-      {
-        "gamePlayList": [
-          {
-            "gamePlayId": "105",
-            "gamePlayName": "2d_头",
-            "gamePlayCode": "th_2d_head",
-            "winAmount": 70.00,
-            "betAmount": 75.00
-          },
-          {
-            "gamePlayId": "106",
-            "gamePlayName": "2d_尾",
-            "gamePlayCode": "th_2d_end",
-            "winAmount": 70.00,
-            "betAmount": 75.00
-          },
-          {
-            "gamePlayId": "107",
-            "gamePlayName": "2d_头奖组选",
-            "gamePlayCode": "th_2d_head_prize",
-            "winAmount": 70.00,
-            "betAmount": 75.00
-          }
-        ],
-        "gamePlayTypeName": "2D",
-        "gamePlayTypeCode": "th_2d"
-      },
-      {
-        "gamePlayList": [
-          {
-            "gamePlayId": "110",
-            "gamePlayName": "3d_头",
-            "gamePlayCode": "th_3d_head",
-            "winAmount": 70.00,
-            "betAmount": 75.00
-          },
-          {
-            "gamePlayId": "111",
-            "gamePlayName": "3d_前三",
-            "gamePlayCode": "th_3d_front3",
-            "winAmount": 70.00,
-            "betAmount": 75.00
-          },
-          {
-            "gamePlayId": "112",
-            "gamePlayName": "3d_后三",
-            "gamePlayCode": "th_3d_after3",
-            "winAmount": 70.00,
-            "betAmount": 75.00
-          },
-          {
-            "gamePlayId": "113",
-            "gamePlayName": "3d_头奖组选",
-            "gamePlayCode": "th_3d_head_prize",
-            "winAmount": 70.00,
-            "betAmount": 75.00
-          }
-        ],
-        "gamePlayTypeName": "3D",
-        "gamePlayTypeCode": "th_3d"
+        "sealingTime": "708148"
       }
-    ],
-    "sealingTime": "708148"
-  }*/
-  gameConfig.value=r
-  playTypeData.value=r.gamePlayAndTypeListRespList.map((it:any,i:number)=>({
-    label:playTypeData.value[i].label,
-    value:playTypeData.value[i].value,
-    name:it.gamePlayTypeName,
-    code:it.gamePlayTypeCode
+    }*/
+  gameConfig.value = r.resultSet
+  playTypeData.value = r.resultSet.gamePlayAndTypeListRespList.map((it: any, i: number) => ({
+    label: playTypeData.value[i].label,
+    value: playTypeData.value[i].value,
+    name: it.gamePlayTypeName,
+    code: it.gamePlayTypeCode
   }))
-  r.gamePlayAndTypeListRespList.forEach((it,i)=>{
-    if (i===0){
-      boardData1DType.value=it.gamePlayList.map((it,i2)=>{
+  r.resultSet.gamePlayAndTypeListRespList.forEach((it: any, i: number) => {
+    if (i === 0) {
+      boardData1DType.value = it.gamePlayList.map((it: any, i2: number) => {
         return {
-          label:it.gamePlayName,
-          value:boardData1DType.value[i2].value,
-          gamePlayId:it.gamePlayId,
-          gamePlayCode:it.gamePlayCode,
-          winAmount:it.winAmount,
-          betAmount:it.betAmount
+          label: it.gamePlayName,
+          value: boardData1DType.value[i2].value,
+          gamePlayId: it.gamePlayId,
+          gamePlayCode: it.gamePlayCode,
+          winAmount: it.winAmount,
+          betAmount: it.betAmount
         }
       })
-    }else if (i===1){
-      boardData2DType.value=it.gamePlayList.map((it,i2)=>{
+    } else if (i === 1) {
+      boardData2DType.value = it.gamePlayList.map((it: any, i2: number) => {
         return {
-          label:it.gamePlayName,
-          value:boardData2DType.value[i2].value,
-          gamePlayId:it.gamePlayId,
-          gamePlayCode:it.gamePlayCode,
-          winAmount:it.winAmount,
-          betAmount:it.betAmount
+          label: it.gamePlayName,
+          value: boardData2DType.value[i2].value,
+          gamePlayId: it.gamePlayId,
+          gamePlayCode: it.gamePlayCode,
+          winAmount: it.winAmount,
+          betAmount: it.betAmount
         }
       })
-    }else {
-      boardData3DType.value=it.gamePlayList.map((it,i2)=>{
+      origin2DData.value=[...boardData2DType.value]
+    } else {
+      boardData3DType.value = it.gamePlayList.map((it: any, i2: number) => {
         return {
-          label:it.gamePlayName,
-          value:boardData3DType.value[i2].value,
-          gamePlayId:it.gamePlayId,
-          gamePlayCode:it.gamePlayCode,
-          winAmount:it.winAmount,
-          betAmount:it.betAmount
+          label: it.gamePlayName,
+          value: boardData3DType.value[i2].value,
+          gamePlayId: it.gamePlayId,
+          gamePlayCode: it.gamePlayCode,
+          winAmount: it.winAmount,
+          betAmount: it.betAmount
         }
       })
+      origin3DData.value=[...boardData3DType.value]
     }
   })
 })
