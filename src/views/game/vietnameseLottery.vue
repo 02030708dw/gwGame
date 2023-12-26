@@ -8,13 +8,18 @@
     <GameTime />
     <!-- 选择2D,3D,PL2,PL3 -->
     <GameType @cutGameType="cutGameType" :typeList="typeList" />
-
+    <CitySelection 
+    :background-image="urls1"
+    :list="southCityList"
+    @change="changeCitySelection "
+    />
     <!-- 2D----------------------------------- -->
     <SelectMethed
       :background-image="urls1"
       :row="3"
       @change="changeSelectMethed"
       v-show="playingMethod == 0"
+      :fredList="methodList2D"
     />
     <KeyNum
       :background-image="urls1"
@@ -30,6 +35,7 @@
       :row="3"
       @change="changeSelectMethed"
       v-show="playingMethod == 1"
+      :fredList="methodList3D"
     />
     <KeyNum
       :background-image="urls1"
@@ -83,9 +89,28 @@ import GameType from "@/components/game/YN/GameType.vue";
 import SelectMethed from "@/components/game/YN/SelectMethed.vue";
 import KeyNum from "@/components/game/YN/KeyNum.vue";
 import BetListPop from "@/components/game/YN/BetListPop.vue";
+
+import CitySelection from "@/components/game/YN/CitySelection.vue"
 import { usethreeMinute } from "@/plugins/pinia/YNthreeMinute";
+import { onLoad } from "@dcloudio/uni-app";
+import {get, post } from "@/api";
 const storethreeMinute = usethreeMinute();
-const { typeList, methodList } = storeToRefs(storethreeMinute);
+const { typeList, methodList2D, methodList3D,num3Data,numPL2Data,numPL3Data,southCityList} = storeToRefs(storethreeMinute);
+// onLoad(async (data:any) => {
+//   console.log(data);
+//   let res
+//    res =await post({
+//     url: "/gameRecords/gamePlayAndType",
+//     data: {gameId: data.gameId,merchantId: 1},
+//   });
+//   console.log(res)
+
+//   // 请求越南地区选项
+//   res=await get({url:'/gameRecords/game'})
+//   res= res.resultSet[0].games.filter((item:any)=>item.vndArea)
+//   console.log(res)
+// });
+
 const typeTab = reactive([
   { label: "动画", id: 1 },
   { label: "直播", id: 2 },
@@ -103,7 +128,7 @@ const cutGameType = (item: any) => {
 const betlist: any = ref([]); //全部选中的玩法
 
 const twoD = ref([]); //2d选择的玩法
-const threeD = ref([]); //2d选择的玩法
+const threeD = ref([]); //3d选择的玩法
 
 // 玩法选中-----------------------------------
 const changeSelectMethed = (selectData: any) => {
@@ -111,6 +136,11 @@ const changeSelectMethed = (selectData: any) => {
   if (playingMethod.value == 0) twoD.value = selectData;
   if (playingMethod.value == 1) threeD.value = selectData;
 };
+
+// 地区选中------------------------------
+const changeCitySelection=(val:any)=>{
+  console.log(val)
+}
 // 2D--------------------------------------------
 const num2D = ref([]); //2d所选的全部数字
 const active2D = computed(() => {
@@ -195,7 +225,7 @@ const clickBet = () => {
     activePL2.value,
     activePL3.value,
   ];
-  betlist.value = arr.filter((item) => item);
+  betlist.value = arr.filter((item) => item?.num.length);
   console.log(betlist.value);
 };
 
@@ -203,4 +233,8 @@ const closeBetList = () => {
   show.value = false;
   // 关闭底部弹出层
 };
+
+
+
+  
 </script>

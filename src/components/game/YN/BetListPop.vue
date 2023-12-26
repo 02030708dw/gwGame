@@ -22,7 +22,7 @@
           <image
             src="/src/static/images/del.png"
             style="width: 44rpx; height: 44rpx"
-            @click="del(item.id)"
+            @click="del(item)"
           />
         </view>
       </scroll-view>
@@ -60,8 +60,9 @@ const close = () => {
   emits("close");
   console.log(props.list)
 };
-const del=(id:string)=>{
-    emits('del',id)
+const del=(item:any)=>{
+  console.log(item)
+    // emits('del',id)
 }
 </script>
 <style lang="scss" scoped>
