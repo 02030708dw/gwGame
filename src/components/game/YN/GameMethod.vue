@@ -7,20 +7,16 @@
       <view
         class="fred-item"
         v-for="item in fredList"
-        :key="item.id"
+        :key="item.gamePlayName"
         @click="change(item)"
         :class="item.checked ? 'active-item' : null"
-        :style="{ width: `${itemWidth}` }"
       >
-        {{ item.label }}
+        {{ item.gamePlayName }}
       </view>
   
       <view
         class="fred-item"
-        v-for="item in row - (fredList.length % row ? fredList.length % row : row)"
-        :key="item"
         style="visibility: hidden"
-        :style="{ width: `${itemWidth||'198rpx'}` }"
       ></view>
     </view>
   </template>
@@ -29,13 +25,6 @@
   const props = defineProps(["backgroundImage",  "row", "itemWidth","fredList"]);
   const emits = defineEmits(["change"]);
 
-  // const fredList = ref([
-  //   { label: "头", id: 0, checked: false, sum: 1 },
-  //   { label: "尾", id: 1, checked: false, sum: 1 },
-  //   { label: "头尾", id: 2, checked: false, sum: 2 },
-  //   { label: "包组", id: 3, checked: false, sum: 18 },
-  //   { label: "包组7", id: 4, checked: false, sum: 7 },
-  // ]);
   const change = (item: any) => {
     item.checked=!item.checked
     emits("change", props.fredList.filter((item:any)=>item.checked));
