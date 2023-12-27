@@ -2,30 +2,39 @@
   <view class="bet">
     <gameHeader :showContent="!showHeaderContent" activeTitle="投注记录" />
     <view class="tabs">
-      <text
-        v-for="(item, index) in pageTabs"
-        class="tabs-item"
-        @click="changeTab(index)"
-        >{{ item.title }}</text>
-      <text
+      <!-- 彩种分类 -->
+      <text class="tabs-item">全部</text>
+      <!-- 文字下滑线 -->
+      <!-- <text
         class="line"
-        :style="{ left: 750/pageTabs.length * activeTab + (750/pageTabs.length/2)-28 + 'rpx' }"
-
-      ></text>
+        :style="{
+          left:
+            (750 / pageTabs.length) * activeTab +
+            750 / pageTabs.length / 2 -
+            28 +
+            'rpx',
+        }"
+      ></text> -->
     </view>
     <!-- 日期选择 -->
     <SearchDatePicker @selectedDates="onSelectedDates" />
+
+    <!-- 投注列表 -->
     <view class="record-box">
-      <view class="record-item" v-for="item in pageTabs[activeTab].dataList">
+      <view class="record-item" v-for="item in pageTabs">
         <view class="left">
-          <text class="name">{{ item.name }}</text>
-          <text class="time">{{ item.date }}</text>
+          <text class="name">{{ item.gameName }}</text>
+          <text class="time">{{ item.createdAt }}</text>
         </view>
 
         <view class="right">
-          <text class="state" v-if="item.status==0" style="color: #aeaeae;">未开奖</text>
-          <text class="state" v-if="item.status==1" >未中奖</text>
-          <text class="state" v-if="item.status==2" style="color: red;">中奖</text>
+          <text class="state" v-if="item.status == 0" style="color: #aeaeae"
+            >未开奖</text
+          >
+          <text class="state" v-if="item.status == 1">未中奖</text>
+          <text class="state" v-if="item.status == 2" style="color: red"
+            >中奖</text
+          >
           <text class="detail" @click="redirect(item)">详情</text>
         </view>
       </view>
@@ -35,7 +44,9 @@
 <script setup lang="ts">
 import gameHeader from "@/components/game/gameHeader.vue";
 import SearchDatePicker from "@/components/SearchDatePicker.vue";
-import { ref } from "vue";
+import { ref, onBeforeMount } from "vue";
+import { get } from "@/api";
+
 const showHeaderContent = ref(true); //显示下拉导航
 const onSelectedDates = (dates: string) => {
   // 打印选择的日期
@@ -49,44 +60,51 @@ const changeTab = (index: number) => {
   activeTab.value = index;
 };
 
-const redirect=({name,date,status}:any)=>{
+const redirect = ({orderNo}: any) => {
   // 跳转详情
   uni.navigateTo({
-	url: `betDetails?name=${name}&date=${date}&status=${status}`
-});
-}
+    url: `betDetails?orderNo=${orderNo}`,
+  });
+};
 const pageTabs = ref([
   {
-    title: "泰国彩",
-    dataList: [
-      { name: "name", date: "2009", status: 1 },
-      { name: "name", date: "2011", status: 0 },
-      { name: "name", date: "2013", status: 2 },
-      { name: "name", date: "2015", status: 2 },
-    ],
-  },
-  {
-    title: "越南彩",
-    dataList: [
-      { name: "yuenan1", date: "532332", status: 2 },
-      { name: "yuenan2", date: "122133", status: 1 },
-      { name: "yuenan3", date: "122133", status: 0 },
-    ],
-  },
-  {
-    title: "菲律宾彩",
-    dataList: [{ name: "feilvbin", date: "53232", status: 2 }],
-  },
-  {
-    title: "xxxx彩",
-    dataList: [{ name: "4", date: "5", status: 1 }],
+    createdAt: "2023-12-27 02:43:16",
+    gameName: "泰国官彩",
+    gamePlayId: "104",
+    period: "20240101-001",
+    betAmount: 300,
+    winAmount: 0,
+    awardNum: null,
+    status: 0,
+    betNum: '["0","1","2","3"]',
+    orderNo: "th_20240101-0011703644995430",
   },
 ]);
+
+// 调用接口获取数据
+const fetchData = async () => {
+  try {
+    const data = await get({
+      url: "/gameRecords/order/search",
+    });
+    console.log("🚀  data:", data);
+    pageTabs.value = data.resultSet.data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+onBeforeMount(() => {
+  fetchData();
+});
 </script>
 <style scoped lang="scss">
-
+body {
+  background-color: #f9f9f9;
+}
 .bet {
-  background-color: #F9F9F9;
+  background-color: #f9f9f9;
+
   .tabs {
     width: 750rpx;
     height: 100rpx;

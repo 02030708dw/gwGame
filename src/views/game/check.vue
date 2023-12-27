@@ -37,8 +37,9 @@ const onSelectedDates = (dates: string) => {
   console.log(dates);
 };
 const memberAccount = ref({});
+
+// 调用接口获取数据
 const fetchData = async () => {
-  // 调用接口获取数据
   try {
     const data = await get({
       url: "/gameRecords/memberAccount",
