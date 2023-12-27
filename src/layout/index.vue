@@ -30,7 +30,7 @@ export default defineComponent({
     position: relative;
     display: flex;
     flex-direction: column;
-    padding: 32rpx 30rpx 156rpx 32rpx;
+    padding: 32rpx 30rpx 10rpx 32rpx;
   }
   .top {
     // height: 128rpx;

@@ -1,0 +1,81 @@
+.gameBoard3D{
+  width: 100%;
+  font-family: PingFangSC-Semibold, PingFang SC;
+  background-size: contain;
+  background-repeat: no-repeat;
+  box-sizing: border-box;
+  font-weight: bold;
+  //border: #F6AB1E solid 1px;
+  margin-top: 10rpx;
+  .title{
+    padding-top: 20rpx;
+    padding-left: 22rpx;
+    font-size: 44rpx;
+    color: #fff;
+  }
+  .main{
+    padding: 0;
+    .top{
+      padding: 28rpx;
+      display: grid;
+      grid-template-columns: repeat(5,1fr);
+      gap: 16rpx;
+      border-bottom: 2px solid #81D1F1;
+      >div{
+        font-size: 36rpx;
+        display: flex;
+        border-radius: 4px;
+        align-items: center;
+        justify-content: center;
+        padding: 12rpx;
+        background: #81D1F1;
+        color: #CCE8F3;
+        transition:0.3s ease-in-out all;
+        &.active{
+          background:var(--color);
+          color: #fff;
+        }
+      }
+    }
+    .content{
+      background: #cae6f1;
+      padding: 28rpx;
+      display: grid;
+      grid-template-columns: repeat(5,1fr);
+      gap: 16rpx;
+      >div{
+        font-size: 36rpx;
+        display: flex;
+        border-radius: 4px;
+        align-items: center;
+        justify-content: center;
+        padding: 12rpx;
+        background: #fff;
+        transition:0.3s ease-in-out all;
+        animation: none;
+        &.active{
+          background:var(--color);
+          color: #fff;
+          animation: tada 1s;
+        }
+      }
+    }
+  }
+}
+@keyframes tada {
+  from {
+    transform: scale3d(1, 1, 1)
+  }
+  10%, 20% {
+    transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg)
+  }
+  30%, 50%, 70%, 90% {
+    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg)
+  }
+  40%, 60%, 80% {
+    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg)
+  }
+  to {
+    transform: scale3d(1, 1, 1)
+  }
+}
