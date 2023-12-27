@@ -40,50 +40,6 @@
         </view>
       </view>
     </view>
-<<<<<<< HEAD
-    <view
-      class="num-box"
-      :style="{ height: numHeight, paddingTop: showHeader ? '32rpx' : '0rpx' }"
-    >
-
-      <view
-        class="num-item"
-        v-for="(item, index) in data2D2.slice(numScope - 100, numScope)"
-        @click="
-          () => {
-            unlock ? changeNum(item) : (item.checked = false);
-            move(index);
-          }
-        "
-        :key="item.id"
-        :class="item.checked ? 'num-active' : null"
-        :animation="animationIndex == index ? animationData : null"
-      >
-        {{ item.label }}
-      </view>
-    </view>
-  </view>
-</template>
-<script setup lang="ts">
-//属性值showHeader如果不传,显示按钮00-99的数字,如果传递true则开启000-999选项
-import { ref, reactive, onMounted } from "vue";
-//   背景颜色-是否显示3位可选数字-限制选可以选的有几个-键盘是否锁住
-const props = defineProps([
-  "backgroundImage",
-  "showHeader",
-  "astrict",
-  "unlock",
-]);
-const emits = defineEmits(["changeSelectNum", "changeNum"]);
-let arr = [];
-
-let flag = props.showHeader ? 1000 : 100;
-if (!props.showHeader) {
-  // 如果取反为true代表不显示000
-  for (var i = 0; i < flag; i++) {
-    if (i < 10) {
-      arr.push("0" + i);
-=======
   </template>
   <script setup lang="ts">
   //属性值showHeader如果不传,显示按钮00-99的数字,如果传递true则开启000-999选项
@@ -145,7 +101,6 @@ if (!props.showHeader) {
     if (item.checked) {
       // 如果为选中,则取消选中
       item.checked = false;
->>>>>>> cay
     } else {
       // 如果没有选中,不可以直接选中,先判断是否有选中数量的限制
       if (props.astrict) {
