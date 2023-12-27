@@ -25,8 +25,7 @@
     </view>
   </template>
   <script setup lang="ts">
-  // 背景颜色,数据,这个组件有num个子元素
-  import { ref,watch } from 'vue';
+  // 背景,数据,这个组件有num个子元素
   const props = defineProps(["backgroundImage",  "row", "itemWidth","fredList"]);
   const emits = defineEmits(["change"]);
 
