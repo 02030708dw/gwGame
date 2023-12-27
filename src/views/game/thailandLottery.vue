@@ -44,13 +44,13 @@
         />
       </view>
       <view v-else-if="playType === 2">
-        <game-board-type
+        <game-board-play
             :board-data="boardData3DType"
             :bg="urls2"
             :active-data="activeData3DType"
             @onCheck="onAddAct3DType"
         />
-        <game-board
+        <game-board3-d
             :board-data="boardData3D as boardType[]"
             :active-data="activeData3D"
             :active-sub-data="activeSubData3D"
@@ -64,13 +64,15 @@
         <gameFooter :count="count"/>
       </template>
     </layout>
-    <game-trolley :trolley-total="trolleyShow" @on-bet-finish="onBetting" @onTrolleyDel="TrolleyDel"/>
+    <game-trolley :trolley-total="trolleyShow"
+                  @onchange-total="changeTotal"
+                  @on-bet-finish="onBetting" @onTrolleyDel="TrolleyDel"/>
   </view>
 </template>
 
 <script setup lang="ts">
 //#region
-import {computed, reactive, ref, toRaw} from "vue";
+import {computed, reactive, Ref, ref, toRaw} from "vue";
 import gameHeader from "@/components/game/gameHeader";
 import gameContent from "@/components/game/gameContent";
 import gameTime from "@/components/game/gameTime/index.vue";
@@ -87,13 +89,15 @@ import gameTrolley from '@/components/game/gameTrolley/index.vue'
 import {post, UrlType} from "@/api";
 import use_thailandPlayType from "@/views/game/composition/thailand/use_thailandPlayType";
 import {useGame} from "@/plugins/pinia/Game.pinia";
+import GameBoard3D from "@/components/game/gameBoard3D";
+import GameBoardPlay from "@/components/game/gameBoardPlay";
 
 //#endregion
 interface boardType {
   label: string;
   value: number;
 }
-
+export type cgType='all'|'sin'
 export type lotteryHType = { gamePlayCode: number, gamePlayTypeCode: string, oneBetAmount: number, betNums: number[] }[]
 type Routes = Partial<Record<'code' | 'gameId' | 'name' | 'type' | 'vndArea', string | null>>
 const routes = ref<Routes>({})
@@ -151,14 +155,17 @@ const count = computed(() => {
     return pre
   }, 0)
 })
-const trolleyShow = computed(() => [...lotteryHistory.values()].map(it => toRaw(it.value)).flat()
+/*const trolleyShow = computed(() => [...lotteryHistory.values()].map(it => toRaw(it.value)).flat()
     .reduce((pre: lotteryHType, cur: lotteryHType[number]) => {
       let obj: lotteryHType[number] & { key?: string } = {...cur}
       obj.key = cur.gamePlayCode + '-' + cur.gamePlayTypeCode
-      if (cur.betNums.length === 0) pre.splice(0, 1)
-      else pre.push(obj)
+      if (cur.betNums.length === 0) {
+        pre.splice(0, 1)
+      }
+       pre.push(obj)
       return pre
-    }, []))
+    }, []))*/
+const trolleyShow = computed(() => [...lotteryHistory.values()].map(it => toRaw(it.value)).flat())
 //#region
 let urls1 = ref("../../static/images/fredHill1.png");
 let urls2 = ref("../../static/images/fredHill2.png");
@@ -194,6 +201,7 @@ const onBetting = (data: any) => {
 }
 const TrolleyDel = (d: any) => {
   const currentD=lotteryHistory.get(d.gameType)
+  console.log(currentD?.value)
   switch (d.gameType) {
     case '1d':
       console.log(11)
@@ -229,15 +237,30 @@ const TrolleyDel = (d: any) => {
       }),1)
   lotteryHistory.set(d.gameType,ref(currentD?.value as lotteryHType))*/
 }
+const changeTotal = (n:any,v:cgType) => {
+  if (v==='sin'){
+    lotteryHistory.set(n.gameType,ref(lotteryHistory.get(n.gameType)?.value?.map(it=>{
+      if (it.gamePlayCode===n.gamePlayCode) it.oneBetAmount=Number(n.oneBetAmount)
+      return it
+    }) as any))
+  }else {
+    [...lotteryHistory.keys()].map(it=>{
+      lotteryHistory.set(it,ref(lotteryHistory.get(it)?.value?.map(it=>{
+        it.oneBetAmount=Number(n)
+        return it
+      }) as any))
+    })
+  }
+}
 const clearBet = () => {
   const storeGame = useGame();
   lotteryHistory.set('1d', ref([]))
   lotteryHistory.set('2d', ref([]))
   lotteryHistory.set('3d', ref([]))
   activeData1D.value = []
-  activeData1DType.value=[1]
-  activeData2DType.value=[1]
-  activeData3DType.value=[1]
+  activeData1DType.value=[]
+  activeData2DType.value=[]
+  activeData3DType.value=[]
   activeData2D.value = []
   activeData3D.value = []
   storeGame.isBetting=false
@@ -395,6 +418,8 @@ onLoad(async (options) => {
           betAmount: it.betAmount
         }
       })
+      // console.log(boardData3DType.value[0]!.gamePlayId)
+      activeData3DType.value=[{gamePlayId:boardData3DType.value[0]!.gamePlayId,value:1}]
       origin3DData.value=[...boardData3DType.value]
     }
   })

@@ -30,7 +30,7 @@ declare global {
         lastAwardPeriod: string;
     };
     interface activeType {
-        id:string
+        gamePlayId:string
         value:number
     }
 }

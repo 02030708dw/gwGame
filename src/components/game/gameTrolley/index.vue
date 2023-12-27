@@ -12,8 +12,8 @@
         </view>
       </view>
       <scroll-view class="mb100" scroll-y="true" :style="`height:  ${height}rpx`" scroll-with-animation="true">
-        <view class="bettingList animate__backOutLeft" v-for="item in trolleyTotal as (lotteryHType[number]&{key:string})[]" :key="item.key"
-              v-if='trolleyTotal!.length>0'>
+        <view class="bettingList animate__backOutLeft" v-for="item in data" :key="item.key"
+              v-if='data.length>0'>
           <view class="bettingTit"> [{{item.key}}]</view>
           <view class="bettingTitN"> {{item.betNums.slice(0,4).join('-')}}&nbsp;
             <text class="detailPlay" v-if="item.betNums.length>4" style="color: blue" @click="onDetail(item.betNums)">
@@ -25,7 +25,7 @@
           </view>
           <view class="bettingInput bettingList2">
             <u-input class="bettingI" border="none" v-model="item.oneBetAmount" placeholder=""></u-input>
-            <text class="bettingT">Tmis</text>
+            <button class="bettingT" @click="emits('onchangeTotal',item,'sin')">Tmis</button>
             <image class="bettingDel" src="@/static/images/del.png" @click="()=>emits('onTrolleyDel',item)" mode="">
             </image>
           </view>
@@ -36,14 +36,18 @@
       </scroll-view>
       <view class="edit">
         <view class="l">
-          <u-input class="l1" border="none" v-model="total" placeholder="10"></u-input>
-          <button class="l2" @click="changeTotal">Tmis</button>
+          <u-input class="l1" border="none" type="number" v-model="total" :min="1" placeholder="10"></u-input>
+          <button class="l2" @click="emits('onchangeTotal',total,'all')">Tmis</button>
         </view>
-        <view class="r">
+<!--        <view class="r">
           <u-input class="r1" border="none"  placeholder="Condinm"></u-input>
-        </view>
+        </view>-->
+        <div class="sum">
+          总投注 {{data.reduce((pre,cur)=>(pre+=cur.betNums.length),0)}}&nbsp;
+          总金额 {{data.reduce((pre,cur)=>(pre+=cur.betNums.length*cur.oneBetAmount),0)}}
+        </div>
       </view>
-      <game-footer @onBetting="() => emits('onBetFinish',trolleyTotal)"/>
+      <game-footer @onBetting="() => emits('onBetFinish',data)"/>
     </view>
   </u-popup>
 </view>
@@ -54,7 +58,7 @@ import { storeToRefs } from "pinia";
 import { useCommon } from "@/plugins/pinia/common.pinia";
 import { useGame } from "@/plugins/pinia/Game.pinia";
 import {computed, PropType, ref, toRefs} from "vue";
-import type {lotteryHType} from "@/views/game/thailandLottery.vue";
+import type {cgType, lotteryHType} from "@/views/game/thailandLottery.vue";
 import GameFooter from "@/components/game/gameTrolley/gameFooter.vue";
 const props=defineProps({
   trolleyTotal:{
@@ -64,6 +68,7 @@ const props=defineProps({
 const emits=defineEmits<{
   (e:'onBetFinish',data:any):void
   (e:'onTrolleyDel',data:any):void
+  (e:'onchangeTotal',num:any,type:cgType):void
 }>()
 const show=ref(false)
 const title=ref('详情')
@@ -74,15 +79,19 @@ const detailList=ref<number[]>([])
   obj.key=cur.gamePlayCode+'-'+cur.gamePlayTypeCode
   pre.push(obj)
   return pre},[]))*/
+const data=computed<(lotteryHType[number]&{key:string})[]>
+(()=>props.trolleyTotal?.map((it:lotteryHType[number], i:number)=>{
+  let obj={...it}
+  if (it.betNums.length===0) return obj
+  obj.key=it.gamePlayCode+'-'+it.gamePlayTypeCode
+  return obj})?.filter((it:lotteryHType[number])=>
+    it.betNums.length!==0))
 const storeGame = useGame();
 const storeCommon = useCommon();
 const height=480
-const total=ref(0)
+const total=ref<number>(0)
 const { isBetting } = storeToRefs(storeGame);
 const handleClose = () => storeGame.isBetting = !storeGame.isBetting
-const changeTotal = () => {
-
-}
 const onDetail = (n:number[]) => {
   show.value=true
   detailList.value=n
@@ -106,6 +115,19 @@ export default {
     align-items: center;
   }
 }
+.bettingBac{
+  .bettingList{
+    .bettingInput{
+      .bettingT{
+        display: flex;
+        justify-content: center;
+        &:hover{
+          background: rgba(253, 175, 35, 0.52);
+        }
+      }
+    }
+  }
+}
 .detailPlay{
   position: relative;
   .detail{
@@ -116,6 +138,7 @@ export default {
   padding: 26rpx 32rpx;
   display: flex;
   align-items: center;
+  justify-content: space-around;
   background: #fff;
   .l{
     width: 268rpx;
@@ -160,6 +183,12 @@ export default {
       border-radius: 8rpx;
       border: 1rpx solid #DEDEDE;
     }
+  }
+  .sum{
+    font-size: 24rpx;
+    font-family: PingFangSC-Semibold, PingFang SC;
+    font-weight: 600;
+    color: #333333;
   }
   margin-bottom: 72rpx;
 }
