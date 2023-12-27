@@ -148,7 +148,7 @@ const {
   activeData3DType,
   onAddActSub3D,
   onAddAct3D,
-} = use_thailand3d();
+} = use_thailand3d('3d', lotteryHistory, playTypeCode);
 const count = computed(() => {
   return [...lotteryHistory.values()].map(it => toRaw(it.value)).flat().reduce((pre, cur) => {
     pre += cur['betNums'] ? cur['betNums'].length : 0
@@ -177,6 +177,13 @@ const typeTab = reactive([
   {label: "新闻", id: 4},
 ]);
 const onBetting = (data: any) => {
+  data.forEach((it:any)=>{
+    if (it.gameType==='2d'){
+      it.betNums=it.betNums.map((it:number)=>it<10?'0'+it:it)
+    }else if (it.gameType==='3d'){
+      it.betNums=it.betNums.map((it:number)=>it<10?'00'+it:it<100?'0'+it:it)
+    }
+  })
    post({
      url:'/bet',
      data:{
@@ -201,10 +208,8 @@ const onBetting = (data: any) => {
 }
 const TrolleyDel = (d: any) => {
   const currentD=lotteryHistory.get(d.gameType)
-  console.log(currentD?.value)
   switch (d.gameType) {
     case '1d':
-      console.log(11)
       currentD?.value.forEach(it=>{
         if (it.gamePlayCode===d.gamePlayCode) {
           if (activeData1DType.value?.length===1)  activeData1D.value=[]
@@ -228,8 +233,13 @@ const TrolleyDel = (d: any) => {
       })
       break;
     default :
-      // activeData3D.value = []
-      break
+      currentD?.value.forEach(it=>{
+        if (it.gamePlayCode===d.gamePlayCode) {
+          if (activeData3DType.value?.length===1) activeData3D.value=[]
+          let dd=boardData3DType.value?.find(it2=>it2!.gamePlayCode===it.gamePlayCode)!.gamePlayId
+          activeData3DType.value.splice(activeData3DType.value?.findIndex(it3=>it3.gamePlayId===dd),1)
+        }
+      })
   }
   /*currentD?.value.splice(currentD?.value
       .findIndex(it=>{
@@ -272,21 +282,21 @@ const getAwardData = async () => {
       gameCode: routes.value.code
     }
   })
-  console.log(r)
+  // console.log(r)
   gameAwardConfig.value = r.resultSet.awardNum
 }
 //#endregion
 onLoad(async (options) => {
   routes.value = options as Routes
   getAwardData()
-  const r = await post({
+  /*const r = await post({
     url: '/gameRecords/gamePlayAndType',
     data: {
       "gameId": routes.value.gameId,
       "merchantId": 1
     }
-  })
-/*    const r={
+  })*/
+    const r={
       resultSet:{
         "gameId": "40",
         "gameName": "泰国官彩",
@@ -375,7 +385,7 @@ onLoad(async (options) => {
         ],
         "sealingTime": "708148"
       }
-    }*/
+    }
   gameConfig.value = r.resultSet
   playTypeData.value = r.resultSet.gamePlayAndTypeListRespList.map((it: any, i: number) => ({
     label: playTypeData.value[i].label,
