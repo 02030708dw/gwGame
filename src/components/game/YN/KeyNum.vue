@@ -22,7 +22,6 @@
       class="num-box"
       :style="{ height: numHeight, paddingTop: showHeader ? '32rpx' : '0rpx' }"
     >
-      <!-- @click="unlock ? changeNum(item) : move(index)" -->
 
       <view
         class="num-item"

@@ -59,7 +59,7 @@ export const usethreeMinute = defineStore("threeMinute", () => {
     return arr;
   });
   const southCityList=computed(()=>{
-    let cityList= 
+    let cityList:any= 
       {
         name:"南部",
         city:[
@@ -85,7 +85,7 @@ export const usethreeMinute = defineStore("threeMinute", () => {
         ],
       }
     cityList=weekday.value.map(item=>{
-      return {...item,city:cityList.city.filter(val=>val.week===item.weekDay)}})
+      return {...item,city:cityList.city.filter((val:any)=>val.week===item.weekDay)}})
     console.log(cityList)
     
     return cityList

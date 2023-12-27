@@ -62,7 +62,7 @@ const close = () => {
 };
 const del=(item:any)=>{
   console.log(item)
-    // emits('del',id)
+    emits('del',item.id)
 }
 </script>
 <style lang="scss" scoped>

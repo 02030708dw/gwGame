@@ -1,7 +1,7 @@
 <template>
   <view class="group_4">
     <view class="text-group_4">
-      <text lines="1" class="text_17">00:23</text>
+      <text lines="1" class="text_17">{{t}}</text>
       <text lines="1" class="text_18">{{ac.lastAwardPeriod}}</text>
     </view>
     <view class="text-wrapper_23">
@@ -24,12 +24,50 @@
 </template>
 
 <script setup lang="ts">
+import {computed, onMounted, onUnmounted, ref, toRef, watchEffect} from "vue";
 const props = defineProps<{
   ac:AwardNum
 }>();
-const countTimer=()=>{
+const timer=ref<number>(360)
+let timerId:null|number=null
+onMounted(()=>{
+  timerId=setInterval(()=>{
+    timer.value-=1
+  },1000)
+})
+const t=computed(()=>{
+  let time:string;
+  let days = parseInt(timer.value / 60 / 60 / 24);
+  let hours = parseInt(timer.value / 60 / 60);
+  let minutes = parseInt(timer.value / 60 % 60);
+  let seconds = parseInt(timer.value % 60);
+ /* if (days > 1) {  //超过一天显示天数
+    time = days + "天";
+    return time;
+  }*/
+  //补零
+  if (hours < 10) {
+    hours = '0' + hours;
+  }
+  if (minutes < 10) {
+    minutes = '0' + minutes;
+  }
+  if (seconds < 10) {
+    seconds = '0' + seconds;
+  }
 
-}
+  if (timer.value <= 0) {
+    time = "活动已结束";
+  } else {
+    time = hours + ":" + minutes + ":" + seconds + "";
+  }
+  return time;
+})
+onUnmounted(()=>clearInterval(timerId!))
+watchEffect(()=>{
+  let countdown=toRef(props.ac,'countdown')
+  timer.value=Number(countdown.value)
+})
 </script>
 
 <style scoped lang="scss">
@@ -80,7 +118,7 @@ const countTimer=()=>{
 .text_17 {
   overflow-wrap: break-word;
   color: rgba(254,176,45,1);
-  font-size: 48rpx;
+  font-size: 32rpx;
   font-family: PingFangSC-Semibold;
   font-weight: 600;
   text-align: center;
@@ -101,7 +139,7 @@ const countTimer=()=>{
 .text-wrapper_23 {
   display: flex;
   flex-direction: column;
-  margin: 2rpx 0 4rpx 50rpx;
+  margin: 2rpx 0 4rpx 30rpx;
 }
 .text_19 {
   overflow-wrap: break-word;

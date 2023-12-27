@@ -1,7 +1,7 @@
 import {onMounted, ref} from "vue";
 import {calData} from "@/utils/arrayFun";
 export default function () {
-    const boardData3D = ref(calData(30))
+    const boardData3D = ref(calData(100))
     const boardSubData3D = ref(calData(10).map(it=>({label:it.label+'00',value:Number(it.value+'000')})))
     const boardData3DType = ref([
         {label:'头',value:1},

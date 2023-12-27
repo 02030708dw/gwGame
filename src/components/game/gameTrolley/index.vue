@@ -12,8 +12,8 @@
         </view>
       </view>
       <scroll-view class="mb100" scroll-y="true" :style="`height:  ${height}rpx`" scroll-with-animation="true">
-        <view class="bettingList animate__backOutLeft" v-for="item in data" :key="item.key"
-              v-if='data.length>0'>
+        <view class="bettingList animate__backOutLeft" v-for="item in trolleyTotal as (lotteryHType[number]&{key:string})[]" :key="item.key"
+              v-if='trolleyTotal!.length>0'>
           <view class="bettingTit"> [{{item.key}}]</view>
           <view class="bettingTitN"> {{item.betNums.slice(0,4).join('-')}}&nbsp;
             <text class="detailPlay" v-if="item.betNums.length>4" style="color: blue" @click="onDetail(item.betNums)">
@@ -26,7 +26,7 @@
           <view class="bettingInput bettingList2">
             <u-input class="bettingI" border="none" v-model="item.oneBetAmount" placeholder=""></u-input>
             <text class="bettingT">Tmis</text>
-            <image class="bettingDel" src="@/static/images/del.png" @click="handleDelete(item)" mode="">
+            <image class="bettingDel" src="@/static/images/del.png" @click="()=>emits('onTrolleyDel',item)" mode="">
             </image>
           </view>
         </view>
@@ -43,7 +43,7 @@
           <u-input class="r1" border="none"  placeholder="Condinm"></u-input>
         </view>
       </view>
-      <game-footer @onBetting="() => emits('onBetFinish',data)"/>
+      <game-footer @onBetting="() => emits('onBetFinish',trolleyTotal)"/>
     </view>
   </u-popup>
 </view>
@@ -63,16 +63,17 @@ const props=defineProps({
 })
 const emits=defineEmits<{
   (e:'onBetFinish',data:any):void
+  (e:'onTrolleyDel',data:any):void
 }>()
 const show=ref(false)
 const title=ref('详情')
 const detailList=ref<number[]>([])
-const data=computed<(lotteryHType[number]&{key:string})[]>
+/*const data=computed<(lotteryHType[number]&{key:string})[]>
 (()=>props.trolleyTotal?.reduce((pre:lotteryHType,cur:lotteryHType[number])=>{
   let obj={...cur}
   obj.key=cur.gamePlayCode+'-'+cur.gamePlayTypeCode
   pre.push(obj)
-  return pre},[]))
+  return pre},[]))*/
 const storeGame = useGame();
 const storeCommon = useCommon();
 const height=480
@@ -85,9 +86,6 @@ const changeTotal = () => {
 const onDetail = (n:number[]) => {
   show.value=true
   detailList.value=n
-}
-const handleDelete = (item : any) => {
-  console.log(item)
 }
 </script>
 <script lang="ts">

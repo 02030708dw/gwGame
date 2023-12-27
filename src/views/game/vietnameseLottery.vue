@@ -8,10 +8,11 @@
     <GameTime />
     <!-- 选择2D,3D,PL2,PL3 -->
     <GameType @cutGameType="cutGameType" :typeList="typeList" />
+    <!-- 选择地区 -->
     <CitySelection 
     :background-image="urls1"
     :list="southCityList"
-    @change="changeCitySelection "
+    @change="changeCitySelection"
     />
     <!-- 2D----------------------------------- -->
     <SelectMethed
@@ -96,20 +97,19 @@ import { onLoad } from "@dcloudio/uni-app";
 import {get, post } from "@/api";
 const storethreeMinute = usethreeMinute();
 const { typeList, methodList2D, methodList3D,num3Data,numPL2Data,numPL3Data,southCityList} = storeToRefs(storethreeMinute);
-// onLoad(async (data:any) => {
-//   console.log(data);
-//   let res
-//    res =await post({
-//     url: "/gameRecords/gamePlayAndType",
-//     data: {gameId: data.gameId,merchantId: 1},
-//   });
-//   console.log(res)
+onLoad(async (data:any) => {
+  console.log(Number(data.gameId));
+   let res =await post({
+    url: "/gameRecords/gamePlayAndType",
+    data: {gameId: data.gameId,merchantId: 1},
+  });
+  console.log(res)
 
-//   // 请求越南地区选项
-//   res=await get({url:'/gameRecords/game'})
-//   res= res.resultSet[0].games.filter((item:any)=>item.vndArea)
-//   console.log(res)
-// });
+  // 请求越南地区选项
+  res=await get({url:'/gameRecords/game'})
+  res= res.resultSet[0].games.filter((item:any)=>item.vndArea)
+  console.log(res)
+});
 
 const typeTab = reactive([
   { label: "动画", id: 1 },
@@ -180,7 +180,7 @@ const activePL2 = computed(() => {
   // PL2选两个号码才会加入列表
   if (numPL2.value.length == 2) {
     return {
-      label: "PL2",
+      label: "PL2-",
       num: [...numPL2.value],
       sum: 36,
       id: crypto.randomUUID(),
@@ -198,7 +198,7 @@ const activePL3 = computed(() => {
   // PL3选三个号码才会加入列表
   if (numPL3.value.length == 3) {
     return {
-      label: "PL3",
+      label: "PL3-",
       num: [...numPL3.value],
       sum: 54,
       id: crypto.randomUUID(),

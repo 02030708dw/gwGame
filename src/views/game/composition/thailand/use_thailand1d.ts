@@ -24,9 +24,10 @@ export default function (type:string,lotteryHistory:  Map<string, Ref<{}>>,playT
             const data=activeData1DType.value.map(it=>{
                 const gPlayType=boardData1DType.value.find(it2=>it2.value===it)
                 return {
-                    gamePlayTypeCode:gPlayType!.gamePlayCode||it,
-                    gamePlayCode:playTypeCode.value,
+                    gamePlayCode:gPlayType!.gamePlayCode||it,
+                    gamePlayTypeCode:playTypeCode.value,
                     // gamePlayCode:[...lotteryHistory.keys()][playTypeSetIndex.value],
+                    gameType:type,
                     oneBetAmount:gPlayType.betAmount,
                     winAmount:gPlayType!.winAmount,
                     betNums:toRaw(n[0])

@@ -12,6 +12,7 @@
             <view
               class="text"
               v-for="val in item.city"
+              :key="val.gameId"
               @click="clickCity(val)"
               :class="active==val.gameId?'active':null"
               >{{ val.name }}</view
@@ -87,6 +88,7 @@ const clickCity = (val: any) => {
         flex-direction: column;
         justify-content: space-between;
         .text {
+        transition: all linear 0.2s;
           width: 180rpx;
           height: 62rpx;
           font-size: 32rpx;
