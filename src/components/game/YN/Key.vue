@@ -22,10 +22,11 @@
         class="num-box"
         :style="{ height: numHeight, paddingTop: showHeader ? '32rpx' : '0rpx' }"
       >
+        <!-- @click="unlock ? changeNum(item) : move(index)" -->
   
         <view
           class="num-item"
-          v-for="(item, index) in numList.slice(numScope - 100, numScope)"
+          v-for="(item, index) in data2D2.slice(numScope - 100, numScope)"
           @click="
             () => {
               unlock ? changeNum(item) : (item.checked = false);
@@ -43,18 +44,44 @@
   </template>
   <script setup lang="ts">
   //属性值showHeader如果不传,显示按钮00-99的数字,如果传递true则开启000-999选项
-  import { ref, reactive, } from "vue";
+  import { ref, reactive, onMounted } from "vue";
   //   背景颜色-是否显示3位可选数字-限制选可以选的有几个-键盘是否锁住
   const props = defineProps([
     "backgroundImage",
     "showHeader",
     "astrict",
     "unlock",
-    "numList"
   ]);
-  const emits = defineEmits(["changeSelectNum", "changeNum",]);
+  const emits = defineEmits(["changeSelectNum", "changeNum"]);
+  let arr = [];
   
- 
+  let flag = props.showHeader ? 1000 : 100;
+  if (!props.showHeader) {
+    // 如果取反为true代表不显示000
+    for (var i = 0; i < flag; i++) {
+      if (i < 10) {
+        arr.push("0" + i);
+      } else {
+        arr.push("" + i);
+      }
+    }
+  } else {
+    for (var i = 0; i < flag; i++) {
+      if (i < 10) {
+        arr.push("00" + i);
+      } else if (i < 100) {
+        arr.push("0" + i);
+      } else {
+        arr.push("" + i);
+      }
+    }
+  }
+  
+  const data2D2 = ref(
+    arr.map((item) => {
+      return { label: item, id: item, checked: false };
+    })
+  );
   const data2D1 = reactive([
     { label: "000", id: 100, checked: true },
     { label: "100", id: 200, checked: false },
@@ -70,7 +97,6 @@
   const numScope = ref(100);
   const numHeight = ref((100 / 5 - 1) * 78 + "rpx"); //计算容器的高
   const changeThreeNum = (item: any) => {
-    animationIndex.value=-1
     // 点击000-999触发
     data2D1.forEach((item) => (item.checked = false));
     item.checked = !item.checked;
@@ -105,7 +131,7 @@
       // 如果没有选中,不可以直接选中,先判断是否有选中数量的限制
       if (props.astrict) {
         // 如果选中的数量等于设置的限制数量,则不能再让键盘选中,反之则选中
-        props.numList.filter((item:any) => item.checked).length == props.astrict
+        data2D2.value.filter((item) => item.checked).length == props.astrict
           ? null
           : (item.checked = !item.checked);
       } else {
@@ -115,7 +141,7 @@
     }
     emits(
       "changeNum",
-      props.numList.filter((item:any) => item.checked)
+      data2D2.value.filter((item) => item.checked)
     );
   };
   </script>
