@@ -96,20 +96,20 @@ import { onLoad } from "@dcloudio/uni-app";
 import {get, post } from "@/api";
 const storethreeMinute = usethreeMinute();
 const { typeList, methodList2D, methodList3D,num3Data,numPL2Data,numPL3Data,southCityList} = storeToRefs(storethreeMinute);
-// onLoad(async (data:any) => {
-//   console.log(data);
-//   let res
-//    res =await post({
-//     url: "/gameRecords/gamePlayAndType",
-//     data: {gameId: data.gameId,merchantId: 1},
-//   });
-//   console.log(res)
+onLoad(async (data:any) => {
+  console.log(data);
+  let res
+   res =await post({
+    url: "/gameRecords/gamePlayAndType",
+    data: {gameId: data.gameId,merchantId: 1},
+  });
+  console.log(res.resultSet)
 
-//   // 请求越南地区选项
-//   res=await get({url:'/gameRecords/game'})
-//   res= res.resultSet[0].games.filter((item:any)=>item.vndArea)
-//   console.log(res)
-// });
+  // 请求越南地区选项
+  res=await get({url:'/gameRecords/game'})
+  res= res.resultSet[0].games.filter((item:any)=>item.vndArea)
+  // console.log(res)
+});
 
 const typeTab = reactive([
   { label: "动画", id: 1 },

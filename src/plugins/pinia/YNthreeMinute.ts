@@ -59,7 +59,7 @@ export const usethreeMinute = defineStore("threeMinute", () => {
     return arr;
   });
   const southCityList=computed(()=>{
-    let cityList= 
+    let cityList:any= 
       {
         name:"南部",
         city:[
@@ -85,10 +85,22 @@ export const usethreeMinute = defineStore("threeMinute", () => {
         ],
       }
     cityList=weekday.value.map(item=>{
-      return {...item,city:cityList.city.filter(val=>val.week===item.weekDay)}})
+      return {...item,city:cityList.city.filter((val:any)=>val.week===item.weekDay)}})
     console.log(cityList)
     
     return cityList
+  })
+  const centerCityList=computed(()=>{
+    let cityList:any= 
+    {
+      name:"中部",
+      city:[
+        {gameId: '22', type: 1, code: 'vndThuaThien', name: '承天顺化', vndArea: '中部',week:1,checked:false},
+        {gameId: '23', type: 1, code: 'vndPhuYen', name: '富安', vndArea: '中部',week:1,checked:false},
+        {gameId: '24', type: 1, code: 'vndQuangNam', name: 'Quang Nam广南', vndArea: '中部'},
+        {gameId: '25', type: 1, code: 'vndDakLak', name: '得勒', vndArea: '中部'}
+      ]
+    }
   })
   const weekday=computed(()=>{
     // 计算一周的时间
