@@ -118,7 +118,6 @@ const handleClose = () => {
   countryShow.value = false;
 };
 const onSlideClick = (p: string) => {
-  console.log(p)
   if (p === "gameList") {
     uni.redirectTo({
       url: `/views/gameList/${p}`,
@@ -131,7 +130,6 @@ const onSlideClick = (p: string) => {
   show.value = false;
 };
 const onTopClick = (p: string) => {
-  console.log(p)
   if (p === "gameList") {
     uni.redirectTo({
       url: `/views/gameList/${p}`,
@@ -147,7 +145,6 @@ const onTopClick = (p: string) => {
 const handleSelect = (item: any) => {
   storeCommon.setTabData(item.id);
   handleClose();
-  console.log("indexindexindexindex", countryShow.value);
 };
 </script>
 

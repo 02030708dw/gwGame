@@ -91,7 +91,6 @@ import GameMethod from "@/components/game/YN/GameMethod.vue";
 import KeyNum from "@/components/game/YN/KeyNum.vue";
 
 onLoad(async (data: any) => {
-  console.log(data);
 
   let res = await post({
     url: "/gameRecords/gamePlayAndType",
@@ -111,7 +110,6 @@ onLoad(async (data: any) => {
   list = list.map((item: any, index: number) => {
     return { ...item, checked: !index ? true : false };
   });
-  console.log(list);
   // 定义2d3dpl类型
   typeList.value = list;
 
@@ -132,7 +130,6 @@ onLoad(async (data: any) => {
   // 请求越南地区选项
   // res = await get({ url: "/gameRecords/game" });
   // res = res.resultSet[0].games.filter((item: any) => item.vndArea);
-  // console.log(res)
 });
 const show = ref(false); //弹出层的显示隐藏
 
@@ -245,7 +242,6 @@ const activePL2 = computed(() => {
   };
 });
 const changeNumPL2 = (val: any) => {
-  console.log(val);
   activePL2num.value = val;
 };
 // PL3---------------------------
@@ -265,7 +261,6 @@ const activePL3 = computed(() => {
 });
 const changeNumPL3 = (val: any) => {
   // 已选中的号码
-  console.log(val);
   activePL3num.value = val;
 };
 
@@ -282,7 +277,6 @@ onBeforeUpdate(() => {
 });
 // 删除一项
 const delBetList = (val: any) => {
-  console.log(val)
   // 首先找出这一项的分类
   let delobj: any =
     method2DList.value.find((item: any) => item.gamePlayCode == val.gamePlayCode) 

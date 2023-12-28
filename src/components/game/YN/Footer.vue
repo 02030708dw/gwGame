@@ -24,7 +24,6 @@
 const props=defineProps(['num'])
 const emits=defineEmits(['clickHandle'])
 const clickHandle=()=>emits('clickHandle')
-console.log(props.num)
 </script>
 <style lang="scss" scoped>
 .footer {

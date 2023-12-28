@@ -41,7 +41,6 @@ import { ref } from "vue";
 const showHeaderContent = ref(true);
 const activeTab = ref(0);
 const changeTab = (index: number) => {
-  console.log(index);
   activeTab.value = index;
 };
 const explainData = [
