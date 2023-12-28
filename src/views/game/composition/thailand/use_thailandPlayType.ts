@@ -1,7 +1,7 @@
 import {computed, nextTick, onMounted, Ref, ref, watch, watchEffect} from "vue";
 export default function (playDataType: GamePlayType[]) {
-    const playType = ref(2)
-    const activeDataPlayType=ref([2])
+    const playType = ref(0)
+    const activeDataPlayType=ref([0])
     const playTypeData = ref<any[]>([
         { label: "1D", value: 0 },
         { label: "2D", value: 1 },

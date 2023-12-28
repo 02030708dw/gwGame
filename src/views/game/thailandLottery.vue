@@ -289,14 +289,14 @@ const getAwardData = async () => {
 onLoad(async (options) => {
   routes.value = options as Routes
   getAwardData()
-  /*const r = await post({
+  const r = await post({
     url: '/gameRecords/gamePlayAndType',
     data: {
       "gameId": routes.value.gameId,
       "merchantId": 1
     }
-  })*/
-    const r={
+  })
+/*    const r={
       resultSet:{
         "gameId": "40",
         "gameName": "泰国官彩",
@@ -385,7 +385,7 @@ onLoad(async (options) => {
         ],
         "sealingTime": "708148"
       }
-    }
+    }*/
   gameConfig.value = r.resultSet
   playTypeData.value = r.resultSet.gamePlayAndTypeListRespList.map((it: any, i: number) => ({
     label: playTypeData.value[i].label,
