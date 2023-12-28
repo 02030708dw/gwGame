@@ -17,7 +17,6 @@
 			emit
 		}) {
 			const userInfo=useUserInfo()
-			console.log(userInfo.Token)
 			const goToPage = (uri) => {
 				uni.navigateTo({
 					url: uri
@@ -32,7 +31,6 @@
 					// sourceType:['camera'], 直接调用原生相机
 					success: (res) => {
 						// imagepath.value = res.tempFilePaths[0]
-						console.log(res)
 
 						uni.uploadFile({
 							url: `${HTTP_REQUEST_URL}/sso/upload`,
@@ -46,7 +44,6 @@
 								token:'Bearer ' + userInfo.Token
 							},
 							success: (uploadFileRes) => {
-								console.log( JSON.parse(uploadFileRes.data).result)
 								let ques = JSON.parse(uploadFileRes.data).result
 								emit("changeList", {
 									url: ques 

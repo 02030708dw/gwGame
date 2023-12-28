@@ -78,7 +78,6 @@ const fetchData = async (orderId: string) => {
       url: "/gameRecords/order/getOrder/" + orderId,
     });
     data.value = response.resultSet;
-    console.log(data.value);
   } catch (error) {
     console.error("Error fetching data:", error);
   }

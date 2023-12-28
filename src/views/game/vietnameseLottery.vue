@@ -96,7 +96,6 @@ import GameMethod from "@/components/game/YN/GameMethod.vue";
 import KeyNum from "@/components/game/YN/KeyNum.vue";
 
 onLoad(async (data: any) => {
-  console.log(data);
 
   let res = await post({
     url: "/gameRecords/gamePlayAndType",
@@ -116,7 +115,6 @@ onLoad(async (data: any) => {
   list = list.map((item: any, index: number) => {
     return { ...item, checked: !index ? true : false };
   });
-  console.log(list);
   // 定义2d3dpl类型
   typeList.value = list;
 
@@ -313,7 +311,6 @@ onBeforeUpdate(() => {
 });
 // 删除一项
 const delBetList = (val: any) => {
-  console.log(val)
   // 首先找出这一项的分类
   let delobj: any =
     method2DList.value.find((item: any) => item.gamePlayCode == val.gamePlayCode) 

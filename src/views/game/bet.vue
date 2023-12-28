@@ -109,7 +109,6 @@ const fetchData = async () => {
       url: "/gameRecords/order/search",
       data: { country: activeRegion.value },
     });
-    console.log("🚀  data:", data.resultSet.data);
     pageTabs.value = data.resultSet.data;
   } catch (error) {
     console.error("Error fetching data:", error);

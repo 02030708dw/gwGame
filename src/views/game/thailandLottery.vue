@@ -45,7 +45,7 @@
       </view>
       <view v-else-if="playType === 2">
         <game-board-play
-            :board-data="boardData3DType"
+            :board-data="boardData3DType as boardType[]"
             :bg="urls2"
             :active-data="activeData3DType"
             @onCheck="onAddAct3DType"
@@ -65,6 +65,7 @@
       </template>
     </layout>
     <game-trolley :trolley-total="trolleyShow"
+                  :ac="gameAwardConfig"
                   @onchange-total="changeTotal"
                   @on-bet-finish="onBetting" @onTrolleyDel="TrolleyDel"/>
   </view>
@@ -279,6 +280,9 @@ const clearBet = () => {
   lotteryHistory.set('2d', ref([]))
   lotteryHistory.set('3d', ref([]))
   activeData1D.value = []
+  boardSubData3D.value.forEach(it=>{
+    if (it.temp.length) it.temp=[]
+  })
   activeData1DType.value=[]
   activeData2DType.value=[]
   activeData3DType.value=[]
