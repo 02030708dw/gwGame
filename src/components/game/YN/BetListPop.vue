@@ -13,8 +13,8 @@
       <scroll-view scroll-y="true" class="scroll-view">
         
         <view class="item" v-for="(item,index) in list" v-if="list.length">
-          <text style="width: 214rpx; font-size: 24rpx">[{{ item.label }}:{{ item.num.join(',') }}]</text>
-          <text style="width: 52rpx; font-size: 28rpx; color: #00cd6a">{{ item.sum*item.num.length }}</text>
+          <text style="width: 214rpx; font-size: 24rpx">[{{ item.gamePlayName||item.gamePlayTypeName }}:{{ item.betNums.join(',') }}]</text>
+          <text style="width: 52rpx; font-size: 28rpx; color: #00cd6a">{{ item.betAmount }}</text>
           <view class="tmis-box">
             <input type="text" />
             <text class="tmis" style="width: 82rpx; height: 44rpx">Tmis</text>
@@ -25,6 +25,7 @@
             @click="del(item)"
           />
         </view>
+        <pre>{{ list }}</pre>
       </scroll-view>
       <view class="condinm-box">
         <view class="condinm-tmis">
@@ -48,21 +49,19 @@
           src="@/static/images/footerq2.png"
           style="width: 64rpx; height: 64rpx; margin-left: 16rpx"
         />
-        <view class="btn">投注</view>
+        <view class="btn" @click="emits('bet')">投注</view>
       </view>
     </view>
   </u-popup>
 </template>
 <script setup lang="ts">
 const props = defineProps(["show", "list"]);
-const emits = defineEmits(["close","del"]);
+const emits = defineEmits(["close","del","bet"]);
 const close = () => {
   emits("close");
-  console.log(props.list)
 };
 const del=(item:any)=>{
-  console.log(item)
-    // emits('del',id)
+    emits('del',item)
 }
 </script>
 <style lang="scss" scoped>
