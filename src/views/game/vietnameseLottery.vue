@@ -211,6 +211,7 @@ const active2D = computed(() => {
       id: crypto.randomUUID(),
       gamePlayTypeName: data.gamePlayTypeName,
       gamePlayTypeCode: data.gamePlayTypeCode,
+      times:1
     };
   });
 });
@@ -241,6 +242,8 @@ const active3D = computed(() => {
       id: crypto.randomUUID(),
       gamePlayTypeName: data.gamePlayTypeName,
       gamePlayTypeCode: data.gamePlayTypeCode,
+      times:1
+
     };
   });
 });
@@ -266,7 +269,8 @@ const activePL2 = computed(() => {
     gamePlayTypeCode: data.gamePlayTypeCode,
     betNums,
     id: crypto.randomUUID(),
-    sum:18
+    sum:18,
+    times:1
   };
 });
 const changeNumPL2 = (val: any) => {
@@ -285,8 +289,8 @@ const activePL3 = computed(() => {
     gamePlayTypeCode: data.gamePlayTypeCode,
     betNums,
     id: crypto.randomUUID(),
-    sum:18
-
+    sum:18,
+    times:1
   };
 });
 const changeNumPL3 = (val: any) => {

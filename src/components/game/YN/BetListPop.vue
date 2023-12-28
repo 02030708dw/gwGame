@@ -11,12 +11,11 @@
         />
       </view>
       <scroll-view scroll-y="true" class="scroll-view">
-        
         <view class="item" v-for="(item,index) in list" v-if="list.length">
-          <text style="width: 214rpx; font-size: 24rpx">[{{ item.gamePlayName||item.gamePlayTypeName }}:{{ item.betNums.join(',') }}]</text>
-          <text style="width: 52rpx; font-size: 28rpx; color: #00cd6a">{{ item.betAmount }}</text>
+          <text style="width: 117rpx; font-size: 24rpx">[{{ item.gamePlayName||item.gamePlayTypeName }}]</text>
+          <text style="width: 160rpx; font-size: 28rpx; color: #00cd6a">{{ item.betNums.join('-') }}</text>
           <view class="tmis-box">
-            <input type="text" />
+             <input type="text" v-model="item.times" />
             <text class="tmis" style="width: 82rpx; height: 44rpx">Tmis</text>
           </view>
           <image
@@ -25,11 +24,12 @@
             @click="del(item)"
           />
         </view>
+        <view v-else style="line-height:404rpx;text-align: center;">暂无历史记录</view>
       </scroll-view>
       <view class="condinm-box">
         <view class="condinm-tmis">
-          <input type="text" placeholder="123" />
-          <text>Tmis</text>
+          <input type="text" placeholder="1" v-model="Alltimes"/>
+          <text @click="changeAllTimes">Tmis</text>
         </view>
         <view class="condinm">Condinm</view>
       </view>
@@ -54,6 +54,7 @@
   </u-popup>
 </template>
 <script setup lang="ts">
+import {ref,watch,computed,nextTick} from 'vue'
 const props = defineProps(["show", "list"]);
 const emits = defineEmits(["close","del","bet"]);
 const close = () => {
@@ -61,6 +62,12 @@ const close = () => {
 };
 const del=(item:any)=>{
     emits('del',item)
+}
+const Alltimes=ref(1)
+const changeAllTimes=()=>{
+  props.list.forEach((item:any)=>{
+    item.times=Alltimes.value
+  })
 }
 </script>
 <style lang="scss" scoped>
