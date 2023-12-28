@@ -4,16 +4,28 @@
     <view class="tabs">
       <text
         v-for="(item, index) in explainData"
+        :key="index"
         class="tabs-item"
         @click="changeTab(index)"
-        >{{ item.title }}</text>
+        >{{ item.title }}</text
+      >
       <text
         class="line"
-        :style="{ left: 750/explainData.length * activeTab + (750/explainData.length/2)-28 + 'rpx' }"
+        :style="{
+          left:
+            (750 / explainData.length) * activeTab +
+            750 / explainData.length / 2 -
+            28 +
+            'rpx',
+        }"
       ></text>
     </view>
     <view class="explain-box">
-      <view class="explain-item" v-for="item in explainData[activeTab].list">
+      <view
+        class="explain-item"
+        v-for="(item, i) in explainData[activeTab].list"
+        :key="i"
+      >
         <text class="name">{{ item.name }}</text>
         <text class="desc">{{ item.desc }}</text>
         <text class="example">【示例】{{ item.example }}</text>
@@ -24,12 +36,11 @@
 </template>
 
 <script setup lang="ts">
-import gameHeader from "@/components/game/gameHeader.vue"
+import gameHeader from "@/components/game/gameHeader.vue";
 import { ref } from "vue";
 const showHeaderContent = ref(true);
 const activeTab = ref(0);
 const changeTab = (index: number) => {
-  console.log(index);
   activeTab.value = index;
 };
 const explainData = [
@@ -273,9 +284,6 @@ const explainData = [
   {
     title: "菲律宾彩",
   },
-  {
-    title: "股票彩",
-  },
 ];
 </script>
 <style scoped lang="scss">
@@ -305,36 +313,35 @@ const explainData = [
       transition: all 0.2s linear;
     }
   }
-  .explain-box{
+  .explain-box {
     background-color: #fff;
     width: 686rpx;
     box-sizing: border-box;
     margin: 32rpx auto 0;
     padding: 32rpx;
     padding-bottom: 0;
-    .explain-item{
+    .explain-item {
       display: flex;
       flex-direction: column;
-      .name{
+      .name {
         font-size: 32rpx;
       }
-      .desc{
+      .desc {
         margin-top: 10rpx;
         font-size: 28rpx;
-        color: #A1A1A1;
+        color: #a1a1a1;
       }
-      .example{
+      .example {
         margin-top: 10rpx;
         font-size: 28rpx;
-        color: #A1A1A1;
+        color: #a1a1a1;
       }
-      .wire{
+      .wire {
         width: 100%;
         height: 1rpx;
-        background-color: #A1A1A1;
+        background-color: #a1a1a1;
         // margin: 64rpx 0;
         margin: 30rpx 0;
-
       }
     }
   }

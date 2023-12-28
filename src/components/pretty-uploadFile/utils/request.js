@@ -80,7 +80,6 @@ function request(url, data = {}, method = "GET") {
 			},
 
 			fail(res) {
-				console.log(res);
 				uni.showToast({
 					title: '请求超时，请重试',
 					icon: 'none'

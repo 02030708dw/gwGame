@@ -14,7 +14,6 @@ export function ruquestSmsLogin(data:any){
  
 // 获取用户信息
 export function ruquestGetUserInfo(){
-	console.log('执行get')
 	return request?.get?.('/login/getInfo')
 } 
 
