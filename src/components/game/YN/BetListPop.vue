@@ -25,7 +25,6 @@
             @click="del(item)"
           />
         </view>
-        <pre>{{ list }}</pre>
       </scroll-view>
       <view class="condinm-box">
         <view class="condinm-tmis">

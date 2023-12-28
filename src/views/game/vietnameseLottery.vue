@@ -1,7 +1,7 @@
 <template>
   <Layout>
     <template #top>
-      <GameHeader :showContent="false" activeTitle="越南5分彩" />
+      <GameHeader :showContent="false" activeTitle="越南30秒彩" />
     </template>
     <GameHeaderTab :typeTab="typeTab" />
     <GameContent />
@@ -59,10 +59,10 @@
       :unlock="true"
       :astrict="3"
     />
-
+    <pre>{{ current }}</pre>
     <pre>{{ betlist }}</pre>
     <template #bot>
-      <Footer @click-handle="show = true" :num="betlist.length" />
+      <Footer @click-handle="show = true" :num="current" />
     </template>
   </Layout>
 
@@ -71,6 +71,7 @@
     @close="show = false"
     :list="betlist"
     @del="delBetList"
+    @bet="bet"
   />
 </template>
 <script lang="ts" setup>
@@ -116,23 +117,30 @@ onLoad(async (data: any) => {
   typeList.value = list;
 
   // 定义2d玩法类型,头尾
+  let arr=[1,1,2,18,7]
   method2DList.value = list
     .find((item: any) => item.gamePlayTypeName == "2D")
-    .gamePlayList.map((val: any) => {
-      return { ...val, checked: false };
+    .gamePlayList.map((val: any,index:number) => {
+      return { ...val, checked: false,sum:arr[index] };
     });
-
   // 定义3d玩法类型,头尾
   method3DList.value = list
     .find((item: any) => item.gamePlayTypeName == "3D")
-    .gamePlayList.map((val: any) => {
-      return { ...val, checked: false };
+    .gamePlayList.map((val: any,index:number) => {
+      return { ...val, checked: false,sum:arr[index] };
     });
 
   // 请求越南地区选项
   // res = await get({ url: "/gameRecords/game" });
   // res = res.resultSet[0].games.filter((item: any) => item.vndArea);
   // console.log(res)
+
+// 获取倒计时
+  const getAwardNum = await post({
+    url: '/getAwardNum',
+    data: {gameCode: data.code}
+  })
+  console.log(getAwardNum)
 });
 const show = ref(false); //弹出层的显示隐藏
 
@@ -151,10 +159,22 @@ const playingMethod = ref("2D"); //用来展示不同玩法&&初始展示2D
 const cutGameType = (item: any) => {
   playingMethod.value = item.gamePlayTypeName;
 };
-
+const current=computed(()=>{
+  let num=0
+  betlist.value.forEach(item=>{
+    num+= item.betNums.length*item.sum
+  })
+  return num
+})
 //全部选中的玩法
 const betlist = computed({
   get() {
+    let arr=[...active2D.value,...active3D.value,activePL2.value,activePL3.value,].filter((item: any) => {
+      return item?.betNums?.length;
+    });
+    console.log(
+      arr
+    )
     return [...active2D.value,...active3D.value,activePL2.value,activePL3.value,].filter((item: any) => {
       return item?.betNums?.length;
     });
@@ -242,10 +262,10 @@ const activePL2 = computed(() => {
     gamePlayTypeCode: data.gamePlayTypeCode,
     betNums,
     id: crypto.randomUUID(),
+    sum:18
   };
 });
 const changeNumPL2 = (val: any) => {
-  console.log(val);
   activePL2num.value = val;
 };
 // PL3---------------------------
@@ -261,11 +281,12 @@ const activePL3 = computed(() => {
     gamePlayTypeCode: data.gamePlayTypeCode,
     betNums,
     id: crypto.randomUUID(),
+    sum:18
+
   };
 });
 const changeNumPL3 = (val: any) => {
   // 已选中的号码
-  console.log(val);
   activePL3num.value = val;
 };
 
@@ -274,10 +295,12 @@ onBeforeUpdate(() => {
   let flag2D = active2Dmethod.value.every((item: any) => item.checked == false);
   let flag3D = active3Dmethod.value.every((item: any) => item.checked == false);
   if (flag2D) {
-    keyNum2Ddata.value.forEach((item: any) => (item.checked = false));
+    keyNum2Ddata.value.forEach((item: any) => (item.checked = false));//取消键盘选中状态
+    active2Dnum.value=[]//选中数据清空
   }
   if (flag3D) {
-    keyNum3Ddata.value.forEach((item: any) => (item.checked = false));
+    keyNum3Ddata.value.forEach((item: any) => (item.checked = false));//取消键盘选中状态
+    active3Dnum.value=[]//选中数据清空
   }
 });
 // 删除一项
@@ -305,6 +328,15 @@ const delBetList = (val: any) => {
       }
     }
 };
+
+const bet=()=>{
+  console.log("ok")
+  // post({
+  //   url:'/bet',
+  //   data:{}
+  // })
+}
+
 
 const createNum = () => {
   // 生成00-99的键盘数据
