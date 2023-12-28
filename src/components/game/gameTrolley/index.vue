@@ -43,8 +43,15 @@
           <u-input class="r1" border="none"  placeholder="Condinm"></u-input>
         </view>-->
         <div class="sum">
-          总投注 {{data.reduce((pre,cur)=>(pre+=cur.betNums.length),0)}}&nbsp;
-          总金额 {{data.reduce((pre,cur)=>(pre+=cur.betNums.length*cur.oneBetAmount),0)}}
+          <view>
+            总投注 {{data.reduce((pre,cur)=>(pre+=cur.betNums.length),0)}}
+          </view>
+          <view>
+          总投注额 {{data.reduce((pre,cur)=>(pre+=cur.betNums.length*cur.oneBetAmount),0)}}
+      </view>
+          <view>
+            奖金 {{data.reduce((pre,cur)=>(pre+=cur.betNums.length*cur.winAmount*cur.oneBetAmount),0)}}
+          </view>
         </div>
       </view>
       <game-footer @onBetting="() => emits('onBetFinish',data)"/>
@@ -142,10 +149,10 @@ export default {
   }
 }
 .edit{
-  padding: 26rpx 32rpx;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
+  padding: 16rpx 32rpx;
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  place-items: center;
   background: #fff;
   .l{
     width: 268rpx;

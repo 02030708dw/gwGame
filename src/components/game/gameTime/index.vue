@@ -79,10 +79,11 @@ $gCol:#bababa;
 .gameTime{
   margin-top: 30rpx;
   display: grid;
-  grid-template-columns: 154rpx 1fr 128rpx;
+  grid-template-columns: 174rpx 1fr 128rpx;
   .l{
     display: flex;
     flex-direction: column;
+    align-items: center;
     .l1{
       width: 130rpx;
       height: 48rpx;
