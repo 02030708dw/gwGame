@@ -268,7 +268,7 @@ const changeTotal = (n:any,v:cgType) => {
   }else {
     [...lotteryHistory.keys()].map(it=>{
       lotteryHistory.set(it,ref(lotteryHistory.get(it)?.value?.map(it2=>{
-        it2.oneBetAmount=n*it2.oneBetAmount
+        it2.oneBetAmount=n
         return it2
       }) as any))
     })
