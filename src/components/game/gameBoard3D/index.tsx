@@ -1,5 +1,7 @@
-import {defineComponent, onMounted, PropType} from "vue";
+import {computed, defineComponent, nextTick, onMounted, PropType, watchEffect} from "vue";
 import './index.less'
+import {Badge} from "vant";
+import RecordBadge from "@/components/game/gameBoard3D/recordBadge";
 
 interface boardType {
     label: string
@@ -41,21 +43,29 @@ export default defineComponent({
     setup(props, {emit, slots}) {
         const btn = (v: number) => emit('onCheck', v)
         const btnSub = (v: number) => emit('onSubCheck', v)
+        const sliceNum=computed(()=>{
+            return [props.activeSubData[0]*100,props.activeSubData[0]*100+100]
+        })
+        const record=computed(()=>{
+            console.log(props.boardSubData,props.activeData)
+            return [0,1,2,3,4,5,6,7,8,9].fill(0)
+        })
         return () => <div class='gameBoard3D' style={{"background-image": `url(${props.bg})`}}>
             <div class="title">
                 {props.tit}
             </div>
             <div class="main">
                 {!slots.top &&props.boardSubData.length&&<div class="top">
-                    {props.boardSubData.map(it => <div
+                    {props.boardSubData.map((it,i) => <div
                         style={{'--color': props.activeColor}}
                         class={props.activeSubData.includes(it.value) ? 'active' : ''}
                         key={it.value} onClick={() => btnSub(it.value)}>
                         {it.label}
+                        <RecordBadge acData={record.value[i]}/>
                     </div>)}
                 </div> || slots.top?.(props.boardSubData)}
                 <div class="content">
-                    {props.boardData.map(it => <div
+                    {props.boardData.slice(sliceNum.value[0],sliceNum.value[1]).map(it => <div
                         style={{'--color': props.activeColor}}
                         class={props.activeData.includes(it.value) ? 'active' : ''}
                         key={it.value} onClick={() => btn(it.value)}>
