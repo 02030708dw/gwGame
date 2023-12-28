@@ -213,14 +213,12 @@
 	const currentOption = ref(1);
 
 	const changeOption = (option : number) => {
-		console.log(option)
 		currentOption.value = option;
 	};
 
 	const currentOptionTwo = ref(1);
 
 	const changeOptionTwo = (option : number) => {
-		console.log(option)
 		currentOptionTwo.value = option;
 	};
 
@@ -234,7 +232,6 @@
 		} else {
 			selectedItems1.value.push(item);
 		}
-		console.log('选中的值:', selectedItems1.value);
 	};
 
 	const items2 = ref([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);

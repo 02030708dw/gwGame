@@ -31,7 +31,6 @@ const handleBetting = () => {
   emits('onBetting')
 }
 const handleChange=()=>{
-  console.log(storeCreactGame.price)
   storeCreactGame.historyList.forEach((item:any)=>{
     item.price = storeCreactGame.price
   })

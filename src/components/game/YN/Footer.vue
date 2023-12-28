@@ -14,14 +14,18 @@
       src="@/static/images/footerq2.png"
       style="width: 64rpx; height: 64rpx; margin-left: 16rpx"
     />
-    <view class="btn" @click="clickHandle">投注</view>
+    <view class="btn" @click="clickHandle">
+      投注
+      <view class="radius" v-if="num">{{ num }}</view>
+    </view>
   </view>
 </template>
 <script setup lang="ts">
+const props=defineProps(['num'])
 const emits=defineEmits(['clickHandle'])
 const clickHandle=()=>emits('clickHandle')
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .footer {
   background-color: #fff;
   position: fixed;
@@ -32,6 +36,7 @@ const clickHandle=()=>emits('clickHandle')
   padding: 0 32rpx;
   display: flex;
   align-items: center;
+  
   .btn {
     width: 152rpx;
     height: 72rpx;
@@ -43,6 +48,20 @@ const clickHandle=()=>emits('clickHandle')
     line-height: 72rpx;
     text-align: center;
     margin-left: 32rpx;
+    position: relative;
+    .radius{
+      text-align: center;
+      line-height: 30rpx;
+      font-size: 24rpx;
+      width: 30rpx;
+      height: 30rpx;
+      color: #fff;
+      background-color: #f56c6c;
+      border-radius: 30rpx;
+      position:absolute;
+      right: -18rpx;
+      top: -18rpx;
+    }
   }
 }
 </style>

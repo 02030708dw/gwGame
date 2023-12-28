@@ -35,7 +35,7 @@
 
 	const emits = defineEmits(['selectedDates']);
 
-	const onSearch = (val) => showToast(val);
+	const onSearch = (val:any) => showToast(val);
 
 	const onFocus = () => {
 		// showCalendar.value = true;

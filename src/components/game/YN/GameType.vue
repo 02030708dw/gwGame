@@ -5,9 +5,9 @@
       v-for="item in typeList"
       @click="cutGameType(item)"
       :class="item.checked ? 'type-active' : ''"
-      :key="item.id"
+      :key="item.gamePlayTypeName"
     >
-      {{ item.label }}
+      {{ item.gamePlayTypeName }}
     </view>
   </view>
 </template>
