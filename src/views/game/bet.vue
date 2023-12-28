@@ -93,10 +93,10 @@ const lineLeft = computed(() => {
   );
 });
 
-const redirect = ({ orderNo }: any) => {
+const redirect = ({ orderId }: any) => {
   // 跳转详情
   uni.navigateTo({
-    url: `betDetails?orderNo=${orderNo}`,
+    url: `betDetails?orderId=${orderId}`,
   });
 };
 const pageTabs = ref([]);
