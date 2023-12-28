@@ -4,7 +4,7 @@ type GP=Partial<GamePlay&{label:string,value:number}>
 export default function (type:string,lotteryHistory:  Map<string, Ref<{}>>,playTypeCode:Ref) {
     const boardData3D = ref(calData(1000))
     const boardSubData3D = ref(calData(10).map(it=>
-        ({label:it.label+'00',value:it.value,r:0})).map(it=>({...it,range:Number(it.label)+99})))
+        ({label:it.label+'00',value:it.value,temp:[] as number[]})).map(it=>({...it,range:Number(it.label)+99})))
     const boardData3DType = ref<GP[]>([
         {label:'头',value:1},
         {label:'前三',value:2},
@@ -19,15 +19,27 @@ export default function (type:string,lotteryHistory:  Map<string, Ref<{}>>,playT
     const onAddActSub3D = (i: number) => {
         activeSubData3D.value=[i]
     }
-    const onAddAct3D = (i: number) => {
-        // if (ac)
+    const onAddAct3D = (i: number,v:[number,number]) => {
+        boardSubData3D.value.forEach(it=>{
+            if (activeData3DType.value.length)
+            if (it.range>=v[0]&&it.range<v[1]) {
+            if (it.temp.includes(i)) it.temp.splice(it.temp.findIndex(i2=>i2===i),1)
+            else it.temp=[...it.temp,i]
+            }
+        })
         if (activeData3D.value.includes(i)) activeData3D.value.splice(activeData3D.value.findIndex(it => it === i), 1)
         else activeData3D.value = [...activeData3D.value, i]
     }
     const onAddAct3DType = (i: any) => {
-        if (activeData3DType.value.map(it=>it.value).includes(i.value)){
-            activeData3DType.value=activeData3DType.value.filter(it=>it.gamePlayId!==i.gamePlayId)
-        }else activeData3DType.value = [...activeData3DType.value, i]
+        if (activeData3DType.value.map(it=>it.value).includes(i.value)) activeData3DType.value=
+            activeData3DType.value.filter(it=>it.gamePlayId!==i.gamePlayId)
+        else activeData3DType.value = [...activeData3DType.value, i]
+        if (!activeData3DType.value.length) {
+            boardSubData3D.value.forEach(it=>{
+                if (it.temp.length) it.temp=[]
+            })
+            activeData3D.value=[]
+        }
     }
     watch(()=>[activeData3D.value,activeData3DType.value.map(it=>it.value)],(n,i)=>{
         if (i[1].length===0){
@@ -49,7 +61,7 @@ export default function (type:string,lotteryHistory:  Map<string, Ref<{}>>,playT
             lotteryHistory.set(type,ref(data))
         }
     },{
-        deep:true
+        deep:true,
     })
     return {
         boardData3D,

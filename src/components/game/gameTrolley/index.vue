@@ -4,7 +4,7 @@
     <view class="bettingBac">
       <view class="betting">
         <view class="bettingB">
-          <view class="bettingNum">20230902-0998 </view>
+          <view class="bettingNum">{{ac.lastAwardPeriod}} </view>
           <view class="bettingBet"> Bet Details </view>
         </view>
         <view class="bettingClose" @click="handleClose">
@@ -15,7 +15,7 @@
         <view class="bettingList animate__backOutLeft" v-for="item in data" :key="item.key"
               v-if='data.length>0'>
           <view class="bettingTit"> [{{item.key}}]</view>
-          <view class="bettingTitN"> {{item.betNums.slice(0,4).join('-')}}&nbsp;
+          <view class="bettingTitN"> {{item.betNums.slice(0,4).join(',')}}&nbsp;
             <text class="detailPlay" v-if="item.betNums.length>4" style="color: blue" @click="onDetail(item.betNums)">
               详情
               <div class="detail" v-if="show">
@@ -63,6 +63,9 @@ import GameFooter from "@/components/game/gameTrolley/gameFooter.vue";
 const props=defineProps({
   trolleyTotal:{
     type:Array as PropType<lotteryHType>
+  },
+  ac: {
+    type:Object as PropType<AwardNum>
   }
 })
 const emits=defineEmits<{
@@ -125,9 +128,9 @@ export default {
       .bettingT{
         display: flex;
         justify-content: center;
-        &:hover{
-          background: rgba(253, 175, 35, 0.52);
-        }
+        //&:hover{
+        //  background: rgba(253, 175, 35, 0.52);
+        //}
       }
     }
   }

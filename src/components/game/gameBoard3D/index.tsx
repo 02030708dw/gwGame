@@ -7,7 +7,7 @@ interface boardType {
     label: string
     value: number
 }
-
+type board3dType= {range: number, label: string, value: number, temp: number[]}
 export default defineComponent({
     name: 'gameBoard3D',
     emits: ['onCheck','onSubCheck'],
@@ -28,7 +28,7 @@ export default defineComponent({
             required: true,
         },
         boardSubData: {
-            type: Array as PropType<boardType[]>,
+            type: Array as PropType<board3dType[]>,
             default: () => []
         },
         activeData: {
@@ -41,14 +41,10 @@ export default defineComponent({
         }
     },
     setup(props, {emit, slots}) {
-        const btn = (v: number) => emit('onCheck', v)
+        const btn = (v: number,r:[number,number]) => emit('onCheck', v,r)
         const btnSub = (v: number) => emit('onSubCheck', v)
-        const sliceNum=computed(()=>{
+        const sliceNum=computed<[number,number]>(()=>{
             return [props.activeSubData[0]*100,props.activeSubData[0]*100+100]
-        })
-        const record=computed(()=>{
-            console.log(props.boardSubData,props.activeData)
-            return [0,1,2,3,4,5,6,7,8,9].fill(0)
         })
         return () => <div class='gameBoard3D' style={{"background-image": `url(${props.bg})`}}>
             <div class="title">
@@ -61,14 +57,14 @@ export default defineComponent({
                         class={props.activeSubData.includes(it.value) ? 'active' : ''}
                         key={it.value} onClick={() => btnSub(it.value)}>
                         {it.label}
-                        <RecordBadge acData={record.value[i]}/>
+                        <RecordBadge acData={it.temp.length}/>
                     </div>)}
                 </div> || slots.top?.(props.boardSubData)}
                 <div class="content">
                     {props.boardData.slice(sliceNum.value[0],sliceNum.value[1]).map(it => <div
                         style={{'--color': props.activeColor}}
                         class={props.activeData.includes(it.value) ? 'active' : ''}
-                        key={it.value} onClick={() => btn(it.value)}>
+                        key={it.value} onClick={() => btn(it.value,sliceNum.value)}>
                         {it.label}
                     </div>)}
                 </div>
