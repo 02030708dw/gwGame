@@ -37,7 +37,7 @@
       <view class="edit">
         <view class="l">
           <u-input class="l1" border="none" type="number" v-model="total" :min="1" placeholder="10"></u-input>
-          <button class="l2" @click="emits('onchangeTotal',total,'all')">Tmis</button>
+          <button class="l2" @click="changeTotal">Tmis</button>
         </view>
 <!--        <view class="r">
           <u-input class="r1" border="none"  placeholder="Condinm"></u-input>
@@ -89,9 +89,13 @@ const data=computed<(lotteryHType[number]&{key:string})[]>
 const storeGame = useGame();
 const storeCommon = useCommon();
 const height=480
-const total=ref<number>(0)
+const total=ref<number>(1)
 const { isBetting } = storeToRefs(storeGame);
 const handleClose = () => storeGame.isBetting = !storeGame.isBetting
+const changeTotal = () => {
+  emits('onchangeTotal',total.value,'all')
+  total.value=1
+}
 const onDetail = (n:number[]) => {
   show.value=true
   detailList.value=n

@@ -1,10 +1,11 @@
 import {onMounted, Ref, ref, toRaw, watch} from "vue";
 import {calData} from "@/utils/arrayFun";
+type GP=Partial<GamePlay&{label:string,value:number}>
 export default function (type:string,lotteryHistory:  Map<string, Ref<{}>>,playTypeCode:Ref) {
     const boardData3D = ref(calData(1000))
     const boardSubData3D = ref(calData(10).map(it=>
         ({label:it.label+'00',value:it.value,r:0})).map(it=>({...it,range:Number(it.label)+99})))
-    const boardData3DType = ref([
+    const boardData3DType = ref<GP[]>([
         {label:'头',value:1},
         {label:'前三',value:2},
         {label:'后三',value:3},
@@ -34,13 +35,13 @@ export default function (type:string,lotteryHistory:  Map<string, Ref<{}>>,playT
             lotteryHistory.set(type,ref([]))
         }else {
             const data=activeData3DType.value.map(it=>{
-                const gPlayType=boardData3DType.value.find(it2=>it2.value===it.value)
+                const gPlayType=boardData3DType.value.find((it2:any)=>it2.value===it.value)
                 return {
                     gamePlayCode:gPlayType!.gamePlayCode||it.value,
                     gamePlayTypeCode:playTypeCode.value,
                     // gamePlayCode:[...lotteryHistory.keys()][playTypeSetIndex.value],
                     gameType:type,
-                    oneBetAmount:gPlayType.betAmount,
+                    oneBetAmount:gPlayType!.betAmount,
                     winAmount:gPlayType!.winAmount,
                     betNums:toRaw(n[0])
                 }

@@ -54,7 +54,7 @@
             :board-data="boardData3D as boardType[]"
             :active-data="activeData3D"
             :active-sub-data="activeSubData3D"
-            :board-sub-data="boardSubData3D"
+            :board-sub-data="boardSubData3D as boardType[]"
             @on-sub-check="onAddActSub3D"
             :bg="urls3"
             @onCheck="onAddAct3D"
@@ -98,7 +98,7 @@ interface boardType {
   value: number;
 }
 export type cgType='all'|'sin'
-export type lotteryHType = { gamePlayCode: number, gamePlayTypeCode: string, oneBetAmount: number, betNums: number[] }[]
+export type lotteryHType = { gamePlayCode: number, gamePlayTypeCode: string, oneBetAmount: number, betNums: number[],rate:number}[]
 type Routes = Partial<Record<'code' | 'gameId' | 'name' | 'type' | 'vndArea', string | null>>
 const routes = ref<Routes>({})
 const gameConfig = ref<GameInfo>({gameId: "", gameName: "", gamePlayAndTypeListRespList: [], sealingTime: ""})
@@ -177,34 +177,44 @@ const typeTab = reactive([
   {label: "新闻", id: 4},
 ]);
 const onBetting = (data: any) => {
-  data.forEach((it:any)=>{
-    if (it.gameType==='2d'){
-      it.betNums=it.betNums.map((it:number)=>it<10?'0'+it:it)
-    }else if (it.gameType==='3d'){
-      it.betNums=it.betNums.map((it:number)=>it<10?'00'+it:it<100?'0'+it:it)
-    }
-  })
-   post({
-     url:'/bet',
-     data:{
-       awardPeriod:gameAwardConfig.value.lastAwardPeriod,
-       gameCode:routes.value.code,
-       betInfos:data.map((it:any)=>({
-         ...it,sumAmount:it.betNums.length*it.oneBetAmount
-       }))
-     }
-   },UrlType.bet).then(v=>{
-     uni.showToast({
-       icon:'success',
-       title:v.resDesc
+   if (data.length){
+     post({
+       url:'/bet',
+       data:{
+         awardPeriod:gameAwardConfig.value.lastAwardPeriod,
+         gameCode:routes.value.code,
+         betInfos:change(data).map((it:any)=>({
+           ...it,sumAmount:it.betNums.length*it.oneBetAmount
+         }))
+       }
+     },UrlType.bet).then(v=>{
+       uni.showToast({
+         icon:'success',
+         title:v.resDesc
+       })
+       clearBet()
+     }).catch(r=>{
+       uni.showToast({
+         icon:'error',
+         title:'投注失败'
+       })
      })
-     clearBet()
-   }).catch(r=>{
+   }else {
      uni.showToast({
        icon:'error',
-       title:'投注失败'
+       title:'无选号'
      })
-   })
+   }
+  function change(arr:any[]){
+    arr.forEach((it:any)=>{
+      if (it.gameType==='2d'){
+        it.betNums=it.betNums.map((it:number)=>it<10?'0'+it:it)
+      }else if (it.gameType==='3d'){
+        it.betNums=it.betNums.map((it:number)=>it<10?'00'+it:it<100?'0'+it:it)
+      }
+    })
+    return arr
+  }
 }
 const TrolleyDel = (d: any) => {
   const currentD=lotteryHistory.get(d.gameType)
@@ -236,6 +246,7 @@ const TrolleyDel = (d: any) => {
       currentD?.value.forEach(it=>{
         if (it.gamePlayCode===d.gamePlayCode) {
           if (activeData3DType.value?.length===1) activeData3D.value=[]
+          // @ts-ignore
           let dd=boardData3DType.value?.find(it2=>it2!.gamePlayCode===it.gamePlayCode)!.gamePlayId
           activeData3DType.value.splice(activeData3DType.value?.findIndex(it3=>it3.gamePlayId===dd),1)
         }
@@ -255,9 +266,9 @@ const changeTotal = (n:any,v:cgType) => {
     }) as any))
   }else {
     [...lotteryHistory.keys()].map(it=>{
-      lotteryHistory.set(it,ref(lotteryHistory.get(it)?.value?.map(it=>{
-        it.oneBetAmount=Number(n)
-        return it
+      lotteryHistory.set(it,ref(lotteryHistory.get(it)?.value?.map(it2=>{
+        it2.oneBetAmount=n*it2.oneBetAmount
+        return it2
       }) as any))
     })
   }
@@ -402,7 +413,8 @@ onLoad(async (options) => {
           gamePlayId: it.gamePlayId,
           gamePlayCode: it.gamePlayCode,
           winAmount: it.winAmount,
-          betAmount: it.betAmount
+          betAmount: it.betAmount,
+          rate:1
         }
       })
     } else if (i === 1) {
@@ -413,7 +425,8 @@ onLoad(async (options) => {
           gamePlayId: it.gamePlayId,
           gamePlayCode: it.gamePlayCode,
           winAmount: it.winAmount,
-          betAmount: it.betAmount
+          betAmount: it.betAmount,
+          rate:1
         }
       })
       origin2DData.value=[...boardData2DType.value]
@@ -425,7 +438,8 @@ onLoad(async (options) => {
           gamePlayId: it.gamePlayId,
           gamePlayCode: it.gamePlayCode,
           winAmount: it.winAmount,
-          betAmount: it.betAmount
+          betAmount: it.betAmount,
+          rate:1
         }
       })
       // console.log(boardData3DType.value[0]!.gamePlayId)
