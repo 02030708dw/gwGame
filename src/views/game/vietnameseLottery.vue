@@ -5,7 +5,9 @@
     </template>
     <GameHeaderTab :typeTab="typeTab" />
     <GameContent />
-    <GameTime />
+    <!-- <GameTime /> -->
+    <!-- <gameTime :ac="gameAwardConfig"/> -->
+
     <!-- 选择2D,3D,PL2,PL3 -->
     <GameType @cutGameType="cutGameType" :typeList="typeList" />
     <!-- 地区选择 -->
@@ -78,6 +80,8 @@
 import { reactive, ref, computed, onBeforeUpdate } from "vue";
 import GameHeader from "@/components/game/gameHeader.vue";
 import GameTime from "@/components/game/gameTime.vue";
+import gameTime from "@/components/game/gameTime/index.vue";
+
 import Layout from "@/layout/index.vue";
 import GameHeaderTab from "@/components/game/gameHeaderTab.vue";
 import GameContent from "@/components/game/gameContent.vue";
