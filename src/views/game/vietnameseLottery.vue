@@ -59,25 +59,22 @@
       :unlock="true"
       :astrict="3"
     />
-    <!-- <pre>{{ active2D }}</pre>
-    <pre>{{ active3D }}</pre>
-    <pre>{{ activePL2 }}</pre>
-    <pre>{{ activePL3 }}</pre> -->
+
     <pre>{{ betlist }}</pre>
     <template #bot>
-      <Footer @click-handle="clickBet" />
+      <Footer @click-handle="show = true" :num="betlist.length" />
     </template>
   </Layout>
 
   <BetListPop
     :show="show"
-    @close="closeBetList"
+    @close="show = false"
     :list="betlist"
     @del="delBetList"
   />
 </template>
 <script lang="ts" setup>
-import { reactive, ref, computed } from "vue";
+import { reactive, ref, computed, onBeforeUpdate } from "vue";
 import GameHeader from "@/components/game/gameHeader.vue";
 import GameTime from "@/components/game/gameTime.vue";
 import Layout from "@/layout/index.vue";
@@ -132,40 +129,41 @@ onLoad(async (data: any) => {
       return { ...val, checked: false };
     });
 
-
   // 请求越南地区选项
   // res = await get({ url: "/gameRecords/game" });
   // res = res.resultSet[0].games.filter((item: any) => item.vndArea);
   // console.log(res)
 });
+const show = ref(false); //弹出层的显示隐藏
+
 const typeTab = reactive([
   { label: "动画", id: 1 },
   { label: "直播", id: 2 },
   { label: "视频", id: 3 },
   { label: "新闻", id: 4 },
 ]);
-let urls1 = ref("../../static/images/fredHill1.png");
-let urls2 = ref("../../static/images/fredHill2.png");
-let urls3 = ref("../../static/images/fredHill3M.png");
-const playingMethod = ref(0); //用来展示不同玩法
-// 类型切换------------------------------------
+let urls1 = ref("src/static/images/fredHill1.png");
+let urls2 = ref("src/static/images/fredHill2.png");
+let urls3 = ref("src/static/images/fredHill3M.png");
+const typeList = ref([]); //不同类型的数据
+const playingMethod = ref("2D"); //用来展示不同玩法&&初始展示2D
+// 玩法切换2d||3||PL2||PL3------------------------------------
 const cutGameType = (item: any) => {
   playingMethod.value = item.gamePlayTypeName;
 };
-const betlist: any = computed(()=>{
-    let arr=[
-    ...active2D.value,
-    ...active3D.value,
-    activePL2.value,
-    activePL3.value
-    ]
-    arr=arr.filter((item:any)=>{
-        return item?.betNums?.length
-    })
-    console.log(arr)
 
-   return arr
-}); //全部选中的玩法
+//全部选中的玩法
+const betlist = computed({
+  get() {
+    return [...active2D.value,...active3D.value,activePL2.value,activePL3.value,].filter((item: any) => {
+      return item?.betNums?.length;
+    });
+  },
+  set(value) {
+    betlist.value = value;
+    console.log(value); //value是计算属性改变后的值
+  },
+});
 
 // 地区选中------------------------------
 //   const changeCitySelection = (val: any) => {
@@ -198,7 +196,7 @@ const changeGameMethod2D = (val: any) => {
   active2Dmethod.value = val;
 };
 const changeNum2D = (val: any) => {
-    // 点击2D中的号码触发
+  // 点击2D中的号码触发
   active2Dnum.value = val;
 };
 
@@ -211,7 +209,6 @@ const active3D = computed(() => {
   let data: any = typeList.value.find(
     (item: any) => item.gamePlayTypeName == "3D"
   );
-
   if (!betNums.length) return [];
   return active3Dmethod.value.map((item: any) => {
     return {
@@ -224,9 +221,11 @@ const active3D = computed(() => {
   });
 });
 const changeGameMethod3D = (val: any) => {
+  // 选择3D的玩法触发,头,尾,组选
   active3Dmethod.value = val;
 };
 const changeNum3D = (val: any) => {
+  // 选择3D中的号码触发
   active3Dnum.value = val;
 };
 
@@ -237,7 +236,7 @@ const activePL2 = computed(() => {
   let data: any = typeList.value.find(
     (item: any) => item.gamePlayTypeName == "PL2"
   );
-  if (betNums.length!=2) return [];
+  if (betNums.length != 2) return [];
   return {
     gamePlayTypeName: data.gamePlayTypeName,
     gamePlayTypeCode: data.gamePlayTypeCode,
@@ -256,7 +255,7 @@ const activePL3 = computed(() => {
   let data: any = typeList.value.find(
     (item: any) => item.gamePlayTypeName == "PL3"
   );
-  if (betNums.length!=3) return [];
+  if (betNums.length != 3) return [];
   return {
     gamePlayTypeName: data.gamePlayTypeName,
     gamePlayTypeCode: data.gamePlayTypeCode,
@@ -267,29 +266,48 @@ const activePL3 = computed(() => {
 const changeNumPL3 = (val: any) => {
   // 已选中的号码
   console.log(val);
-  activePL3num.value=val
+  activePL3num.value = val;
 };
 
-
+onBeforeUpdate(() => {
+  // 数据变化时监听是否还需要选中键盘
+  let flag2D = active2Dmethod.value.every((item: any) => item.checked == false);
+  let flag3D = active3Dmethod.value.every((item: any) => item.checked == false);
+  if (flag2D) {
+    keyNum2Ddata.value.forEach((item: any) => (item.checked = false));
+  }
+  if (flag3D) {
+    keyNum3Ddata.value.forEach((item: any) => (item.checked = false));
+  }
+});
 // 删除一项
-const delBetList = (id: string) => {
-  console.log(id);
-  betlist.value = betlist.value.filter((item: any) => item.id !== id);
-};
-const show = ref(false);
-const clickBet = () => {
-  // 打开底部弹出层,同时要将选中的号码传入
-  show.value = true;
-  console.log(betlist.value);
+const delBetList = (val: any) => {
+  console.log(val)
+  // 首先找出这一项的分类
+  let delobj: any =
+    method2DList.value.find((item: any) => item.gamePlayCode == val.gamePlayCode) 
+    ||
+    method3DList.value.find((item: any) => item.gamePlayCode == val.gamePlayCode);
+    if(delobj){
+      // delobj为true代表选择的是2D3D,因为PL2,PL3没有玩法类型
+      delobj.checked = false;
+      active2Dmethod.value = method2DList.value.filter((item: any) => item.checked);
+      active3Dmethod.value = method3DList.value.filter((item: any) => item.checked);
+    }else{
+      // 这里判断删的是PL2还是PL3
+      if(val.gamePlayTypeCode=='vnd_PL2'){
+        keyNumPL2data.value.forEach((item:any)=>item.checked=false)//取消键盘选中
+        activePL2num.value=[]//列表删除
+      }
+      if(val.gamePlayTypeCode=='vnd_PL3'){
+        keyNumPL3data.value.forEach((item:any)=>item.checked=false)//取消键盘选中
+        activePL3num.value=[]//列表删除
+      }
+    }
 };
 
-const closeBetList = () => {
-  show.value = false;
-  // 关闭底部弹出层
-};
-
-// 生成键盘2d键盘数据
-const keyNum2Ddata = computed(() => {
+const createNum = () => {
+  // 生成00-99的键盘数据
   let arr: any = [];
   for (let i = 0; i < 100; i++) {
     if (i < 10) {
@@ -298,9 +316,11 @@ const keyNum2Ddata = computed(() => {
       arr.push({ label: "" + i, id: "" + i, checked: false });
     }
   }
-  return arr;
-});
-
+  return ref(arr);
+};
+const keyNum2Ddata = createNum();// 生成键盘2d键盘数据
+const keyNumPL2data = createNum();// 生成键盘PL2键盘数据
+const keyNumPL3data = createNum();// 生成键盘PL3键盘数据
 // 生成键盘3d键盘数据
 const keyNum3Ddata = computed(() => {
   let arr: any = [];
@@ -315,30 +335,37 @@ const keyNum3Ddata = computed(() => {
   }
   return arr;
 });
-
-// 生成键盘PL2键盘数据
-const keyNumPL2data = computed(() => {
-  let arr: any = [];
-  for (let i = 0; i < 100; i++) {
-    if (i < 10) {
-      arr.push({ label: "0" + i, id: "0" + i, checked: false });
-    } else {
-      arr.push({ label: "" + i, id: "" + i, checked: false });
-    }
-  }
-  return arr;
-});
-
-// 生成键盘PL3键盘数据
-const keyNumPL3data = computed(() => {
-  let arr: any = [];
-  for (let i = 0; i < 100; i++) {
-    if (i < 10) {
-      arr.push({ label: "0" + i, id: "0" + i, checked: false });
-    } else {
-      arr.push({ label: "" + i, id: "" + i, checked: false });
-    }
-  }
-  return arr;
-});
+// const keyNumPL2data=computed(() => {
+//   let arr: any = [];
+//   for (let i = 0; i < 100; i++) {
+//     if (i < 10) {
+//       arr.push({ label: "0" + i, id: "0" + i, checked: false });
+//     } else {
+//       arr.push({ label: "" + i, id: "" + i, checked: false });
+//     }
+//   }
+//   return arr;
+// });
+// const keyNumPL2data = computed(() => {
+//   let arr: any = [];
+//   for (let i = 0; i < 100; i++) {
+//     if (i < 10) {
+//       arr.push({ label: "0" + i, id: "0" + i, checked: false });
+//     } else {
+//       arr.push({ label: "" + i, id: "" + i, checked: false });
+//     }
+//   }
+//   return arr;
+// });
+// const keyNumPL3data = computed(() => {
+//   let arr: any = [];
+//   for (let i = 0; i < 100; i++) {
+//     if (i < 10) {
+//       arr.push({ label: "0" + i, id: "0" + i, checked: false });
+//     } else {
+//       arr.push({ label: "" + i, id: "" + i, checked: false });
+//     }
+//   }
+//   return arr;
+// });
 </script>
