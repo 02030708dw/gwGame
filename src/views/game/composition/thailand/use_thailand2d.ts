@@ -1,7 +1,7 @@
 import {Ref, ref, toRaw, watch} from "vue";
-import {calData} from "@/utils/arrayFun";
+import {calData, calData2D} from "@/utils/arrayFun";
 export default function (type:string,lotteryHistory:  Map<string, Ref<{}>>,playTypeCode:Ref) {
-    const boardData2D = ref(calData(30))
+    const boardData2D = ref(calData2D(100))
     const boardData2DType = ref<any[]>([
         {label:'头',value:1},
         {label:'尾',value:2},

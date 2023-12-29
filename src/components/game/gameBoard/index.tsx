@@ -10,6 +10,10 @@ export default defineComponent({
     name: 'gameBoard',
     emits: ['onCheck','onSubCheck'],
     props: {
+        claType:{
+          type:String,
+          default:()=>'gameBoard'
+        },
         tit:{
           type:String,
           default:()=>'Fred Hill'
@@ -41,7 +45,7 @@ export default defineComponent({
     setup(props, {emit, slots}) {
         const btn = (v: number) => emit('onCheck', v)
         const btnSub = (v: number) => emit('onSubCheck', v)
-        return () => <div class='gameBoard' style={{"background-image": `url(${props.bg})`}}>
+        return () => <div class={props.claType} style={{"background-image": `url(${props.bg})`}}>
             <div class="title">
                 {props.tit}
             </div>
