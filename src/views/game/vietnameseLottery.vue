@@ -61,8 +61,6 @@
       :unlock="true"
       :astrict="3"
     />
-    <pre>{{ current }}</pre>
-    <pre>{{ betlist }}</pre>
     <template #bot>
       <Footer @click-handle="show = true" :num="current" />
     </template>
@@ -174,12 +172,8 @@ const betlist = computed({
     let arr=[...active2D.value,...active3D.value,activePL2.value,activePL3.value,].filter((item: any) => {
       return item?.betNums?.length;
     });
-    console.log(
-      arr
-    )
-    return [...active2D.value,...active3D.value,activePL2.value,activePL3.value,].filter((item: any) => {
-      return item?.betNums?.length;
-    });
+    console.log(arr)
+    return arr
   },
   set(value) {
     betlist.value = value;
