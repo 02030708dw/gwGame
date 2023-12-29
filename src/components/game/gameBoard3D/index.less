@@ -1,4 +1,4 @@
-.gameBoard3D{
+.gameBoard3D {
   width: 100%;
   font-family: PingFangSC-Semibold, PingFang SC;
   background-size: contain;
@@ -7,25 +7,31 @@
   font-weight: bold;
   //border: #F6AB1E solid 1px;
   margin-top: 10rpx;
-  .title{
+
+  .title {
     padding-top: 20rpx;
     padding-left: 22rpx;
     font-size: 44rpx;
     color: #fff;
   }
-  .main{
+
+  .main {
     padding: 0;
-    .top{
+
+    .top {
       padding: 28rpx;
       display: grid;
-      grid-template-columns: repeat(5,1fr);
+      grid-template-columns: repeat(5, 1fr);
       gap: 16rpx;
       border-bottom: 2px solid #81D1F1;
-      >div{
+
+      >div {
         position: relative;
-        .van-badge{
+
+        .van-badge {
           position: absolute;
         }
+
         font-size: 36rpx;
         display: flex;
         border-radius: 4px;
@@ -36,19 +42,22 @@
         color: #CCE8F3;
         transition:0.3s ease-in-out all;
         box-shadow: inset 0px -2px 0px 0px rgba(75, 75, 75, 0.5);
-        &.active{
-          background:var(--color);
+
+        &.active {
+          background: var(--color);
           color: #fff;
         }
       }
     }
-    .content{
+
+    .content {
       background: #cae6f1;
       padding: 28rpx;
       display: grid;
-      grid-template-columns: repeat(5,1fr);
+      grid-template-columns: repeat(5, 1fr);
       gap: 16rpx;
-      >div{
+
+      >div {
         font-size: 36rpx;
         display: flex;
         border-radius: 4px;
@@ -56,32 +65,38 @@
         justify-content: center;
         padding: 12rpx;
         background: #fff;
-        transition:0.3s ease-in-out all;
+        transition: 0.3s ease-in-out all;
         animation: none;
         box-shadow: inset 0px -2px 0px 0px rgba(75, 75, 75, 0.5);
-        &.active{
-          background:var(--color);
+
+        &.active {
+          background: var(--color);
           color: #fff;
-          animation: tada 1s;
+          animation: heartBeat 1s;
         }
       }
     }
   }
 }
-@keyframes tada {
-  from {
-    transform: scale3d(1, 1, 1)
+
+@keyframes heartBeat {
+  0% {
+    transform: scale(1);
   }
-  10%, 20% {
-    transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg)
+
+  14% {
+    transform: scale(1.2);
   }
-  30%, 50%, 70%, 90% {
-    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg)
+
+  28% {
+    transform: scale(1);
   }
-  40%, 60%, 80% {
-    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg)
+
+  42% {
+    transform: scale(1.2);
   }
-  to {
-    transform: scale3d(1, 1, 1)
+
+  70% {
+    transform: scale(1);
   }
 }
