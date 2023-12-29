@@ -8,12 +8,23 @@
         <view class="box">
           <view
             class="header-item"
-            v-for="item in data2D1"
+            v-for="(item,index) in data2D1"
             :key="item.id"
             @click="changeThreeNum(item)"
             :class="item.checked ? 'header-active' : null"
           >
             {{ item.label }}
+            <text class="radius"
+            v-if="
+            (numList.slice(100*index,100*index+100)).reduce((count:any, item:any)=>{
+              return item.checked ? count + 1 : count;
+            },0)
+            "
+            >
+              {{ (numList.slice(100*index,100*index+100)).reduce((count:any, item:any)=>{
+              return item.checked ? count + 1 : count;
+            },0) }}
+            </text>
           </view>
         </view>
         <view class="line"></view>
@@ -22,7 +33,6 @@
         class="num-box"
         :style="{ height: numHeight, paddingTop: showHeader ? '32rpx' : '0rpx' }"
       >
-  
         <view
           class="num-item"
           v-for="(item, index) in numList.slice(numScope - 100, numScope)"
@@ -159,12 +169,24 @@
           background: #ffe2b4;
           border-radius: 8rpx;
           font-size: 36rpx;
-          font-family: PingFangSC, PingFang SC;
           font-weight: 600;
           color: #ffffff;
           text-align: center;
           line-height: 62rpx;
           transition: 0.3s all linear;
+          position: relative;
+          .radius{
+            width: 30rpx;
+            height: 30rpx;
+            background-color: #f56c6c;
+            border-radius: 30rpx;
+            position: absolute;
+            font-size: 24rpx;
+            line-height: 30rpx;
+            text-align: center;
+            right: -15rpx;
+            top: -15rpx;
+          }
         }
         .header-active {
           background-color: #fdb332;

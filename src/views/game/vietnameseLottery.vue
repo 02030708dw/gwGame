@@ -173,7 +173,7 @@ const betlist = computed({
       return item?.betNums?.length;
     });
     // console.log(betlist.value)
-    // console.log(arr)
+    console.log(arr)
     return arr
   },
   set(value) {

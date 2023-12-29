@@ -12,15 +12,17 @@
       </view>
       <scroll-view scroll-y="true" class="scroll-view">
         <view class="item" v-for="(item,index) in list" v-if="list.length" :key="item.id">
-          <text style="width: 117rpx; font-size: 24rpx">[{{ item.gamePlayName||item.gamePlayTypeName }}]</text>
-          <text style="width: 160rpx; font-size: 28rpx; color: #00cd6a;position: relative;" v-if="!(item.gamePlayTypeName=='3D')">
-            {{ item.betNums.slice(0,4).join('-') }}
-            <text v-if="item.betNums.length>4" style="position: absolute;right: -60rpx;top: -4rpx; color: #000;" @click="more(`${item.id}`)">更多</text>
+
+          <text class="title">[{{ item.gamePlayCode}}]</text>
+
+          <text class="num" v-if="!(item.gamePlayTypeName=='3D')">
+            {{ item.betNums.slice(0,4).join(',') }}
+            <text v-if="item.betNums.length>4" class="more" @click="more(`${item.id}`)">更多</text>
           </text>
 
-          <text style="width: 160rpx; font-size: 28rpx; color: #00cd6a;position: relative;" v-else>
-            {{ item.betNums.slice(0,3).join('-') }}
-            <text v-if="item.betNums.length>3" style="position: absolute;right: -60rpx;top: -4rpx; color: #000;" @click="more(`${item.id}`)">更多</text>
+          <text class=num v-else>
+            {{ item.betNums.slice(0,3).join(',') }}
+            <text v-if="item.betNums.length>3" class="more" @click="more(`${item.id}`)">更多</text>
           </text>
 
           <view class="tmis-box">
@@ -32,6 +34,7 @@
             style="width: 44rpx; height: 44rpx"
             @click="del(item,index)"
           />
+          <!-- <text class="title">[{{ item.gamePlayCode }}]</text> -->
         </view>
         
         <view v-else style="line-height:404rpx;text-align: center;">暂无历史记录</view>
@@ -85,12 +88,10 @@ const times:any=ref([])
 // 
 
 watch(lists,(newvalue,oldvalue)=>{
-  console.log(newvalue,oldvalue)
+  // 监听增加或者减少
   if(newvalue.length-oldvalue.length>0){
-    console.log('增加了')
     times.value.push(1)
   }else if(oldvalue.length-newvalue.length>0){
-    console.log('减少了',newvalue,oldvalue)
     let index=findMissingIndexes(oldvalue,newvalue)
     times.value.splice(index,1)
   }
@@ -173,6 +174,20 @@ function findMissingIndexes(oldvalue:any, newvalue:any) {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      .title{
+        word-wrap: break-word;
+        width: 160rpx; 
+        font-size: 24rpx;
+      }
+      .num{
+        width: 160rpx; 
+        font-size: 28rpx; 
+        color: #00cd6a;
+        position: relative; 
+        .more{
+          position: absolute;right: -60rpx;top: -4rpx; color: #000;
+        }
+      }
       .tmis-box {
         transform: translateX(20rpx);
         width: 130rpx;
