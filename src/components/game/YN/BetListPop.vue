@@ -11,9 +11,18 @@
         />
       </view>
       <scroll-view scroll-y="true" class="scroll-view">
-        <view class="item" v-for="(item,index) in list" v-if="list.length">
+        <view class="item" v-for="(item,index) in list" v-if="list.length" :key="item.id">
           <text style="width: 117rpx; font-size: 24rpx">[{{ item.gamePlayName||item.gamePlayTypeName }}]</text>
-          <text style="width: 160rpx; font-size: 28rpx; color: #00cd6a">{{ item.betNums.join('-') }}</text>
+          <text style="width: 160rpx; font-size: 28rpx; color: #00cd6a;position: relative;" v-if="!(item.gamePlayTypeName=='3D')">
+            {{ item.betNums.slice(0,4).join('-') }}
+            <text v-if="item.betNums.length>4" style="position: absolute;right: -60rpx;top: -4rpx; color: #000;" @click="more(`${item.id}`)">更多</text>
+          </text>
+
+          <text style="width: 160rpx; font-size: 28rpx; color: #00cd6a;position: relative;" v-else>
+            {{ item.betNums.slice(0,3).join('-') }}
+            <text v-if="item.betNums.length>3" style="position: absolute;right: -60rpx;top: -4rpx; color: #000;" @click="more(`${item.id}`)">更多</text>
+          </text>
+
           <view class="tmis-box">
              <input type="text" v-model="item.times" />
             <text class="tmis" style="width: 82rpx; height: 44rpx">Tmis</text>
@@ -24,7 +33,11 @@
             @click="del(item)"
           />
         </view>
+        
         <view v-else style="line-height:404rpx;text-align: center;">暂无历史记录</view>
+        <!-- 不能删这两个v-show -->
+        <pre v-show="false">{{ times }}</pre>
+        <pre v-show="false">{{ list }}</pre>
       </scroll-view>
       <view class="condinm-box">
         <view class="condinm-tmis">
@@ -34,6 +47,7 @@
         <view class="condinm">Condinm</view>
       </view>
       <view class="bottom">
+
         <image
           src="@/static/images/footerleft.png"
           style="width: 64rpx; height: 52rpx; margin-right: 20rpx"
@@ -54,7 +68,7 @@
   </u-popup>
 </template>
 <script setup lang="ts">
-import {ref,watch,computed,nextTick} from 'vue'
+import {ref,watch} from 'vue'
 const props = defineProps(["show", "list"]);
 const emits = defineEmits(["close","del","bet"]);
 const close = () => {
@@ -64,10 +78,21 @@ const del=(item:any)=>{
     emits('del',item)
 }
 const Alltimes=ref(1)
+const times=ref([])
+// 
+watch(props.list,()=>{
+  times.value=props.list.map((item:any)=>item.times)
+},{deep:true,immediate:true})
+
 const changeAllTimes=()=>{
   props.list.forEach((item:any)=>{
     item.times=Alltimes.value
   })
+  times.value=props.list.map((item:any)=>item.times)
+}
+const more=(id:string)=>{
+
+  console.log(id)
 }
 </script>
 <style lang="scss" scoped>
@@ -108,7 +133,8 @@ const changeAllTimes=()=>{
       justify-content: space-between;
       align-items: center;
       .tmis-box {
-        width: 228rpx;
+        transform: translateX(20rpx);
+        width: 130rpx;
         height: 44rpx;
         border-radius: 8rpx;
         border: 1rpx solid #dedede;
