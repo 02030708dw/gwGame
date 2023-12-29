@@ -99,7 +99,7 @@ interface boardType {
   value: number;
 }
 export type cgType='all'|'sin'
-export type lotteryHType = { gamePlayCode: number, gamePlayTypeCode: string, oneBetAmount: number, betNums: number[],rate:number}[]
+export type lotteryHType = { gamePlayCode: number, gamePlayTypeCode: string, oneBetAmount: number, betNums: number[],rate:number,winAmount:number}[]
 type Routes = Partial<Record<'code' | 'gameId' | 'name' | 'type' | 'vndArea', string | null>>
 const routes = ref<Routes>({})
 const gameConfig = ref<GameInfo>({gameId: "", gameName: "", gamePlayAndTypeListRespList: [], sealingTime: ""})
@@ -268,7 +268,7 @@ const changeTotal = (n:any,v:cgType) => {
   }else {
     [...lotteryHistory.keys()].map(it=>{
       lotteryHistory.set(it,ref(lotteryHistory.get(it)?.value?.map(it2=>{
-        it2.oneBetAmount=n*it2.oneBetAmount
+        it2.oneBetAmount=n
         return it2
       }) as any))
     })
