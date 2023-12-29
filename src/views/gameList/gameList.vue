@@ -5,7 +5,7 @@
       style="background: #fff"
       @change="tabChange"
       :list="gameList"
-      lineWidth="50"
+      lineWidth="28"
       lineColor="#C2611C"
       :keyName="'countryName'"
       :scrollable="false"
@@ -18,7 +18,7 @@
         color: '#606266',
         transform: 'scale(1)',
       }"
-      itemStyle="padding-left: 15px; padding-right: 15px; height: 54px;"
+      itemStyle="height: 100rpx;"
     ></u-tabs>
     <view v-if="gameList.length">
       <TabNav
@@ -85,7 +85,4 @@ const getGameList=()=>{
 }
 </script>
 <style lang="less" scoped>
-body {
-  background: #f9f9f9;
-}
 </style>

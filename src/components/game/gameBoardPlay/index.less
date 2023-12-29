@@ -1,37 +1,34 @@
-.gameBoardType{
+.gameBoardType {
   width: 100%;
   font-family: PingFangSC-Semibold, PingFang SC;
   background-size: cover;
   background-repeat: no-repeat;
   box-sizing: border-box;
   font-weight: bold;
-  //border: #F6AB1E solid 1px;
-  //margin-top: 10rpx;
-  .title{
+
+  .title {
     padding-top: 30rpx;
-    padding-left: 22rpx;
+    padding-left: 18rpx;
     font-size: 44rpx;
+    line-height: 44rpx;
     color: #fff;
   }
-  .main{
-    .content{
-      padding: 28rpx;
-      display: flex;
-      //grid-template-columns: repeat(5,1fr);
-      justify-content: space-between;
-      gap: 16rpx;
-      >div{
+
+  .main {
+    .content {
+      padding: 40rpx 28rpx 32rpx;
+
+      >div {
         font-size: 30rpx;
-        display: flex;
-        width: 100%;
         border-radius: 4px;
-        align-items: center;
-        justify-content: center;
+        width: 100%;
         padding: 12rpx;
         background: #fff;
-        transition:0.3s ease-in-out all;
-        &.active{
-          background:var(--color);
+        transition: 0.3s ease-in-out all;
+        box-shadow: inset 0px -2px 0px 0px rgba(75, 75, 75, 0.5);
+
+        &.active {
+          background: var(--color);
           color: #fff;
         }
       }

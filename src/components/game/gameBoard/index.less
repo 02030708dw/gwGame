@@ -11,6 +11,7 @@
     padding-top: 20rpx;
     padding-left: 22rpx;
     font-size: 44rpx;
+    line-height: 44rpx;
     color: #fff;
   }
   .main{
@@ -37,7 +38,7 @@
       }
     }
     .content{
-      padding: 28rpx;
+      padding: 40rpx 28rpx 32rpx;
       display: grid;
       grid-template-columns: repeat(5,1fr);
       gap: 16rpx;
@@ -51,6 +52,7 @@
         background: #fff;
         transition:0.3s ease-in-out all;
         animation: none;
+        box-shadow: inset 0px -2px 0px 0px rgba(75, 75, 75, 0.5);
         &.active{
           background:var(--color);
           color: #fff;

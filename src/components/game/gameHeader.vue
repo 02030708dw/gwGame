@@ -153,7 +153,7 @@ const handleSelect = (item: any) => {
   margin-top: 120rpx !important;
 }
 .poupLeft:deep(.poupLeftText):first-child {
-  margin-top: 120rpx !important;
+  margin-top: 80rpx !important;
 }
 .headerStyle {
   position: relative;
@@ -193,7 +193,9 @@ const handleSelect = (item: any) => {
 
 .poupLeftText {
   color: #fff;
-  padding: 40rpx 30rpx;
+  padding: 35rpx 60rpx;
+  text-align: center;
+  border-top: 1px solid #555;
 }
 
 .poupTOP .poupLeftText {
