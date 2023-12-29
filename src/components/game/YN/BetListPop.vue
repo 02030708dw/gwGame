@@ -24,18 +24,18 @@
           </text>
 
           <view class="tmis-box">
-             <input type="text" v-model="item.times" />
+             <input type="text" v-model="times[index]" />
             <text class="tmis" style="width: 82rpx; height: 44rpx">Tmis</text>
           </view>
           <image
             src="/src/static/images/del.png"
             style="width: 44rpx; height: 44rpx"
-            @click="del(item)"
+            @click="del(item,index)"
           />
         </view>
         
         <view v-else style="line-height:404rpx;text-align: center;">暂无历史记录</view>
-        <!-- 不能删这两个v-show -->
+        <!-- 不要动这两个v-show 每行代码都有他存在的意义 -->
         <pre v-show="false">{{ times }}</pre>
         <pre v-show="false">{{ list }}</pre>
       </scroll-view>
@@ -68,21 +68,35 @@
   </u-popup>
 </template>
 <script setup lang="ts">
-import {ref,watch} from 'vue'
+import {ref,watch,toRef} from 'vue'
 const props = defineProps(["show", "list"]);
 const emits = defineEmits(["close","del","bet"]);
+const lists=toRef(props,'list')
+const delIndex=ref()//删除的id,为了删除倍数
 const close = () => {
   emits("close");
 };
-const del=(item:any)=>{
+const del=(item:any,index:number)=>{
+  delIndex.value=index
     emits('del',item)
 }
 const Alltimes=ref(1)
-const times=ref([])
+const times:any=ref([])
 // 
-watch(props.list,()=>{
-  times.value=props.list.map((item:any)=>item.times)
-},{deep:true,immediate:true})
+
+watch(lists,(newvalue,oldvalue)=>{
+  console.log(newvalue,oldvalue)
+  if(newvalue.length-oldvalue.length>0){
+    console.log('增加了')
+    times.value.push(1)
+  }else if(oldvalue.length-newvalue.length>0){
+    console.log('减少了',newvalue,oldvalue)
+    let index=findMissingIndexes(oldvalue,newvalue)
+    times.value.splice(index,1)
+  }
+  correct()
+},{deep:true,immediate:false})
+console.log(props.list)
 
 const changeAllTimes=()=>{
   props.list.forEach((item:any)=>{
@@ -90,10 +104,37 @@ const changeAllTimes=()=>{
   })
   times.value=props.list.map((item:any)=>item.times)
 }
-const more=(id:string)=>{
 
+
+const more=(id:string)=>{
   console.log(id)
 }
+function correct(){
+  // 防止记录倍数的数据没有已选号码多
+  let num= lists.value.length-times.value.length
+  if(num>0){
+    for(let i=0;i<num;i++){
+      times.value.push(1)
+    }
+  }
+}
+
+function findMissingIndexes(oldvalue:any, newvalue:any) {  
+    let missingIndexes ;  
+    for (let i = 0; i < oldvalue.length; i++) {  
+        let found = false;  
+        for (let j = 0; j < newvalue.length; j++) {  
+            if (oldvalue[i].gamePlayCode === newvalue[j].gamePlayCode) {  
+                found = true;  
+                break;  
+            }  
+        }  
+        if (!found) {  
+            missingIndexes=i;  
+        }  
+    }  
+    return missingIndexes;  
+}  
 </script>
 <style lang="scss" scoped>
 .bet-box {

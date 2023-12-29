@@ -172,7 +172,8 @@ const betlist = computed({
     let arr=[...active2D.value,...active3D.value,activePL2.value,activePL3.value,].filter((item: any) => {
       return item?.betNums?.length;
     });
-    console.log(arr)
+    // console.log(betlist.value)
+    // console.log(arr)
     return arr
   },
   set(value) {
@@ -234,7 +235,8 @@ const active3D = computed(() => {
       id: crypto.randomUUID(),
       gamePlayTypeName: data.gamePlayTypeName,
       gamePlayTypeCode: data.gamePlayTypeCode,
-      times:1
+      
+      times:1,
 
     };
   });
@@ -259,10 +261,12 @@ const activePL2 = computed(() => {
   return {
     gamePlayTypeName: data.gamePlayTypeName,
     gamePlayTypeCode: data.gamePlayTypeCode,
+    gamePlayCode:data.gamePlayTypeCode,
     betNums,
     id: crypto.randomUUID(),
     sum:18,
-    times:1
+    times:1,
+
   };
 });
 const changeNumPL2 = (val: any) => {
@@ -279,6 +283,7 @@ const activePL3 = computed(() => {
   return {
     gamePlayTypeName: data.gamePlayTypeName,
     gamePlayTypeCode: data.gamePlayTypeCode,
+    gamePlayCode:data.gamePlayTypeCode,
     betNums,
     id: crypto.randomUUID(),
     sum:18,
