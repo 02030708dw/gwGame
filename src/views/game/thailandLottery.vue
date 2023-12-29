@@ -37,6 +37,7 @@
             @onCheck="onAddAct2DType"
         />
         <game-board
+            cla-type="gameBoard2D"
             :board-data="boardData2D as boardType[]"
             :active-data="activeData2D"
             :bg="urls3"
