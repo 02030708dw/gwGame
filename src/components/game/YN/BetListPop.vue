@@ -97,7 +97,6 @@ watch(lists,(newvalue,oldvalue)=>{
   }
   correct()
 },{deep:true,immediate:false})
-console.log(props.list)
 
 const changeAllTimes=()=>{
   props.list.forEach((item:any)=>{

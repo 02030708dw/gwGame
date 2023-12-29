@@ -167,21 +167,15 @@ const current=computed(()=>{
   return num
 })
 //全部选中的玩法
-const betlist = computed({
-  get() {
-    let arr=[...active2D.value,...active3D.value,activePL2.value,activePL3.value,].filter((item: any) => {
+
+const betlist=computed(()=>{
+  let arr=[...active2D.value,...active3D.value,activePL2.value,activePL3.value,].filter((item: any) => {
       return item?.betNums?.length;
     });
     // console.log(betlist.value)
     console.log(arr)
     return arr
-  },
-  set(value) {
-    betlist.value = value;
-    console.log(value); //value是计算属性改变后的值
-  },
-});
-
+})
 // 地区选中------------------------------
 //   const changeCitySelection = (val: any) => {
 //     console.log(val);
@@ -235,9 +229,7 @@ const active3D = computed(() => {
       id: crypto.randomUUID(),
       gamePlayTypeName: data.gamePlayTypeName,
       gamePlayTypeCode: data.gamePlayTypeCode,
-      
       times:1,
-
     };
   });
 });
@@ -323,12 +315,12 @@ const delBetList = (val: any) => {
     }else{
       // 这里判断删的是PL2还是PL3
       if(val.gamePlayTypeCode=='vnd_PL2'){
-        keyNumPL2data.value.forEach((item:any)=>item.checked=false)//取消键盘选中
-        activePL2num.value=[]//列表删除
+        keyNumPL2data.value.forEach((item:any)=>item.checked=false)//取消选中
+        activePL2num.value=[]//清空列表
       }
       if(val.gamePlayTypeCode=='vnd_PL3'){
-        keyNumPL3data.value.forEach((item:any)=>item.checked=false)//取消键盘选中
-        activePL3num.value=[]//列表删除
+        keyNumPL3data.value.forEach((item:any)=>item.checked=false)//取消选中
+        activePL3num.value=[]//清空列表
       }
     }
 };
