@@ -92,7 +92,7 @@ import { onLoad } from "@dcloudio/uni-app";
 import { get, post } from "@/api";
 import GameMethod from "@/components/game/YN/GameMethod.vue";
 import KeyNum from "@/components/game/YN/KeyNum.vue";
-
+import {UUID} from '@/utils/uuid'
 onLoad(async (data: any) => {
 
   let res = await post({
@@ -182,6 +182,7 @@ const betlist=computed(()=>{
 //   };
 
 // 2D--------------------------------------------
+
 const method2DList = ref([]); //头,尾组选的数据
 const active2Dmethod = ref([]); //已经选中的玩法
 const active2Dnum = ref([]); //已经选中的号码
@@ -191,11 +192,11 @@ const active2D = computed(() => {
     (item: any) => item.gamePlayTypeName == "2D"
   );
   if (!betNums.length) return [];
-  return active2Dmethod.value.map((item: any) => {
+  return active2Dmethod.value.map((item: any,index:number) => {
     return {
+      id:UUID(),
       ...item,
       betNums,
-      id: crypto.randomUUID(),
       gamePlayTypeName: data.gamePlayTypeName,
       gamePlayTypeCode: data.gamePlayTypeCode,
       times:1
@@ -222,11 +223,11 @@ const active3D = computed(() => {
     (item: any) => item.gamePlayTypeName == "3D"
   );
   if (!betNums.length) return [];
-  return active3Dmethod.value.map((item: any) => {
+  return active3Dmethod.value.map((item: any,index:number) => {
     return {
+      id:UUID(),
       ...item,
       betNums,
-      id: crypto.randomUUID(),
       gamePlayTypeName: data.gamePlayTypeName,
       gamePlayTypeCode: data.gamePlayTypeCode,
       times:1,
@@ -245,20 +246,19 @@ const changeNum3D = (val: any) => {
 // PL2---------------------------
 const activePL2num = ref([]); //已经选中的号码
 const activePL2 = computed(() => {
-  let betNums = [...activePL2num.value.map((item: any) => item.label)];
+  let betNums = [...activePL2num.value.map((item: any,index:number) => item.label)];
   let data: any = typeList.value.find(
     (item: any) => item.gamePlayTypeName == "PL2"
   );
   if (betNums.length != 2) return [];
   return {
+    id:UUID(),
     gamePlayTypeName: data.gamePlayTypeName,
     gamePlayTypeCode: data.gamePlayTypeCode,
     gamePlayCode:data.gamePlayTypeCode,
     betNums,
-    id: crypto.randomUUID(),
     sum:18,
     times:1,
-
   };
 });
 const changeNumPL2 = (val: any) => {
@@ -277,7 +277,7 @@ const activePL3 = computed(() => {
     gamePlayTypeCode: data.gamePlayTypeCode,
     gamePlayCode:data.gamePlayTypeCode,
     betNums,
-    id: crypto.randomUUID(),
+    id:UUID(),
     sum:18,
     times:1
   };
@@ -363,37 +363,4 @@ const keyNum3Ddata = computed(() => {
   }
   return arr;
 });
-// const keyNumPL2data=computed(() => {
-//   let arr: any = [];
-//   for (let i = 0; i < 100; i++) {
-//     if (i < 10) {
-//       arr.push({ label: "0" + i, id: "0" + i, checked: false });
-//     } else {
-//       arr.push({ label: "" + i, id: "" + i, checked: false });
-//     }
-//   }
-//   return arr;
-// });
-// const keyNumPL2data = computed(() => {
-//   let arr: any = [];
-//   for (let i = 0; i < 100; i++) {
-//     if (i < 10) {
-//       arr.push({ label: "0" + i, id: "0" + i, checked: false });
-//     } else {
-//       arr.push({ label: "" + i, id: "" + i, checked: false });
-//     }
-//   }
-//   return arr;
-// });
-// const keyNumPL3data = computed(() => {
-//   let arr: any = [];
-//   for (let i = 0; i < 100; i++) {
-//     if (i < 10) {
-//       arr.push({ label: "0" + i, id: "0" + i, checked: false });
-//     } else {
-//       arr.push({ label: "" + i, id: "" + i, checked: false });
-//     }
-//   }
-//   return arr;
-// });
 </script>
