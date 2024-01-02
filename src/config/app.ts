@@ -6,7 +6,7 @@ export const HTTP_REQUEST_URL = "http://192.168.124.3:7001";
 
 //投注接口
 // export const HTTP_REQUEST_URL2 = 'http://gwadmin.mvkbnb.com:7004'
-export const HTTP_REQUEST_URL2 = "http://192.168.124.3:7001";
+export const HTTP_REQUEST_URL2 = "http://192.168.124.3:7004";
 
 //第三方获取用户接口
 // export const HTTP_REQUEST_URL3 = 'http://gwadmin.mvkbnb.com:7001'

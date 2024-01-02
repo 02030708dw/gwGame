@@ -257,6 +257,8 @@ const activePL2 = computed(() => {
     id:UUID(),
     gamePlayTypeName: data.gamePlayTypeName,
     gamePlayTypeCode: data.gamePlayTypeCode,
+    gamePlayCode:data.gamePlayTypeCode,
+    gamePlayName:data.gamePlayTypeName,
     betNums,
     sum:18,
     times:1,
@@ -277,6 +279,8 @@ const activePL3 = computed(() => {
     id:UUID(),
     gamePlayTypeName: data.gamePlayTypeName,
     gamePlayTypeCode: data.gamePlayTypeCode,
+    gamePlayCode:data.gamePlayTypeCode,
+    gamePlayName:data.gamePlayTypeName,
     betNums,
     sum:18,
     times:1

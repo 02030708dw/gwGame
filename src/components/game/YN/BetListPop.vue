@@ -14,7 +14,7 @@
         <view class="item" v-for="(item,index) in list" v-if="list.length" :key="item.id">
 
           <text class="title">[{{ item.gamePlayCode}}]</text>
-
+          
           <text class="num" v-if="!(item.gamePlayTypeName=='3D')">
             {{ item.betNums.slice(0,4).join(',') }}
             <text v-if="item.betNums.length>4" class="more" @click="more(`${item.id}`)">更多</text>
