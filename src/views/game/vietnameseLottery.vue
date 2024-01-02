@@ -92,7 +92,7 @@ import { onLoad } from "@dcloudio/uni-app";
 import { get, post } from "@/api";
 import GameMethod from "@/components/game/YN/GameMethod.vue";
 import KeyNum from "@/components/game/YN/KeyNum.vue";
-
+import {UUID} from '@/utils/uuid'
 onLoad(async (data: any) => {
 
   let res = await post({
@@ -195,7 +195,7 @@ const active2D = computed(() => {
     return {
       ...item,
       betNums,
-      id: crypto.randomUUID(),
+      id:UUID(),
       gamePlayTypeName: data.gamePlayTypeName,
       gamePlayTypeCode: data.gamePlayTypeCode,
       times:1
@@ -226,7 +226,7 @@ const active3D = computed(() => {
     return {
       ...item,
       betNums,
-      id: crypto.randomUUID(),
+      id:UUID(),
       gamePlayTypeName: data.gamePlayTypeName,
       gamePlayTypeCode: data.gamePlayTypeCode,
       times:1,
@@ -251,14 +251,13 @@ const activePL2 = computed(() => {
   );
   if (betNums.length != 2) return [];
   return {
+    id:UUID(),
     gamePlayTypeName: data.gamePlayTypeName,
     gamePlayTypeCode: data.gamePlayTypeCode,
     gamePlayCode:data.gamePlayTypeCode,
     betNums,
-    id: crypto.randomUUID(),
     sum:18,
     times:1,
-
   };
 });
 const changeNumPL2 = (val: any) => {
@@ -273,11 +272,11 @@ const activePL3 = computed(() => {
   );
   if (betNums.length != 3) return [];
   return {
+    id:UUID(),
     gamePlayTypeName: data.gamePlayTypeName,
     gamePlayTypeCode: data.gamePlayTypeCode,
     gamePlayCode:data.gamePlayTypeCode,
     betNums,
-    id: crypto.randomUUID(),
     sum:18,
     times:1
   };
