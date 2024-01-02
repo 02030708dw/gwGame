@@ -22,12 +22,19 @@
   </template>
   <script setup lang="ts">
   // 背景,数据,这个组件有num个子元素
-  const props = defineProps(["backgroundImage",  "row", "itemWidth","fredList"]);
+  const props = defineProps(["backgroundImage",  "row", "itemWidth","fredList","radio"]);
   const emits = defineEmits(["change"]);
 
   const change = (item: any) => {
-    item.checked=!item.checked
-    emits("change", props.fredList.filter((item:any)=>item.checked));
+    if(props.radio){
+      props.fredList.forEach((item:any)=>item.checked=false)
+      item.checked=!item.checked
+      emits("change",item)
+    }else{
+      item.checked=!item.checked
+      emits("change", props.fredList.filter((item:any)=>item.checked));
+    }
+
   };
   </script>
   <style scoped lang="scss">
