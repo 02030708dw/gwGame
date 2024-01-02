@@ -26,11 +26,16 @@
         srcset=""
       />
     </view>
-    <router-link :to="{ path:`/views/gameList/gameList`}">
-     <view class="headerMore">
-      <image class="headerMoreimage" src="@/static/images/home.png" alt="" srcset="" />
-	 </view>
-	</router-link>
+    <router-link :to="{ path: `/views/gameList/gameList` }">
+      <view class="headerMore">
+        <image
+          class="headerMoreimage"
+          src="@/static/images/home.png"
+          alt=""
+          srcset=""
+        />
+      </view>
+    </router-link>
   </view>
   <u-popup :show="show" mode="left" @close="close" @open="open">
     <view class="poupLeft">
@@ -77,7 +82,6 @@ import closeImg from "@/static/images/selectsTop.png";
 import { useCommon } from "@/plugins/pinia/common.pinia";
 import { ref } from "vue";
 import { headers } from "@/constants";
-
 const props = defineProps<{
   activeTitle: string;
   showContent?: boolean; // 添加 showContent prop
@@ -153,7 +157,7 @@ const handleSelect = (item: any) => {
   margin-top: 120rpx !important;
 }
 .poupLeft:deep(.poupLeftText):first-child {
-  margin-top: 120rpx !important;
+  margin-top: 80rpx !important;
 }
 .headerStyle {
   position: relative;
@@ -193,7 +197,9 @@ const handleSelect = (item: any) => {
 
 .poupLeftText {
   color: #fff;
-  padding: 40rpx 30rpx;
+  padding: 35rpx 60rpx;
+  text-align: center;
+  border-top: 1px solid #555;
 }
 
 .poupTOP .poupLeftText {

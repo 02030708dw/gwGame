@@ -84,8 +84,10 @@ $gCol:#bababa;
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-right: 24rpx;
+    text-align: center;
+
     .l1{
-      width: 130rpx;
       height: 48rpx;
       font-size: 35rpx;
       font-family: PingFangSC, PingFang SC;
@@ -94,7 +96,6 @@ $gCol:#bababa;
       line-height: 48rpx;
     }
     .l2{
-      width: 130rpx;
       height: 28rpx;
       font-size: 20rpx;
       font-family: PingFangSC, PingFang SC;

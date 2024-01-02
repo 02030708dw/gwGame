@@ -1,5 +1,5 @@
 <template>
-  <view @click="$emit('onSelect', { title, path })">
+  <view class="tab-container" @click="$emit('onSelect', { title, path })">
     <view class="t">
       <img :src="img" />
       <text>{{ title }}</text>
@@ -47,11 +47,14 @@ withDefaults(
 </script>
 
 <style scoped lang="less">
+
+.tab-container{
+  margin: 32rpx 34rpx;
+  background-color: #f8f8f8;
+}
 .t {
-  margin: 32rpx;
   margin-bottom: 10rpx;
   height: 218rpx;
-  // border: solid 1px red;
   border-radius: 32rpx;
   position: relative;
   overflow: hidden;
@@ -83,7 +86,6 @@ withDefaults(
   display: flex;
   justify-content: space-between;
   margin: 0 auto;
-  // justify-content: center;
   .li {
     background-color: #fcefd5;
     width: 20%;
