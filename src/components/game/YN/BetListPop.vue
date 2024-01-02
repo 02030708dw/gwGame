@@ -11,7 +11,6 @@
         />
       </view>
       <scroll-view scroll-y="true" class="scroll-view">
-<<<<<<< HEAD
         <view class="item" v-for="(item,index) in list" v-if="list.length" :key="item.id">
 
           <text class="title">[{{ item.gamePlayCode}}]</text>
@@ -26,23 +25,22 @@
             <text v-if="item.betNums.length>3" class="more" @click="more(`${item.id}`)">更多</text>
           </text>
 
-=======
-        <view class="item" v-for="(item,index) in list" v-if="list.length">
-          <text style="width: 117rpx; font-size: 24rpx">[{{ item.gamePlayName||item.gamePlayTypeName }}]</text>
-          <text style="width: 160rpx; font-size: 28rpx; color: #00cd6a">{{ item.betNums.join('-') }}</text>
->>>>>>> 524eafd6f1a2347935149bae866a01ebcf64ebc3
           <view class="tmis-box">
-             <input type="text" v-model="item.times" />
+             <input type="text" v-model="times[index]" />
             <text class="tmis" style="width: 82rpx; height: 44rpx">Tmis</text>
           </view>
           <image
             src="/src/static/images/del.png"
             style="width: 44rpx; height: 44rpx"
-            @click="del(item)"
+            @click="del(item,index)"
           />
           <!-- <text class="title">[{{ item.gamePlayCode }}]</text> -->
         </view>
+        
         <view v-else style="line-height:404rpx;text-align: center;">暂无历史记录</view>
+        <!-- 不要动这两个v-show 每行代码都有他存在的意义 -->
+        <pre v-show="false">{{ times }}</pre>
+        <pre v-show="false">{{ list }}</pre>
       </scroll-view>
       <view class="condinm-box">
         <view class="condinm-tmis">
@@ -52,6 +50,7 @@
         <view class="condinm">Condinm</view>
       </view>
       <view class="bottom">
+
         <image
           src="@/static/images/footerleft.png"
           style="width: 64rpx; height: 52rpx; margin-right: 20rpx"
@@ -72,17 +71,19 @@
   </u-popup>
 </template>
 <script setup lang="ts">
-import {ref,watch,computed,nextTick} from 'vue'
+import {ref,watch,toRef} from 'vue'
 const props = defineProps(["show", "list"]);
 const emits = defineEmits(["close","del","bet"]);
+const lists=toRef(props,'list')
+const delIndex=ref()//删除的id,为了删除倍数
 const close = () => {
   emits("close");
 };
-const del=(item:any)=>{
+const del=(item:any,index:number)=>{
+  delIndex.value=index
     emits('del',item)
 }
 const Alltimes=ref(1)
-<<<<<<< HEAD
 const times:any=ref([])
 // 
 
@@ -97,13 +98,43 @@ watch(lists,(newvalue,oldvalue)=>{
   correct()
 },{deep:true,immediate:false})
 
-=======
->>>>>>> 524eafd6f1a2347935149bae866a01ebcf64ebc3
 const changeAllTimes=()=>{
   props.list.forEach((item:any)=>{
     item.times=Alltimes.value
   })
+  times.value=props.list.map((item:any)=>item.times)
 }
+
+
+const more=(id:string)=>{
+  console.log(id)
+}
+function correct(){
+  // 防止记录倍数的数据没有已选号码多
+  let num= lists.value.length-times.value.length
+  if(num>0){
+    for(let i=0;i<num;i++){
+      times.value.push(1)
+    }
+  }
+}
+
+function findMissingIndexes(oldvalue:any, newvalue:any) {  
+    let missingIndexes ;  
+    for (let i = 0; i < oldvalue.length; i++) {  
+        let found = false;  
+        for (let j = 0; j < newvalue.length; j++) {  
+            if (oldvalue[i].gamePlayCode === newvalue[j].gamePlayCode) {  
+                found = true;  
+                break;  
+            }  
+        }  
+        if (!found) {  
+            missingIndexes=i;  
+        }  
+    }  
+    return missingIndexes;  
+}  
 </script>
 <style lang="scss" scoped>
 .bet-box {
@@ -157,7 +188,8 @@ const changeAllTimes=()=>{
         }
       }
       .tmis-box {
-        width: 228rpx;
+        transform: translateX(20rpx);
+        width: 130rpx;
         height: 44rpx;
         border-radius: 8rpx;
         border: 1rpx solid #dedede;

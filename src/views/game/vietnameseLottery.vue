@@ -174,26 +174,10 @@ const betlist=computed(()=>{
   let arr=[...active2D.value,...active3D.value,activePL2.value,activePL3.value,].filter((item: any) => {
       return item?.betNums?.length;
     });
-<<<<<<< HEAD
     // console.log(betlist.value)
     console.log(arr)
     return arr
 })
-=======
-    console.log(
-      arr
-    )
-    return [...active2D.value,...active3D.value,activePL2.value,activePL3.value,].filter((item: any) => {
-      return item?.betNums?.length;
-    });
-  },
-  set(value) {
-    betlist.value = value;
-    console.log(value); //value是计算属性改变后的值
-  },
-});
-
->>>>>>> 524eafd6f1a2347935149bae866a01ebcf64ebc3
 // 地区选中------------------------------
 //   const changeCitySelection = (val: any) => {
 //     console.log(val);
@@ -248,12 +232,7 @@ const active3D = computed(() => {
       betNums,
       gamePlayTypeName: data.gamePlayTypeName,
       gamePlayTypeCode: data.gamePlayTypeCode,
-<<<<<<< HEAD
       times:1,
-=======
-      times:1
-
->>>>>>> 524eafd6f1a2347935149bae866a01ebcf64ebc3
     };
   });
 });
@@ -280,11 +259,7 @@ const activePL2 = computed(() => {
     gamePlayTypeCode: data.gamePlayTypeCode,
     betNums,
     sum:18,
-<<<<<<< HEAD
     times:1,
-=======
-    times:1
->>>>>>> 524eafd6f1a2347935149bae866a01ebcf64ebc3
   };
 });
 const changeNumPL2 = (val: any) => {
@@ -299,10 +274,10 @@ const activePL3 = computed(() => {
   );
   if (betNums.length != 3) return [];
   return {
+    id:UUID(),
     gamePlayTypeName: data.gamePlayTypeName,
     gamePlayTypeCode: data.gamePlayTypeCode,
     betNums,
-    id:UUID(),
     sum:18,
     times:1
   };
@@ -352,10 +327,10 @@ const delBetList = (val: any) => {
 
 const bet=()=>{
   console.log("ok")
-  // post({
-  //   url:'/bet',
-  //   data:{}
-  // })
+  post({
+    url:'/bet',
+    data:{}
+  })
 }
 
 
