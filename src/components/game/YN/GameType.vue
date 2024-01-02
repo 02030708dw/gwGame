@@ -26,6 +26,8 @@ const cutGameType = (item: any) => {
   width: 686rpx;
   height: 62rpx;
   display: flex;
+  box-sizing: border-box;
+  padding:0 20rpx;
   justify-content: space-between;
   .type-item {
     transition: all 0.3s linear;
