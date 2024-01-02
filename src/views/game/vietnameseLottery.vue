@@ -61,8 +61,6 @@
       :unlock="true"
       :astrict="3"
     />
-    <pre>{{ current }}</pre>
-    <pre>{{ betlist }}</pre>
     <template #bot>
       <Footer @click-handle="show = true" :num="current" />
     </template>
@@ -91,12 +89,13 @@ import BetListPop from "@/components/game/YN/BetListPop.vue";
 
 import CitySelection from "@/components/game/YN/CitySelection.vue";
 import { onLoad } from "@dcloudio/uni-app";
-import { get, post } from "@/api";
+import { get, post, UrlType } from "@/api";
 import GameMethod from "@/components/game/YN/GameMethod.vue";
 import KeyNum from "@/components/game/YN/KeyNum.vue";
-import {UUID} from '@/utils/uuid'
+import { UUID } from "@/utils/uuid";
+const Router = ref(); //url信息
 onLoad(async (data: any) => {
-
+  Router.value = data;
   let res = await post({
     url: "/gameRecords/gamePlayAndType",
     data: { gameId: data.gameId, merchantId: 1 },
@@ -119,17 +118,17 @@ onLoad(async (data: any) => {
   typeList.value = list;
 
   // 定义2d玩法类型,头尾
-  let arr=[1,1,2,18,7]
+  let arr = [1, 1, 2, 18, 7];
   method2DList.value = list
     .find((item: any) => item.gamePlayTypeName == "2D")
-    .gamePlayList.map((val: any,index:number) => {
-      return { ...val, checked: false,sum:arr[index] };
+    .gamePlayList.map((val: any, index: number) => {
+      return { ...val, checked: false, sum: arr[index] };
     });
   // 定义3d玩法类型,头尾
   method3DList.value = list
     .find((item: any) => item.gamePlayTypeName == "3D")
-    .gamePlayList.map((val: any,index:number) => {
-      return { ...val, checked: false,sum:arr[index] };
+    .gamePlayList.map((val: any, index: number) => {
+      return { ...val, checked: false, sum: arr[index] };
     });
 
   // 请求越南地区选项
@@ -137,15 +136,16 @@ onLoad(async (data: any) => {
   // res = res.resultSet[0].games.filter((item: any) => item.vndArea);
   // console.log(res)
 
-// 获取倒计时
+  // 获取倒计时
   const getAwardNum = await post({
-    url: '/getAwardNum',
-    data: {gameCode: data.code}
-  })
-  console.log(getAwardNum)
+    url: "/getAwardNum",
+    data: { gameCode: data.code },
+  });
+  betMainReq.value = getAwardNum.resultSet.awardNum;
+  console.log(betMainReq.value);
 });
 const show = ref(false); //弹出层的显示隐藏
-
+const betMainReq = ref(); //中奖信息
 const typeTab = reactive([
   { label: "动画", id: 1 },
   { label: "直播", id: 2 },
@@ -161,23 +161,28 @@ const playingMethod = ref("2D"); //用来展示不同玩法&&初始展示2D
 const cutGameType = (item: any) => {
   playingMethod.value = item.gamePlayTypeName;
 };
-const current=computed(()=>{
-  let num=0
-  betlist.value.forEach(item=>{
-    num+= item.betNums.length*item.sum
-  })
-  return num
-})
+const current = computed(() => {
+  let num = 0;
+  betlist.value.forEach((item) => {
+    num += item.betNums.length * item.sum;
+  });
+  return num;
+});
 //全部选中的玩法
 
-const betlist=computed(()=>{
-  let arr=[...active2D.value,...active3D.value,activePL2.value,activePL3.value,].filter((item: any) => {
-      return item?.betNums?.length;
-    });
-    // console.log(betlist.value)
-    console.log(arr)
-    return arr
-})
+const betlist = computed(() => {
+  let arr = [
+    ...active2D.value,
+    ...active3D.value,
+    activePL2.value,
+    activePL3.value,
+  ].filter((item: any) => {
+    return item?.betNums?.length;
+  });
+  // console.log(betlist.value)
+  console.log(arr);
+  return arr;
+});
 // 地区选中------------------------------
 //   const changeCitySelection = (val: any) => {
 //     console.log(val);
@@ -194,14 +199,14 @@ const active2D = computed(() => {
     (item: any) => item.gamePlayTypeName == "2D"
   );
   if (!betNums.length) return [];
-  return active2Dmethod.value.map((item: any,index:number) => {
+  return active2Dmethod.value.map((item: any, index: number) => {
     return {
-      id:UUID(),
+      id: UUID(),
       ...item,
       betNums,
       gamePlayTypeName: data.gamePlayTypeName,
       gamePlayTypeCode: data.gamePlayTypeCode,
-      times:1
+      times: 1,
     };
   });
 });
@@ -225,14 +230,14 @@ const active3D = computed(() => {
     (item: any) => item.gamePlayTypeName == "3D"
   );
   if (!betNums.length) return [];
-  return active3Dmethod.value.map((item: any,index:number) => {
+  return active3Dmethod.value.map((item: any, index: number) => {
     return {
-      id:UUID(),
+      id: UUID(),
       ...item,
       betNums,
       gamePlayTypeName: data.gamePlayTypeName,
       gamePlayTypeCode: data.gamePlayTypeCode,
-      times:1,
+      times: 1,
     };
   });
 });
@@ -248,20 +253,22 @@ const changeNum3D = (val: any) => {
 // PL2---------------------------
 const activePL2num = ref([]); //已经选中的号码
 const activePL2 = computed(() => {
-  let betNums = [...activePL2num.value.map((item: any,index:number) => item.label)];
+  let betNums = [
+    ...activePL2num.value.map((item: any, index: number) => item.label),
+  ];
   let data: any = typeList.value.find(
     (item: any) => item.gamePlayTypeName == "PL2"
   );
   if (betNums.length != 2) return [];
   return {
-    id:UUID(),
+    id: UUID(),
     gamePlayTypeName: data.gamePlayTypeName,
     gamePlayTypeCode: data.gamePlayTypeCode,
-    gamePlayCode:data.gamePlayTypeCode,
-    gamePlayName:data.gamePlayTypeName,
+    gamePlayCode: data.gamePlayTypeCode,
+    gamePlayName: data.gamePlayTypeName,
     betNums,
-    sum:18,
-    times:1,
+    sum: 18,
+    times: 1,
   };
 });
 const changeNumPL2 = (val: any) => {
@@ -276,14 +283,14 @@ const activePL3 = computed(() => {
   );
   if (betNums.length != 3) return [];
   return {
-    id:UUID(),
+    id: UUID(),
     gamePlayTypeName: data.gamePlayTypeName,
     gamePlayTypeCode: data.gamePlayTypeCode,
-    gamePlayCode:data.gamePlayTypeCode,
-    gamePlayName:data.gamePlayTypeName,
+    gamePlayCode: data.gamePlayTypeCode,
+    gamePlayName: data.gamePlayTypeName,
     betNums,
-    sum:18,
-    times:1
+    sum: 18,
+    times: 1,
   };
 });
 const changeNumPL3 = (val: any) => {
@@ -296,47 +303,79 @@ onBeforeUpdate(() => {
   let flag2D = active2Dmethod.value.every((item: any) => item.checked == false);
   let flag3D = active3Dmethod.value.every((item: any) => item.checked == false);
   if (flag2D) {
-    keyNum2Ddata.value.forEach((item: any) => (item.checked = false));//取消键盘选中状态
-    active2Dnum.value=[]//选中数据清空
+    keyNum2Ddata.value.forEach((item: any) => (item.checked = false)); //取消键盘选中状态
+    active2Dnum.value = []; //选中数据清空
   }
   if (flag3D) {
-    keyNum3Ddata.value.forEach((item: any) => (item.checked = false));//取消键盘选中状态
-    active3Dnum.value=[]//选中数据清空
+    keyNum3Ddata.value.forEach((item: any) => (item.checked = false)); //取消键盘选中状态
+    active3Dnum.value = []; //选中数据清空
   }
 });
 // 删除一项
 const delBetList = (val: any) => {
   // 首先找出这一项的分类
   let delobj: any =
-    method2DList.value.find((item: any) => item.gamePlayCode == val.gamePlayCode) 
-    ||
-    method3DList.value.find((item: any) => item.gamePlayCode == val.gamePlayCode);
-    if(delobj){
-      // delobj为true代表选择的是2D3D,因为PL2,PL3没有玩法类型
-      delobj.checked = false;
-      active2Dmethod.value = method2DList.value.filter((item: any) => item.checked);
-      active3Dmethod.value = method3DList.value.filter((item: any) => item.checked);
-    }else{
-      // 这里判断删的是PL2还是PL3
-      if(val.gamePlayTypeCode=='vnd_PL2'){
-        keyNumPL2data.value.forEach((item:any)=>item.checked=false)//取消选中
-        activePL2num.value=[]//清空列表
-      }
-      if(val.gamePlayTypeCode=='vnd_PL3'){
-        keyNumPL3data.value.forEach((item:any)=>item.checked=false)//取消选中
-        activePL3num.value=[]//清空列表
-      }
+    method2DList.value.find(
+      (item: any) => item.gamePlayCode == val.gamePlayCode
+    ) ||
+    method3DList.value.find(
+      (item: any) => item.gamePlayCode == val.gamePlayCode
+    );
+  if (delobj) {
+    // delobj为true代表选择的是2D3D,因为PL2,PL3没有玩法类型
+    delobj.checked = false;
+    active2Dmethod.value = method2DList.value.filter(
+      (item: any) => item.checked
+    );
+    active3Dmethod.value = method3DList.value.filter(
+      (item: any) => item.checked
+    );
+  } else {
+    // 这里判断删的是PL2还是PL3
+    if (val.gamePlayTypeCode == "vnd_PL2") {
+      keyNumPL2data.value.forEach((item: any) => (item.checked = false)); //取消选中
+      activePL2num.value = []; //清空列表
     }
+    if (val.gamePlayTypeCode == "vnd_PL3") {
+      keyNumPL3data.value.forEach((item: any) => (item.checked = false)); //取消选中
+      activePL3num.value = []; //清空列表
+    }
+  }
 };
 
-const bet=()=>{
-  console.log("ok")
-  post({
-    url:'/bet',
-    data:{}
-  })
-}
-
+const bet = async () => {
+  console.log(Router.value);
+  console.log(betMainReq.value.lastAwardPeriod);
+  let res = await post(
+    {
+      url: "/bet",
+      data: {
+        awardPeriod:betMainReq.value.lastAwardPeriod,
+        gameCode: Router.value.code,
+        // betInfos: [
+        //   {
+        //     betNums: ["00"],
+        //     gamePlayCode: "vnd_head",
+        //     gamePlayTypeCode: "vnd_2d",
+        //     oneBetAmount: 75,
+        //     sumAmount: 75,
+        //   },
+        // ],
+        betInfos:betlist.value.map((item:any)=>{
+          return {
+            betNums:item.betNums,
+            gamePlayCode:item.gamePlayCode,
+            gamePlayTypeCode:item.gamePlayTypeCode,
+            oneBetAmount: item.betAmount,
+            sumAmount:item.betNums.length*item.sum*item.betAmount
+          }
+        })
+      },
+    },
+    UrlType.bet
+  );
+  console.log(res);
+};
 
 const createNum = () => {
   // 生成00-99的键盘数据
@@ -350,9 +389,9 @@ const createNum = () => {
   }
   return ref(arr);
 };
-const keyNum2Ddata = createNum();// 生成键盘2d键盘数据
-const keyNumPL2data = createNum();// 生成键盘PL2键盘数据
-const keyNumPL3data = createNum();// 生成键盘PL3键盘数据
+const keyNum2Ddata = createNum(); // 生成键盘2d键盘数据
+const keyNumPL2data = createNum(); // 生成键盘PL2键盘数据
+const keyNumPL3data = createNum(); // 生成键盘PL3键盘数据
 // 生成键盘3d键盘数据
 const keyNum3Ddata = computed(() => {
   let arr: any = [];
