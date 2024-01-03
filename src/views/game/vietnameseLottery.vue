@@ -9,7 +9,7 @@
     <!-- <gameTime :ac="gameAwardConfig"/> -->
 
     <!-- 选择2D,3D,PL2,PL3 -->
-    <GameType @cutGameType="cutGameType" :typeList="typeList" />
+    <GameType @cutGameType="(val)=>playingMethod=val.gamePlayTypeName" :typeList="typeList" />
     <!-- 地区选择 -->
     <!-- <CitySelection :background-image="urls1" :list="southCityList" @change="changeCitySelection"/> -->
 
@@ -172,21 +172,16 @@ let urls2 = ref("src/static/images/fredHill2.png");
 let urls3 = ref("src/static/images/fredHill3M.png");
 const typeList:any = ref([]); //不同类型的数据
 const playingMethod = ref("2D"); //用来展示不同玩法&&初始展示2D
-// 玩法切换2d||3||PL2||PL3------------------------------------
-const cutGameType = (item: any) => {
-  console.log(item.gamePlayTypeName)
-  playingMethod.value = item.gamePlayTypeName;
-};
 const current = computed(() => {
+  // 计算出有多少注
   let num = 0;
   betlist.value.forEach((item) => {
     num += item.betNums.length * item.sum;
   });
   return num;
 });
-//全部选中的玩法
-
 const betlist = computed(() => {
+  // 计算出当前选中的所有号码
   let arr = [
     ...active2D.value,
     ...active3D.value,
@@ -195,7 +190,6 @@ const betlist = computed(() => {
   ].filter((item: any) => {
     return item?.betNums?.length;
   });
-  // console.log(betlist.value)
   console.log(arr);
   return arr;
 });
