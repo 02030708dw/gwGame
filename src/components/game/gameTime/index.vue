@@ -11,7 +11,10 @@
       <view class="m2">{{ ac.period }}</view>
     </view>
     <div class="imgArr">
-      <img :src="l.url" v-for="l in imgArr" :key="l.type" @click="btnGroup(l.type)">
+      <span>{{lt}}</span>
+      <div>
+        <img :src="l.url" v-for="l in imgArr" :key="l.type" @click="btnGroup(l.type)">
+      </div>
     </div>
   </view>
 </template>
@@ -22,18 +25,26 @@ import cal from '@/static/images/gameTime/cal.png'
 import his from '@/static/images/gameTime/his.png'
 import {computed, onMounted, onUnmounted, ref, toRef, watchEffect} from "vue";
 const props = defineProps<{
-  ac: AwardNum
+  ac: AwardNum,
+  lockBoardTime:string,
+  lock:boolean
 }>();
+const emits=defineEmits<{
+  (e:'update:lock',d:boolean):void
+}>()
 const imgArr=[
   {url:del,type:'del'},
   {url:cal,type:'cal'},
   {url:his,type:'his'},
 ]
 const timer = ref<number>(360)
+const lockTimer = ref<number>(360)
 let timerId: null | number = null
+let timerId2: null | number = null
 onMounted(() => {
   timerId = setInterval(() => {
     timer.value -= 1
+    lockTimer.value -= 1
   }, 1000)
 })
 const t = computed(() => {
@@ -64,10 +75,44 @@ const t = computed(() => {
   }
   return time;
 })
-onUnmounted(() => clearInterval(timerId!))
+const lt = computed(() => {
+  let time: string;
+  let days = parseInt(lockTimer.value / 60 / 60 / 24);
+  let hours = parseInt(lockTimer.value / 60 / 60);
+  let minutes = parseInt(lockTimer.value / 60 % 60);
+  let seconds = parseInt(lockTimer.value % 60);
+  /* if (days > 1) {  //超过一天显示天数
+     time = days + "天";
+     return time;
+   }*/
+  //补零
+  if (hours < 10) {
+    hours = '0' + hours;
+  }
+  if (minutes < 10) {
+    minutes = '0' + minutes;
+  }
+  if (seconds < 10) {
+    seconds = '0' + seconds;
+  }
+  if (timer.value <= 0) {
+    time = "已结束";
+    emits('update:lock',true)
+  } else {
+    time = hours + ":" + minutes + ":" + seconds + "";
+    emits('update:lock',false)
+  }
+  return time;
+})
+onUnmounted(() => {
+  clearInterval(timerId!)
+  clearInterval(timerId2!)
+})
 watchEffect(() => {
   let countdown = toRef(props.ac, 'countdown')
+  let lockdown = toRef(props,'lockBoardTime')
   timer.value = Number(countdown.value)
+  lockTimer.value=Number(lockdown.value)
 })
 const btnGroup = (i:string) => {
   console.log(i)
@@ -132,13 +177,23 @@ $gCol:#bababa;
   }
   .imgArr{
     align-self: end;
-    >img{
-      width: 31rpx;
-      height: 31rpx;
-      &:nth-child(2){
-        padding: 0 16rpx;
-      }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    >span{
+      color: #FEB02D;
+      font-size: 30rpx;
+      transform: translateY(-5px);
     }
+   >div{
+     >img{
+       width: 31rpx;
+       height: 31rpx;
+       &:nth-child(2){
+         padding: 0 16rpx;
+       }
+     }
+   }
   }
 }
 </style>

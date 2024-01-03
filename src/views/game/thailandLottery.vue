@@ -6,7 +6,7 @@
       </template>
       <gameHeaderTab :typeTab="typeTab"/>
       <gameContent/>
-      <gameTime :ac="gameAwardConfig"/>
+      <gameTime :ac="gameAwardConfig" :lock-board-time="gameConfig.sealingTime" v-model:lock="lockStatus"/>
       <!--      {{playTypeData}}-->
       <game-board-type
           :board-data="playTypeData as boardType[]"
@@ -114,6 +114,7 @@ const gameAwardConfig = ref<AwardNum>({
   lastAwardPeriod: "",
   period: ""
 })
+const lockStatus=ref<boolean>(false)
 const lotteryHistory = reactive(new Map([
   ['1d', ref<lotteryHType>([])],
   ['2d', ref<lotteryHType>([])],
@@ -134,13 +135,13 @@ const {
 const {
   boardData1D, activeData1D, boardData1DType
   , activeData1DType, onAddAct1D, onAddAct1DType
-} = use_thailand1d('1d', lotteryHistory, playTypeCode);
+} = use_thailand1d('1d', lotteryHistory, playTypeCode,lockStatus);
 const {
   boardData2D, activeData2D,
   boardData2DType, onAddAct2DType,
   activeData2DType,
   onAddAct2D
-} = use_thailand2d('2d', lotteryHistory, playTypeCode);
+} = use_thailand2d('2d', lotteryHistory, playTypeCode,lockStatus);
 const {
   boardData3DType, onAddAct3DType,
   boardData3D,
@@ -150,7 +151,7 @@ const {
   activeData3DType,
   onAddActSub3D,
   onAddAct3D,
-} = use_thailand3d('3d', lotteryHistory, playTypeCode);
+} = use_thailand3d('3d', lotteryHistory, playTypeCode,lockStatus);
 const count = computed(() => {
   return [...lotteryHistory.values()].map(it => toRaw(it.value)).flat().reduce((pre, cur) => {
     pre += cur['betNums'] ? cur['betNums'].length : 0

@@ -1,6 +1,6 @@
 import {nextTick, Ref, ref, toRaw, watch} from "vue";
 import {calData} from "@/utils/arrayFun";
-export default function (type:string,lotteryHistory:  Map<string, Ref<{}>>,playTypeCode:Ref) {
+export default function (type:string,lotteryHistory:  Map<string, Ref<{}>>,playTypeCode:Ref,lock:Ref) {
     const boardData1DType = ref<any[]>([
         {label:'头',value:1},
         {label:'尾',value:2},
@@ -13,6 +13,7 @@ export default function (type:string,lotteryHistory:  Map<string, Ref<{}>>,playT
         else activeData1DType.value = [...activeData1DType.value, i]
     }
     const onAddAct1D = (i: number) => {
+        if (lock.value) return
         if (activeData1D.value.includes(i)) activeData1D.value.splice(activeData1D.value.findIndex(it => it === i), 1)
         else activeData1D.value = [...activeData1D.value, i]
     }

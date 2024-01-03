@@ -1,7 +1,7 @@
 import {onMounted, Ref, ref, toRaw, watch} from "vue";
 import {calData, calData3D} from "@/utils/arrayFun";
 type GP=Partial<GamePlay&{label:string,value:number}>
-export default function (type:string,lotteryHistory:  Map<string, Ref<{}>>,playTypeCode:Ref) {
+export default function (type:string,lotteryHistory:  Map<string, Ref<{}>>,playTypeCode:Ref,lock:Ref) {
     const boardData3D = ref(calData3D(1000))
     const boardSubData3D = ref(calData(10).map(it=>
         ({label:it.label+'00',value:it.value,temp:[] as number[]})).map(it=>({...it,range:Number(it.label)+99})))
@@ -20,6 +20,7 @@ export default function (type:string,lotteryHistory:  Map<string, Ref<{}>>,playT
         activeSubData3D.value=[i]
     }
     const onAddAct3D = (i: number,v:[number,number]) => {
+        if (lock.value) return
         boardSubData3D.value.forEach(it=>{
             if (activeData3DType.value.length)
             if (it.range>=v[0]&&it.range<v[1]) {
