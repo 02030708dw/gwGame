@@ -63,17 +63,6 @@
     "numList"
   ]);
   const emits = defineEmits(["changeSelectNum", "changeNum",]);
-  let newvalue=[
-    {id:1,name:'aaa'},
-    {id:2,name:'bbb'},
-    {id:3,name:'ccc'},
-    {id:4,name:'ddd'}
-  ]
-  let oldvalue=[
-    {id:1,name:'aaa'},
-    {id:2,name:'bbb'},
-    {id:4,name:'ddd'}
-  ]
 
  
   const data2D1 = reactive([
