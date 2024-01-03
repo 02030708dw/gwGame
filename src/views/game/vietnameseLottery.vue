@@ -16,14 +16,14 @@
     <!-- 2D----------------------------------- -->
     <GameMethod
       :background-image="urls1"
-      @change="changeGameMethod2D"
+      @change="(val)=>active2Dmethod=val"
       v-show="playingMethod == '2D'"
       :fredList="method2DList"
     />
     <KeyNum
       :background-image="urls1"
       :showHeader="false"
-      @changeNum="changeNum2D"
+      @changeNum="(val)=>active2Dnum=val"
       v-show="playingMethod == '2D'"
       :unlock="active2Dmethod.length"
       :numList="keyNum2Ddata"
@@ -31,7 +31,7 @@
     <!-- 3D-------------------------------------- -->
     <GameMethod
       :background-image="urls1"
-      @change="changeGameMethod3D"
+      @change="(val)=>active3Dmethod=val"
       v-show="playingMethod == '3D'"
       :fredList="method3DList"
     />
@@ -39,7 +39,7 @@
     <KeyNum
       :background-image="urls1"
       :showHeader="true"
-      @changeNum="changeNum3D"
+      @changeNum="(val)=>active3Dnum=val"
       v-show="playingMethod == '3D'"
       :unlock="active3Dmethod.length"
       :numList="keyNum3Ddata"
@@ -49,15 +49,15 @@
     <!-- PL -->
     <GameMethod
       :background-image="urls1"
-      @change="changeGameMethodPL"
+      @change="(val:any)=>activePLmethod=val.gamePlayName"
       v-show="playingMethod == 'PL2/PL3'"
       :fredList="methodPLList"
       :radio="true"
     />
     <KeyNum
       :background-image="urls1"
-      @changeNum="changeNumPL2"
-      v-show="activePLmethod == 'PL2'"
+      @changeNum="(val:any)=>activePL2num=val"
+      v-show="activePLmethod == 'PL2'&&playingMethod=='PL2/PL3'"
       :numList="keyNumPL2data"
       :unlock="true"
       :astrict="2"
@@ -65,7 +65,7 @@
 
     <KeyNum
       :background-image="urls1"
-      @changeNum="changeNumPL3"
+      @changeNum="(val)=>activePL3num=val"
       v-show="activePLmethod == 'PL3'"
       :numList="keyNumPL3data"
       :unlock="true"
@@ -140,14 +140,12 @@ onLoad(async (data: any) => {
     .gamePlayList.map((val: any, index: number) => {
       return { ...val, checked: false, sum: arr[index] };
     });
-    console.log(method3DList.value)
     // 定义PL玩法类型,PL2||PL3
     methodPLList.value=list
     .find((item: any) => item.gamePlayTypeName == "PL2/PL3")
     .gamePlayList.map((val: any, index: number) => {
       return { ...val, checked: index?false:true, sum: 1};
     });
-    console.log(methodPLList.value)
   // 请求越南地区选项
   // res = await get({ url: "/gameRecords/game" });
   // res = res.resultSet[0].games.filter((item: any) => item.vndArea);
@@ -229,15 +227,6 @@ const active2D = computed(() => {
   });
 });
 
-const changeGameMethod2D = (val: any) => {
-  // 点击2D中的玩法触发
-  active2Dmethod.value = val;
-};
-const changeNum2D = (val: any) => {
-  // 点击2D中的号码触发
-  active2Dnum.value = val;
-};
-
 // 3D--------------------------------------------------------
 const method3DList = ref([]); //头,尾组选的数据
 const active3Dmethod = ref([]); //已经选中的玩法
@@ -259,29 +248,16 @@ const active3D = computed(() => {
     };
   });
 });
-const changeGameMethod3D = (val: any) => {
-  // 选择3D的玩法触发,头,尾,组选
-  active3Dmethod.value = val;
-};
-const changeNum3D = (val: any) => {
-  // 选择3D中的号码触发
-  active3Dnum.value = val;
-};
 
 // PL---------------
 const methodPLList=ref([])//PL3/PL2里的玩法
-const activePLmethod=ref('PL2')//选中的是PL2还是PL3，默认选中一个
-const changeGameMethodPL=(val:any)=>{
-  activePLmethod.value=val.gamePlayName
-}
+const activePLmethod=ref('PL2')//选中的是PL2还是PL3,默认选中一个
+
 
 // PL2---------------------------
 const activePL2num = ref([]); //已经选中的号码
 const activePL2 = computed(() => {
-  let betNums = [
-    ...activePL2num.value.map((item: any, index: number) => item.label),
-  ]
-  console.log(betNums)
+  let betNums = [...activePL2num.value.map((item: any) => item.label)]
   let data=
   typeList.value[2]?.gamePlayList.find((item:any)=>{
     return item.gamePlayName=="PL2"
@@ -298,10 +274,7 @@ const activePL2 = computed(() => {
     times: 1,
   };
 });
-const changeNumPL2 = (val: any) => {
-  // 选择PL2中的键盘触发
-  activePL2num.value = val;
-};
+
 
 // PL3---------------------------
 const activePL3num = ref([]); //已经选中的号码
@@ -322,10 +295,6 @@ const activePL3 = computed(() => {
     times: 1,
   };
 });
-const changeNumPL3 = (val: any) => {
-  // 已选中的号码
-  activePL3num.value = val;
-};
 
 onBeforeUpdate(() => {
   // 数据变化时监听是否还需要选中键盘
@@ -372,9 +341,9 @@ const delBetList = (val: any) => {
   }
 };
 
-const bet = async () => {
-  console.log(typeList.value)
-  let res = await post(
+const bet = () => {
+  if(betlist.value.length){
+    post(
     {
       url: "/bet",
       data: {
@@ -390,10 +359,28 @@ const bet = async () => {
           }
         })
       },
-    },
-    UrlType.bet
-  );
-  console.log(res);
+    },UrlType.bet).then(res=>{
+      console.log(res)
+      uni.showToast({
+         icon:'success',
+         title:res.resDesc
+       })
+       betlist.value.forEach((item:any)=>{
+        delBetList(item)
+       })
+    }).catch(res=>{
+      uni.showToast({
+         icon:'error',
+         title:'投注失败'
+       })
+    })
+  }else{
+    uni.showToast({
+       icon:'error',
+       title:'无选号'
+     })
+  }
+
 };
 
 const createNum = () => {
