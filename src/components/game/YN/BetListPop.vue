@@ -17,12 +17,12 @@
           
           <text class="num" v-if="!(item.gamePlayTypeName=='3D')">
             {{ item.betNums.slice(0,4).join(',') }}
-            <text v-if="item.betNums.length>4" class="more" @click="more(`${item.id}`)">更多</text>
+            <text v-if="item.betNums.length>4" class="more" @click="more(item,index,$event)">更多</text>
           </text>
 
           <text class=num v-else>
             {{ item.betNums.slice(0,3).join(',') }}
-            <text v-if="item.betNums.length>3" class="more" @click="more(`${item.id}`)">更多</text>
+            <text v-if="item.betNums.length>3" class="more" @click="more(item,index,$event)">更多</text>
           </text>
 
           <view class="tmis-box">
@@ -35,8 +35,25 @@
             @click="del(item,index)"
           />
           <!-- <text class="title">[{{ item.gamePlayCode }}]</text> -->
+
+  
+          <view class="dialog-box" v-if="showDetail==item.id" tabindex="-1" @blur="showDetail=false"
+          :style="{top:top+'rpx'}"
+          >
+            <view class="title">共{{ item.betNums.length*item.sum }}注
+              <image src="/src/static/images/close.png"
+              style="width: 36rpx; height: 36rpx;position: absolute;right: 0;"
+              @click="showDetail=false"
+              />
+            </view>
+            <scroll-view scroll-y="true" class="dialog-scroll">
+              <view style="display: flex; flex-direction:column ;">
+                <text v-for="val in item.betNums" class="nums">{{ val }}</text>
+              </view>
+            </scroll-view>
+          </view>
+
         </view>
-        
         <view v-else style="line-height:404rpx;text-align: center;">暂无历史记录</view>
         <!-- 不要动这两个v-show 每行代码都有他存在的意义 -->
         <pre v-show="false">{{ times }}</pre>
@@ -50,7 +67,6 @@
         <view class="condinm">Condinm</view>
       </view>
       <view class="bottom">
-
         <image
           src="@/static/images/footerleft.png"
           style="width: 64rpx; height: 52rpx; margin-right: 20rpx"
@@ -71,7 +87,7 @@
   </u-popup>
 </template>
 <script setup lang="ts">
-import {ref,watch,toRef} from 'vue'
+import {ref,watch,toRef,nextTick} from 'vue'
 const props = defineProps(["show", "list"]);
 const emits = defineEmits(["close","del","bet"]);
 const lists=toRef(props,'list')
@@ -105,9 +121,22 @@ const changeAllTimes=()=>{
   times.value=props.list.map((item:any)=>item.times)
 }
 
+const showDetail=ref(false)
+const top=ref(0)
+const more=(item:any,index:number,event:any)=>{
+  console.log(event)
+  if(event.detail.y>500){
+    console.log("应该向上方弹出")
+    top.value=-50
+  }else if(event.detail.y<400){
+    console.log("应该向下方弹出")
+    top.value=20
+  }else{
+    console.log("正常弹出")
+    top.value=0
 
-const more=(id:string)=>{
-  console.log(id)
+  }
+  showDetail.value=item.id
 }
 function correct(){
   // 防止记录倍数的数据没有已选号码多
@@ -164,6 +193,7 @@ function findMissingIndexes(oldvalue:any, newvalue:any) {
     box-sizing: border-box;
     padding: 32rpx;
     .item {
+      position: relative;
       background-color: #fff;
       margin-bottom: 16rpx;
       height: 92rpx;
@@ -179,6 +209,7 @@ function findMissingIndexes(oldvalue:any, newvalue:any) {
         font-size: 24rpx;
       }
       .num{
+        transform: translateX(-20rpx);
         width: 160rpx; 
         font-size: 28rpx; 
         color: #00cd6a;
@@ -206,6 +237,33 @@ function findMissingIndexes(oldvalue:any, newvalue:any) {
           background-color: #efefef;
           font-size: 24rpx;
           color: #333;
+        }
+      }
+      .dialog-box{
+        background-color: chocolate;
+        // background-color: #000;
+        width: 200rpx;
+        height: 92rpx;
+        position: absolute;
+        z-index: 9999999999;
+        top: 0rpx;
+        left: 200rpx;
+        .title{
+          position: relative;
+          font-size: 28rpx;
+          width: 200rpx;
+          // background-color: #fff;
+        }
+        .dialog-scroll{
+          height: 92rpx;
+          .nums{
+            font-size: 24rpx;
+            background-color: chocolate;
+            // background-color: #fff;
+            box-sizing: border-box;
+            color: #000;
+            border: 1px solid #000;
+          }
         }
       }
     }

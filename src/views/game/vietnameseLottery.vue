@@ -199,7 +199,6 @@ const betlist = computed(() => {
 //   };
 
 // 2D--------------------------------------------
-
 const method2DList = ref([]); //头,尾组选的数据
 const active2Dmethod = ref([]); //已经选中的玩法
 const active2Dnum = ref([]); //已经选中的号码
@@ -220,7 +219,6 @@ const active2D = computed(() => {
     };
   });
 });
-
 // 3D--------------------------------------------------------
 const method3DList = ref([]); //头,尾组选的数据
 const active3Dmethod = ref([]); //已经选中的玩法
@@ -231,7 +229,7 @@ const active3D = computed(() => {
     (item: any) => item.gamePlayTypeName == "3D"
   );
   if (!betNums.length) return [];
-  return active3Dmethod.value.map((item: any, index: number) => {
+  return active3Dmethod.value.map((item: any) => {
     return {
       id: UUID(),
       ...item,
@@ -246,8 +244,6 @@ const active3D = computed(() => {
 // PL---------------
 const methodPLList=ref([])//PL3/PL2里的玩法
 const activePLmethod=ref('PL2')//选中的是PL2还是PL3,默认选中一个
-
-
 // PL2---------------------------
 const activePL2num = ref([]); //已经选中的号码
 const activePL2 = computed(() => {
@@ -268,7 +264,6 @@ const activePL2 = computed(() => {
     times: 1,
   };
 });
-
 
 // PL3---------------------------
 const activePL3num = ref([]); //已经选中的号码
@@ -355,24 +350,15 @@ const bet = () => {
       },
     },UrlType.bet).then(res=>{
       console.log(res)
-      uni.showToast({
-         icon:'success',
-         title:res.resDesc
-       })
-       betlist.value.forEach((item:any)=>{
+      uni.showToast({icon:'success',title:res.resDesc})
+       betlist.value.forEach(item=>{
         delBetList(item)
        })
     }).catch(res=>{
-      uni.showToast({
-         icon:'error',
-         title:'投注失败'
-       })
+      uni.showToast({icon:'error',title:'投注失败'})
     })
   }else{
-    uni.showToast({
-       icon:'error',
-       title:'无选号'
-     })
+    uni.showToast({icon:'error',title:'无选号'})
   }
 
 };
