@@ -66,7 +66,7 @@
     <KeyNum
       :background-image="urls1"
       @changeNum="(val)=>activePL3num=val"
-      v-show="activePLmethod == 'PL3'"
+      v-show="activePLmethod == 'PL3'&&playingMethod=='PL2/PL3'"
       :numList="keyNumPL3data"
       :unlock="true"
       :astrict="3"
@@ -167,9 +167,9 @@ const typeTab = reactive([
   { label: "视频", id: 3 },
   { label: "新闻", id: 4 },
 ]);
-let urls1 = ref("src/static/images/fredHill1.png");
-let urls2 = ref("src/static/images/fredHill2.png");
-let urls3 = ref("src/static/images/fredHill3M.png");
+let urls1 = ref("../../static/images/fredHill1.png");
+let urls2 = ref("../../static/images/fredHill2.png");
+let urls3 = ref("../../static/images/fredHill3M.png");
 const typeList:any = ref([]); //不同类型的数据
 const playingMethod = ref("2D"); //用来展示不同玩法&&初始展示2D
 const current = computed(() => {
