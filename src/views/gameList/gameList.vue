@@ -27,7 +27,7 @@
         :path="g.code"
         :img="img"
         :key="g.gameId"
-        @onSelect="onGameSelect(g)"
+        @onSelect="onGameSelect(g,gameList[uTabsIndex].countryName)"
       />
     </view>
   </view>
@@ -39,18 +39,21 @@ import {nextTick, onBeforeMount, onMounted, ref} from "vue";
 import {get, post, UrlType} from "@/api";
 import {disposeUrl} from "@/utils/tools";
 import {setStorage} from "@/utils/storage";
+import gameListStore from "@/plugins/pinia/gameList";
+import {storeToRefs} from "pinia";
 const uTabsIndex = ref<number>(0);
-const tabChange = (e: any) => (uTabsIndex.value = e.index);
-const gameList = ref([]);
+const tabChange = (e: any) => (uTabsIndex.value = e.index)
+const {getList}=gameListStore()
+const {gameList}=storeToRefs(gameListStore())
 const img='https://lanhu-dds-backend.oss-cn-beijing.aliyuncs.com/merge_image/imgs/dd822cb9ec924c43a774b56f655f0c86_mergeImage.png'
-const onGameSelect = (data:any) => {
+const onGameSelect = (data:any,countryName:string) => {
   switch (uTabsIndex.value) {
     case 0:
-      return router('vietnameseLottery',data)
+      return router('vietnameseLottery',{...data,countryName})
     case 1:
-      return router('thailandLottery',data)
+      return router('thailandLottery',{...data,countryName})
     default:
-      return router('philippinesLottery',data)
+      return router('philippinesLottery',{...data,countryName})
   }
 };
 const router = (url:string,data:any) => {
@@ -71,18 +74,11 @@ onBeforeMount(async () => {
       }
     },UrlType.info,true)
     setStorage('token',r.resultSet.accessToken)
-    getGameList()
+    await getList()
   }catch (e) {
     console.log(e)
   }
 });
-const getGameList=()=>{
-  get({
-    url:'/gameRecords/game'
-  }).then(v=>{
-    gameList.value=v.resultSet.map((it:any)=>({...it,games:it.games.filter((it:any)=>it.vndArea===null)}))
-  })
-}
 </script>
 <style lang="less" scoped>
 </style>

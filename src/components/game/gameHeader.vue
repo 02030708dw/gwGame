@@ -59,11 +59,11 @@
     <view class="poupTOP">
       <view
         class="poupLeftText"
-        :class="l.title === activeTitle ? 'active' : ''"
-        v-for="l in headers.topLists"
-        :key="l.id"
-        @click="onTopClick(l.path)"
-        >{{ l.title }}</view
+        :class="l.name === activeTitle ? 'active' : ''"
+        v-for="l in getSelectData(countryName!)"
+        :key="l.gameId"
+        @click="onTopClick(l.gameId,countryName!)"
+        >{{ l.name }}</view
       >
     </view>
   </u-popup>
@@ -82,12 +82,15 @@ import closeImg from "@/static/images/selectsTop.png";
 import { useCommon } from "@/plugins/pinia/common.pinia";
 import { ref } from "vue";
 import { headers } from "@/constants";
+import {storeToRefs} from "pinia";
+import gameList from "@/plugins/pinia/gameList";
 const props = defineProps<{
   activeTitle: string;
   showContent?: boolean; // 添加 showContent prop
+  countryName?:string
 }>();
-const emits = defineEmits(["handleContry"]);
-
+const emits = defineEmits(["handleContry",'changeCountryName']);
+const {getSelectData}=storeToRefs(gameList())
 const countryTitle = ref("Select a country");
 const countryShow = ref(false);
 const countryList = ref([
@@ -133,16 +136,17 @@ const onSlideClick = (p: string) => {
   }
   show.value = false;
 };
-const onTopClick = (p: string) => {
-  if (p === "gameList") {
+const onTopClick = (id:string,cN:string) => {
+  emits('changeCountryName',id,cN)
+/*  if (Id === "gameList") {
     uni.redirectTo({
-      url: `/views/gameList/${p}`,
+      url: `/views/gameList/${Id}`,
     });
   } else {
     uni.redirectTo({
-      url: `/views/game/${p}`,
+      url: `/views/game/${Id}`,
     });
-  }
+  }*/
   topShow.value = false;
   show.value = false;
 };
@@ -154,7 +158,7 @@ const handleSelect = (item: any) => {
 
 <style scoped lang="scss">
 .u-popup:deep(.u-slide-down-enter-active) {
-  margin-top: 120rpx !important;
+  margin-top: 2.75rem !important;
 }
 .poupLeft:deep(.poupLeftText):first-child {
   margin-top: 80rpx !important;
@@ -191,7 +195,7 @@ const handleSelect = (item: any) => {
 }
 
 .poupTOP {
-  height: 25vh;
+  //height: 25vh;
   background-color: #333;
 }
 
