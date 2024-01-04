@@ -2,7 +2,10 @@
   <view>
     <layout>
       <template #top>
-        <gameHeader :active-title="routes.name as string"/>
+        <gameHeader :active-title="routes.name!"
+                    :country-name="routes.countryName!"
+                    @change-country-name="onGameSelect"
+                    :show-content="true"/>
       </template>
       <gameHeaderTab :typeTab="typeTab"/>
       <gameContent/>
@@ -93,6 +96,7 @@ import use_thailandPlayType from "@/views/game/composition/thailand/use_thailand
 import {useGame} from "@/plugins/pinia/Game.pinia";
 import GameBoard3D from "@/components/game/gameBoard3D";
 import GameBoardPlay from "@/components/game/gameBoardPlay";
+import useGameNavigate from "@/hooks/useGameNavigate";
 
 //#endregion
 interface boardType {
@@ -101,7 +105,7 @@ interface boardType {
 }
 export type cgType='all'|'sin'
 export type lotteryHType = { gamePlayCode: number, gamePlayTypeCode: string, oneBetAmount: number, betNums: number[],rate:number,winAmount:number}[]
-type Routes = Partial<Record<'code' | 'gameId' | 'name' | 'type' | 'vndArea', string | null>>
+type Routes = Partial<Record<'code' | 'gameId' | 'name' | 'type' | 'vndArea'|'countryName', string | null>>
 const routes = ref<Routes>({})
 const gameConfig = ref<GameInfo>({gameId: "", gameName: "", gamePlayAndTypeListRespList: [], sealingTime: ""})
 const gameAwardConfig = ref<AwardNum>({
@@ -454,6 +458,7 @@ onLoad(async (options) => {
     }
   })
 })
+const {onGameSelect}=useGameNavigate()
 </script>
 
 <style scoped lang="less"></style>
