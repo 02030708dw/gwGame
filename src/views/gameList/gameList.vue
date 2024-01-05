@@ -43,7 +43,7 @@ import gameListStore from "@/plugins/pinia/gameList";
 import {storeToRefs} from "pinia";
 const uTabsIndex = ref<number>(0);
 const tabChange = (e: any) => (uTabsIndex.value = e.index)
-const {getList}=gameListStore()
+const {getList,getBalance}=gameListStore()
 const {gameList}=storeToRefs(gameListStore())
 const img='https://lanhu-dds-backend.oss-cn-beijing.aliyuncs.com/merge_image/imgs/dd822cb9ec924c43a774b56f655f0c86_mergeImage.png'
 const onGameSelect = (data:any,countryName:string) => {
@@ -75,6 +75,7 @@ onBeforeMount(async () => {
     },UrlType.info,true)
     setStorage('token',r.resultSet.accessToken)
     await getList()
+    await getBalance()
   }catch (e) {
     console.log(e)
   }

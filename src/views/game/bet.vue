@@ -134,6 +134,7 @@ const onLoad = () => {
     data: { country: activeRegion.value,pageNo:pageModel.pageNo},
   }).then(v => {
     loading.value=false
+    if (v.resultSet==='无投注记录') finished.value=true
     pageModel.total=v.resultSet.total
     pageTabs.value.push(...v.resultSet.data)
     if (pageTabs.value.length>=pageModel.total){

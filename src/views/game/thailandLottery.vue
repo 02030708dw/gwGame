@@ -61,17 +61,18 @@
             :dis-btn="Boolean(!activeData3DType.length)"
             :active-data="activeData3D"
             :active-sub-data="activeSubData3D"
-            :board-sub-data="boardSubData3D as boardType[]"
+            :board-sub-data="boardSubData3D as any[]"
             @on-sub-check="onAddActSub3D"
             :bg="urls3"
             @onCheck="onAddAct3D"
         />
       </view>
       <template #bot>
-        <gameFooter :count="count" @open-trolley="onOpenTrolley"/>
+        <gameFooter :count="count"  @open-trolley="onOpenTrolley"/>
       </template>
     </layout>
-    <game-trolley :trolley-total="trolleyShow"
+    <game-trolley
+        :trolley-total="trolleyShow"
                   :ac="gameAwardConfig"
                   ref="gameTrolleyRef"
                   @onchange-total="changeTotal"
@@ -101,6 +102,8 @@ import {useGame} from "@/plugins/pinia/Game.pinia";
 import GameBoard3D from "@/components/game/gameBoard3D";
 import GameBoardPlay from "@/components/game/gameBoardPlay";
 import useGameNavigate from "@/hooks/useGameNavigate";
+import gameListStore from "@/plugins/pinia/gameList";
+import {storeToRefs} from "pinia";
 //#endregion
 interface boardType {
   label: string;
@@ -127,6 +130,7 @@ const lotteryHistory = reactive(new Map([
   ['2d', ref<lotteryHType>([])],
   ['3d', ref<lotteryHType>([])],
 ]))
+const {getBalance} = gameListStore()
 // @ts-ignore
 const gameTrolleyRef = ref<InstanceType<typeof gameTrolley>|null>(null)
 // type
@@ -197,11 +201,13 @@ const onBetting = (data: any) => {
          }))
        }
      },UrlType.bet).then(v=>{
+       getBalance()
        uni.showToast({
          icon:'success',
          title:v.resDesc
        })
        clearBet()
+       onOpenTrolley()
      }).catch(r=>{
        uni.showToast({
          icon:'error',

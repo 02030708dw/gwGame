@@ -2,9 +2,8 @@
 	<view class="headerStyles">
 		<view class="footerleft0">
 			<image class="footerleft" src="@/static/images/footerleft.png" />
-			<view class="titleLeft">27,973.00</view>
+			<view class="titleLeft">{{getBalanceF}}</view>
 			<u-icon name="arrow-right" color="#999" size="16"></u-icon>
-
 		</view>
 
 		<view class="headerMores">
@@ -24,9 +23,9 @@
 </template>
 
 <script setup lang="ts">
-	import { useGame } from "@/plugins/pinia/Game.pinia";
   import {toRef} from "vue";
-	const storeGame = useGame()
+  import {storeToRefs} from "pinia";
+  import gameListStore from "@/plugins/pinia/gameList";
   const props=withDefaults(defineProps<{
     count?:number,
   }>(),{
@@ -34,6 +33,7 @@
   })
   defineEmits(['openTrolley'])
   const trolleyCount=toRef(props,'count')
+  const {getBalanceF}=storeToRefs(gameListStore())
 </script>
 
 <style scoped lang="scss">
