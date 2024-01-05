@@ -3,13 +3,12 @@
     <view class="countdown">
       <view class="next">{{ ac.lastAwardPeriod }}</view>
       <view class="time">
-        <view
-          class="digit"
-          v-for="(digit, index) in formattedCountdown"
-          :key="index"
-        >
-          <view class="digit-value">{{ digit }}</view>
-        </view>
+        <!-- 显示小时、分钟和秒 -->
+        <view class="time-part">{{ countdownFormatted.hours }}</view>
+        <view class="time-separator">:</view>
+        <view class="time-part">{{ countdownFormatted.minutes }}</view>
+        <view class="time-separator">:</view>
+        <view class="time-part">{{ countdownFormatted.seconds }}</view>
       </view>
     </view>
     <view class="period">{{ ac.period }}</view>
@@ -24,22 +23,45 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from "vue";
+import { ref, computed, watchEffect, onMounted, onUnmounted } from "vue";
 
-const props = defineProps({
-  ac: Object,
-});
-
-// 示例: 假设next是从props.ac中获取的一个值
-const next = ref("123123");
-// 示例: 假设ac.countdown是一个字符串格式的时间 "07:57"
-const formattedCountdown = computed(() => props.ac.countdown.split(""));
-// 显示名称映射
-const displayNames = {
-  firstThree: "一等奖",
-  countdown: "倒计时",
-  // ...其他映射
+const props = defineProps<{
+  ac: {
+    lastAwardPeriod: string; // 下一期
+    period: string; //这一期
+    countdown: number; // 这是剩余时间的时间戳
+  };
+}>();
+// 格式化倒计时
+const formatCountdown = (countdown: number) => {
+  const hours = Math.floor(countdown / 3600)
+    .toString()
+    .padStart(2, "0");
+  const minutes = Math.floor((countdown % 3600) / 60)
+    .toString()
+    .padStart(2, "0");
+  const seconds = Math.floor(countdown % 60)
+    .toString()
+    .padStart(2, "0");
+  return { hours, minutes, seconds };
 };
+
+// 响应式的倒计时
+const countdown = ref(props.ac.countdown);
+const countdownFormatted = computed(() => formatCountdown(countdown.value));
+
+// 更新倒计时
+const updateCountdown = () => {
+  if (countdown.value > 0) {
+    countdown.value--;
+  }
+};
+
+// 每秒更新倒计时
+watchEffect((onInvalidate) => {
+  const interval = setInterval(updateCountdown, 1000);
+  onInvalidate(() => clearInterval(interval));
+});
 </script>
 
 <style lang="scss" scoped>
@@ -64,20 +86,16 @@ const displayNames = {
 
     .time {
       display: flex;
+      color: #05101a;
 
-      .digit {
+      .time-part {
+        border-radius: 20rpx;
+        padding:20rpx;
         background-color: #fff;
-        color: #000;
-        margin: 0 4px;
-        border-radius: 6px;
-        overflow: hidden; /* 隐藏超出部分，用于翻页效果 */
       }
-
-      .digit-value {
-        display: block;
-        padding: 0 12rpx;
-        font-size: 45rpx;
-        text-align: center;
+      .time-separator {
+        padding: 0 2px;
+        color: #fff;
       }
     }
   }
