@@ -211,7 +211,7 @@ const onBetting = (data: any) => {
      }).catch(r=>{
        uni.showToast({
          icon:'error',
-         title:'投注失败'
+         title:r.resDesc
        })
      })
    }else {
