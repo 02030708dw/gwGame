@@ -1,6 +1,5 @@
 import {computed, defineComponent, nextTick, onMounted, PropType, watchEffect} from "vue";
 import './index.less'
-import {Badge} from "vant";
 import RecordBadge from "@/components/game/gameBoard3D/recordBadge";
 
 interface boardType {
@@ -38,6 +37,10 @@ export default defineComponent({
         activeSubData: {
             type: Array as PropType<number[]>,
             default: () => []
+        },
+        disBtn:{
+            type:Boolean,
+            default:()=>true
         }
     },
     setup(props, {emit, slots}) {
@@ -60,7 +63,7 @@ export default defineComponent({
                         <RecordBadge acData={it.temp.length}/>
                     </div>)}
                 </div> || slots.top?.(props.boardSubData)}
-                <div class="content">
+                <div class={props.disBtn?"content dis":"content"}>
                     {props.boardData.slice(sliceNum.value[0],sliceNum.value[1]).map(it => <div
                         style={{'--color': props.activeColor}}
                         class={props.activeData.includes(it.value) ? 'active' : ''}

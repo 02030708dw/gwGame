@@ -5,6 +5,7 @@ interface GameList {
     countryName:string
 }
 const gameListStore = defineStore('gameListStore',{
+    persist:true,
     state:()=>{
         return {
             gameList:[] as GameList[]

@@ -12,7 +12,7 @@
 			<image class="headerMoreimage1" src="@/static/images/footerq2.png" alt="" srcset="" />
       <view class="touzhu" >
         <up-badge class="badge" numberType="limit" :type="'error'" max="99" :value="trolleyCount"></up-badge>
-        <view @click="handleBetting">
+        <view @click="$emit('openTrolley')">
           投注
         </view>
       </view>
@@ -32,10 +32,8 @@
   }>(),{
     count:0
   })
+  defineEmits(['openTrolley'])
   const trolleyCount=toRef(props,'count')
-	const handleBetting = () => {
-		storeGame.isBetting = !storeGame.isBetting
-	}
 </script>
 
 <style scoped lang="scss">

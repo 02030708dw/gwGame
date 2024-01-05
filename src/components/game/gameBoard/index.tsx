@@ -40,6 +40,10 @@ export default defineComponent({
         activeSubData: {
             type: Array as PropType<number[]>,
             default: () => []
+        },
+        disBtn:{
+            type:Boolean,
+            default:()=>true
         }
     },
     setup(props, {emit, slots}) {
@@ -58,7 +62,7 @@ export default defineComponent({
                         {it.label}
                     </div>)}
                 </div> || slots.top?.(props.boardSubData)}
-                <div class="content">
+                <div class={props.disBtn?"content dis":"content"}>
                     {props.boardData.map(it => <div
                         style={{'--color': props.activeColor}}
                         class={props.activeData.includes(it.value) ? 'active' : ''}

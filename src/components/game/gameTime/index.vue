@@ -1,7 +1,7 @@
 <template>
   <view class="gameTime">
     <view class="l">
-      <text class="l1">{{ t }}</text>
+      <text class="l1">{{ lt }}</text>
       <text class="l2">{{ ac.lastAwardPeriod }}</text>
     </view>
     <view class="m">
@@ -11,7 +11,7 @@
       <view class="m2">{{ ac.period }}</view>
     </view>
     <div class="imgArr">
-      <span>{{lt}}</span>
+      <span>{{t}}</span>
       <div>
         <img :src="l.url" v-for="l in imgArr" :key="l.type" @click="btnGroup(l.type)">
       </div>
@@ -69,7 +69,7 @@ const t = computed(() => {
   }
 
   if (timer.value <= 0) {
-    time = "活动已结束";
+    time = "已结束";
   } else {
     time = hours + ":" + minutes + ":" + seconds + "";
   }
@@ -96,7 +96,7 @@ const lt = computed(() => {
     seconds = '0' + seconds;
   }
   if (timer.value <= 0) {
-    time = "已结束";
+    time = "活动已结束";
     emits('update:lock',true)
   } else {
     time = hours + ":" + minutes + ":" + seconds + "";

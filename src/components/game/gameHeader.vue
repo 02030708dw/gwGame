@@ -9,12 +9,12 @@
       </view>
     </view>
     <view v-else class="headerTitle" @click="handleTopCountry">
-      <image
+<!--      <image
         class="headerImg"
         src="@/static/images/heart.png"
         alt=""
         srcset=""
-      />
+      />-->
       <view class="headerText">
         {{ activeTitle }}
       </view>

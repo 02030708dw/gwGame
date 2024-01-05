@@ -8,7 +8,7 @@ export default function (type:string,lotteryHistory:  Map<string, Ref<{}>>,playT
         {label:'头奖选组15',value:3},
     ])
     const activeData2D = ref<number[]>([])
-    const activeData2DType = ref<number[]>([1])
+    const activeData2DType = ref<number[]>([])
     const onAddAct2D = (i: number) => {
         if (lock.value) return
         if (activeData2D.value.includes(i)) activeData2D.value.splice(activeData2D.value.findIndex(it => it === i), 1)

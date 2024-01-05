@@ -15,10 +15,10 @@ export default function (data?:any) {
         }
     };
     const router = (url:string,data:any) => {
-        uni.navigateTo({
+        uni.redirectTo({
             url: `/views/game/${disposeUrl(url,data)}`,
-            animationType: "pop-in",
-            animationDuration: 300,
+            // animationType: "pop-in",
+            // animationDuration: 300,
         });
     }
     return {

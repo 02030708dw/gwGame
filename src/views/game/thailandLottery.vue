@@ -26,6 +26,7 @@
             @onCheck="onAddAct1DType"
         />
         <game-board
+            :dis-btn="Boolean(!activeData1DType.length)"
             :board-data="boardData1D as boardType[]"
             :active-data="activeData1D"
             :bg="urls3"
@@ -40,6 +41,7 @@
             @onCheck="onAddAct2DType"
         />
         <game-board
+            :dis-btn="Boolean(!activeData2DType.length)"
             cla-type="gameBoard2D"
             :board-data="boardData2D as boardType[]"
             :active-data="activeData2D"
@@ -56,6 +58,7 @@
         />
         <game-board3-d
             :board-data="boardData3D as boardType[]"
+            :dis-btn="Boolean(!activeData3DType.length)"
             :active-data="activeData3D"
             :active-sub-data="activeSubData3D"
             :board-sub-data="boardSubData3D as boardType[]"
@@ -65,11 +68,12 @@
         />
       </view>
       <template #bot>
-        <gameFooter :count="count"/>
+        <gameFooter :count="count" @open-trolley="onOpenTrolley"/>
       </template>
     </layout>
     <game-trolley :trolley-total="trolleyShow"
                   :ac="gameAwardConfig"
+                  ref="gameTrolleyRef"
                   @onchange-total="changeTotal"
                   @on-bet-finish="onBetting" @onTrolleyDel="TrolleyDel"/>
   </view>
@@ -97,7 +101,6 @@ import {useGame} from "@/plugins/pinia/Game.pinia";
 import GameBoard3D from "@/components/game/gameBoard3D";
 import GameBoardPlay from "@/components/game/gameBoardPlay";
 import useGameNavigate from "@/hooks/useGameNavigate";
-
 //#endregion
 interface boardType {
   label: string;
@@ -124,9 +127,8 @@ const lotteryHistory = reactive(new Map([
   ['2d', ref<lotteryHType>([])],
   ['3d', ref<lotteryHType>([])],
 ]))
-const playTypeSet = ref<number>(0)
-const origin2DData=ref<any[]>([])
-const origin3DData=ref<any[]>([])
+// @ts-ignore
+const gameTrolleyRef = ref<InstanceType<typeof gameTrolley>|null>(null)
 // type
 const {
   playType,
@@ -439,7 +441,7 @@ onLoad(async (options) => {
           rate:1
         }
       })
-      origin2DData.value=[...boardData2DType.value]
+      // origin2DData.value=[...boardData2DType.value]
     } else {
       boardData3DType.value = it.gamePlayList.map((it: any, i2: number) => {
         return {
@@ -453,12 +455,13 @@ onLoad(async (options) => {
         }
       })
       // console.log(boardData3DType.value[0]!.gamePlayId)
-      activeData3DType.value=[{gamePlayId:boardData3DType.value[0]!.gamePlayId,value:1}]
-      origin3DData.value=[...boardData3DType.value]
+      // activeData3DType.value=[{gamePlayId:boardData3DType.value[0]!.gamePlayId,value:1}]
+      // origin3DData.value=[...boardData3DType.value]
     }
   })
 })
 const {onGameSelect}=useGameNavigate()
+const onOpenTrolley = () => gameTrolleyRef.value?.handleToggle()
 </script>
 
 <style scoped lang="less"></style>
