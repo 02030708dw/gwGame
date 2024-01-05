@@ -1,83 +1,53 @@
 <template>
-  <view class="headerTab">
-    <view
-      class="headerLabel"
-      @click="handleContrys(item)"
-      v-for="(item, index) in props.typeTab"
-      :key="index"
-    >
-      <text>
-        {{ item.label }}
-      </text>
+  <view class="tabs-container">
+    <!-- 标签头 -->
+    <view class="headerTab">
+      <view
+        v-for="(item, index) in typeTab"
+        :key="item.id"
+        :class="['headerLabel', { active: index === activeIndex && showContent}]"
+        @click="changeTab(index)"
+      >
+        <text>
+          {{ item.label }}
+        </text>
+      </view>
+    </view>
+    <!-- 标签内容 -->
+    <view class="tabs-content">
+      <!-- 显示内容，基于activeIndex -->
+      <view v-if="activeIndex === 0 && showContent">
+        <GameAnimation :ac="ac"/>
+      </view>
+      <view v-if="activeIndex === 1 && showContent">直播内容</view>
     </view>
   </view>
-
-  <!-- <view class="headerContainer">
-    <table>
-      <tr>
-        <td lass="periods" colspan="4">{{ period }}</td>
-      </tr>
-      <tr>
-        <td>头奖</td>
-        <td>前三</td>
-        <td>后三</td>
-        <td>二星</td>
-      </tr>
-      <tr>
-        <td>{{ head }}</td>
-        <td>{{ firstThree.replace(/,/g, ' ') }}</td>
-        <td>{{ afterThree.replace(/,/g, ' ') }}</td>
-        <td>{{ end }}</td>
-      </tr>
-    </table>
-  </view> -->
 </template>
 
 <script setup lang="ts">
-import { useCommon } from "@/plugins/pinia/common.pinia";
-// import { get } from "vant/lib/utils";
-import { ref, onMounted } from "vue";
-import { post } from "@/api";
+import { ref } from "vue";
+import GameAnimation from '@/components/game/gameAnimation.vue';
 
-const storeCommon = useCommon();
-const props = defineProps(["typeTab"]);
+// 标签页数据
+const props = defineProps({
+  typeTab: Array,
+  ac: Object,
+});
 const emits = defineEmits(["handleContry"]);
-const handleContrys = (item: any) => {
-  storeCommon.setTabData(item.id);
-  // emits('handleContry', item)
-};
 
-const head = ref(""); // 头奖
-const firstThree = ref(""); //前三
-const afterThree = ref(""); //后三
-const end = ref(""); //二星
-const period = ref(""); // 当前期
-const countdown = ref(""); //倒计时
-const gameCode = ref(""); //游戏code
-const lastAwardPeriod = ref(""); //下一期
+// 当前激活的标签页索引
+const activeIndex = ref(-1); // 初始设置为-1，表示没有标签被选中
+const showContent = ref(false); // 控制内容显示的状态
 
-const fetchData = async () => {
-  try {
-    const data = await post({
-      url: "/getAwardNum",
-      data: { gameCode: "TH" },
-    });
-    const { awardNum } = data;
-
-    head.value = awardNum.head;
-    firstThree.value = awardNum.firstThree;
-    afterThree.value = awardNum.afterThree;
-    end.value = awardNum.end;
-    period.value = awardNum.period;
-
-  } catch (error) {
-    console.error("Error fetching data:", error);
+// 切换标签页
+const changeTab = (index: number): void => {
+  if (activeIndex.value === index) {
+    showContent.value = !showContent.value;
+  } else {
+    showContent.value = true;
+    activeIndex.value = index;
   }
 };
-
-onMounted(() => {
-  // fetchData();
-});
 </script>
 
 <style scoped lang="scss">
@@ -95,6 +65,14 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   padding: 12rpx 48rpx 12rpx 48rpx;
+
+  &.active {
+    background-color: #ffb023;
+
+    text {
+      color: #fff;
+    }
+  }
 
   text {
     overflow-wrap: break-word;

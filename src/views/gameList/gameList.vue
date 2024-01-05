@@ -25,7 +25,7 @@
         v-for="g in gameList[uTabsIndex].games"
         :title="g.name"
         :path="g.code"
-        :img="img"
+        :img="g.imageUrl"
         :key="g.gameId"
         @onSelect="onGameSelect(g,gameList[uTabsIndex].countryName)"
       />
@@ -33,6 +33,7 @@
   </view>
 </template>
 <script setup lang="ts">
+import th from '@/static/images/th.png';
 import TabNav from "@/components/tabnav/index.vue";
 import GameHeader from "@/components/game/gameHeader.vue";
 import {nextTick, onBeforeMount, onMounted, ref} from "vue";
@@ -45,7 +46,6 @@ const uTabsIndex = ref<number>(0);
 const tabChange = (e: any) => (uTabsIndex.value = e.index)
 const {getList,getBalance}=gameListStore()
 const {gameList}=storeToRefs(gameListStore())
-const img='https://lanhu-dds-backend.oss-cn-beijing.aliyuncs.com/merge_image/imgs/dd822cb9ec924c43a774b56f655f0c86_mergeImage.png'
 const onGameSelect = (data:any,countryName:string) => {
   switch (uTabsIndex.value) {
     case 0:

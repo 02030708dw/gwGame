@@ -12,7 +12,7 @@
         <text class="top">{{ item.createdAt }}</text>
         <view class="center">
           <text>{{ getTypeDescription(item.type) }}</text>
-          <text>{{ item.amount }}</text>
+          <text>{{ item.changeAmt }}</text>
         </view>
         <view class="bottom">
           <text>可用余额</text>
@@ -42,7 +42,7 @@ const memberAccount = ref({});
 const fetchData = async () => {
   try {
     const data = await get({
-      url: "/gameRecords/memberAccount",
+      url: "/gameRecords/memberWalletRecord",
     });
     memberAccount.value = data;
   } catch (error) {

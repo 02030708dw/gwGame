@@ -7,7 +7,7 @@
                     @change-country-name="onGameSelect"
                     :show-content="true"/>
       </template>
-      <gameHeaderTab :typeTab="typeTab"/>
+      <gameHeaderTab :typeTab="typeTab" :ac="gameAwardConfig"/>
       <gameContent/>
       <gameTime :ac="gameAwardConfig" :lock-board-time="gameConfig.sealingTime" v-model:lock="lockStatus"/>
       <!--      {{playTypeData}}-->
