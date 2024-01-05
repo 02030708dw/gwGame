@@ -1,72 +1,35 @@
 <template>
 	<Layout>
 		<template #top>
-			<GameHeader active-title="菲律宾彩" />
+			<GameHeader :active-title=titleData />
 		</template>
 		<GameHeaderTab :typeTab="typeTab" />
 		<gameFlb />
 		<GameTime />
 		<view class="block_7">
 			<view class="box_19">
-				<view class="text-wrapper_16" :class="{ 'highlight': currentOption === 1 }" @click="changeOption(1)">
-					<text lines="1" decode="true" class="text_21">2&nbsp;Digits</text>
-				</view>
+			    <view v-for="(gamePlayType, index) in gamePlayAndTypeListRespList" :key="index">
+			      <view class="text-wrapper_16" :class="{ 'highlight': currentOption === gamePlayType.gamePlayTypeName }"
+			        @click="changeOption(gamePlayType.gamePlayTypeName)">
+			        <text lines="1" decode="true" class="text_21">{{ gamePlayType.gamePlayTypeName }}</text>
+			      </view>
+			    </view>
+			  </view>
+			
+			<view class="box_20">
+			    <view v-for="(gamePlay, index) in gamePlayList" :key="index" class="group_1"
+			      :class="{ 'highlighted': currentOptionTwo === gamePlay.gamePlayName }"
+			      @click="changeOptionTwo(gamePlay.gamePlayName)">
+			      <view class="image-text_3">
+			        <text lines="1" class="text-group_2">{{ gamePlay.gamePlayName }}</text>
+			      </view>
+			    </view>
+			  </view>
 
-				<view class="text-wrapper_17" :class="{ 'highlight': currentOption === 2 }" @click="changeOption(2)">
-					<text lines="1" decode="true" class="text_22">1&nbsp;Digit</text>
-				</view>
-				<view class="text-wrapper_18" :class="{ 'highlight': currentOption === 3 }" @click="changeOption(3)">
-					<text lines="1" class="text_23">Combinations</text>
-				</view>
-			</view>
 
-			<view class="box_20" v-show="currentOption === 1||currentOption === 2">
-				<view class="group_1" :class="{ 'highlighted': currentOptionTwo === 1 }" @click="changeOptionTwo(1)">
-					<image v-show="currentOptionTwo === 1"
-						src="https://lanhu.oss-cn-beijing.aliyuncs.com/SketchPng48a1ecb2a14ef1845289baf45e29f20ff7b00e5e244fa770a63ca2821b7cfc93"
-						class="icon_7"></image>
-					<view class="image-text_3">
-						<text lines="1" class="text-group_2">Straight</text>
-						<image v-show="currentOptionTwo === 1"
-							src="https://lanhu.oss-cn-beijing.aliyuncs.com/SketchPng08d4b08fbe4d235212c28ef007791828205c6ada431cadf17a3c82bb2aa1afb7"
-							class="icon_8"></image>
-					</view>
-				</view>
-				<view class="group_1" :class="{ 'highlighted': currentOptionTwo === 2 }" @click="changeOptionTwo(2)">
-					<image v-show="currentOptionTwo === 2"
-						src="https://lanhu.oss-cn-beijing.aliyuncs.com/SketchPng48a1ecb2a14ef1845289baf45e29f20ff7b00e5e244fa770a63ca2821b7cfc93"
-						class="icon_7"></image>
-					<view class="image-text_4">
-						<text lines="1" class="text-group_2">Rambolito</text>
-						<image v-show="currentOptionTwo === 2"
-							src="https://lanhu.oss-cn-beijing.aliyuncs.com/SketchPng08d4b08fbe4d235212c28ef007791828205c6ada431cadf17a3c82bb2aa1afb7"
-							class="icon_8"></image>
-					</view>
-				</view>
-			</view>
 
-			<view class="oneBox" v-show="currentOption === 2 && currentOptionTwo ===2">
-				<view class="text-wrapper_21">
-					<text v-for="(item, index) in textItems" :key="index" :class="{ 'active': activeText === item }"
-						@click="handleTextClick(item)">
-						{{ item }}
-					</text>
-				</view>
-				<view class="box_4">
-					<view class="box_item">
-						<view v-for="(item, index) in data1R" :key="index" @click="handleClick1R(item,selectedData1R)"
-							:class="{ 'highlighted': selectedData1R.includes(item), 'block_3': !selectedData1R.includes(item)}">
-							<view class="text-group_11">
-								<text lines="1" class="text_31">01</text>
-								<text lines="1" class="text_32">8.4398</text>
-							</view>
-						</view>
-					</view>
-				</view>
-			</view>
 
-			<view class="box_21"
-				v-show="currentOption === 1 && currentOptionTwo ===1 || currentOption === 2 && currentOptionTwo === 1 || currentOption===3">
+			<view class="box_21">
 				<view class='text-wrapper_20'>
 					<text lines="1" class="text_25">1st</text>
 				</view>
@@ -74,91 +37,29 @@
 					<text lines="1" class="text_26">2nd</text>
 				</view>
 			</view>
-			<view class="itembox_10">
-				<view class="box_10" v-show="currentOption === 1 && currentOptionTwo === 2">
-					<view class="text-wrapper_19">
-						<text lines="1" class="text_25">-</text>
-					</view>
-					<view class="text-wrapper_20">
-						<text lines="1" class="text_26">-</text>
-					</view>
-					<view class="text-wrapper_21">
-						<text lines="1" class="text_27">-</text>
-					</view>
-					<view class="text-wrapper_22">
-						<text lines="1" class="text_28">-</text>
-					</view>
-					<view class="image-wrapper_1">
-						<image
-							src="https://lanhu.oss-cn-beijing.aliyuncs.com/SketchPng85a9a430e00a68aae31d45d1f3033c77be0fd7b0b5c78fef3a7dc0ac45b72a46"
-							class="thumbnail_4"></image>
-						<image
-							src="https://lanhu.oss-cn-beijing.aliyuncs.com/SketchPng64bebf2a36b4b691ac52232696d4648c807f68b40d2f4b0ea79d3ac075dda240"
-							class="label_1"></image>
-					</view>
-				</view>
-			</view>
 
 			<!-- mini键盘 -->
-			<!-- 2S -->
-			<GameKeyboard v-show="currentOption === 1 && currentOptionTwo === 1 " :items1="items1"
-				:selectedItems1="selectedItems1" :handleClick1="handleClick1" :items2="items2"
-				:selectedItems2="selectedItems2" :handleClick2="handleClick2" />
+			<!-- 2d复试 -->
+			<GameKeyboard v-show="currentOptionTwo === '2d_复式'" :items1="items1" :selectedItems1="selectedItems1"
+			  :handleClick1="handleClick1" :items2="items2" :selectedItems2="selectedItems2"
+			  :handleClick2="handleClick2" />
 			<!-- 1S -->
-			<GameKeyboard v-show="currentOption === 2 && currentOptionTwo === 1" :items1="items1S"
-				:selectedItems1="selectedItems1S" :handleClick1="handleClick1S" :items2="items2S"
-				:selectedItems2="selectedItems2S" :handleClick2="handleClick2S" />
+
+			<!-- 2d 1位 -->
+			<GameKeyboard v-show="currentOptionTwo === '2d_1位'" :items1="items1S" :selectedItems1="selectedItems1S"
+			  :handleClick1="handleClick1S" :items2="items2S" :selectedItems2="selectedItems2S"
+			  :handleClick2="handleClick2S" />
 			<!-- mini键盘 -->
 
 			<!-- 九宫格键盘 -->
-			<view class="Keyboard9" v-show="currentOption === 1 && currentOptionTwo === 2">
-				<view class="box_12">
-					<view v-for="num in [1, 2, 3]" :key="num" @click="handleClick9(num)"
-						:class="{ 'highlighted': isSelected9(num), 'text-wrapper_23': !isSelected9(num) }">
-						<text lines="1" class="text_29">{{ num }}</text>
-					</view>
-				</view>
-				<view class="box_12">
-					<view v-for="num in [4, 5, 6]" :key="num" @click="handleClick9(num)" class="text-wrapper_23"
-						:class="{ 'highlighted': isSelected9(num) }">
-						<text lines="1" class="text_29">{{ num }}</text>
-					</view>
-				</view>
-				<view class="box_12">
-					<view v-for="num in [7, 8, 9]" :key="num" @click="handleClick9(num)" class="text-wrapper_23"
-						:class="{ 'highlighted': isSelected9(num) }">
-						<text lines="1" class="text_29">{{ num }}</text>
-					</view>
-				</view>
-				<view class="box_12">
-					<view class="section_6" @click="handleDelete">
-						<view class="image-text_6">
-							<image
-								src="https://lanhu.oss-cn-beijing.aliyuncs.com/SketchPngf3c8e4ebcd5196c552597442ed829665a963ebaf6243656914f0fec1d2250a38"
-								class="thumbnail_5"></image>
-							<text lines="1" class="text-group_3">Delete</text>
-						</view>
-					</view>
-					<view @click="handleClick9(0)" class="text-wrapper_23" :class="{ 'highlighted': isSelected9(0) }">
-						<text lines="1" class="text_29">0</text>
-					</view>
-					<view class="section_7" @click="handleBack">
-						<view class="image-text_7">
-							<image
-								src="https://lanhu.oss-cn-beijing.aliyuncs.com/SketchPng1467db9dd09d153c0a03c0067e6f8d0ddc00973e4ffc2ea976954ce3b8532687"
-								class="thumbnail_6"></image>
-							<text lines="1" class="text-group_4">Back</text>
-						</view>
-					</view>
-				</view>
-			</view>
 			<!-- 九宫格键盘 -->
-			<!-- combinations -->
-			<view class="Keyboard8" v-show="currentOption === 3">
+			<!-- 2d组合 -->
+			<view class="Keyboard8" v-show="currentOptionTwo === '2d_组合'">
 				<view class="group_14">
 					<view class="group_15">
 						<view class="group_15_box" style="display: flex;flex-wrap: wrap;">
-							<view v-for="(item, index) in data8" :key="index" @click="handleClick8(item,index)"
+							<view v-for="(item, index) in data8" :key="index" @click="handleClick8st(item,index)"
+								:selectedItems8s="selectedItems8st"
 								:class="{ 'highlighted': item.highlighted, 'box_8': !item.highlighted }">
 								<view class="text-group_12">
 									<text lines="1" class="text_26">{{ item.label }}</text>
@@ -170,7 +71,8 @@
 					<div class="box_10 flex-col"></div>
 					<view class="group_15">
 						<view class="group_15_box" style="display: flex;flex-wrap: wrap;">
-							<view v-for="(item, index) in data9" :key="index" @click="handleClick8(item,index)"
+							<view v-for="(item, index) in data9" :key="index" @click="handleClick8nd(item,index)"
+								:selectedItems8n="selectedItems8nd"
 								:class="{ 'highlighted': item.highlighted, 'box_88': !item.highlighted }">
 								<view class="text-group_12">
 									<text lines="1" class="text_26">{{ item.label }}</text>
@@ -181,18 +83,24 @@
 					</view>
 				</view>
 			</view>
-			<!-- combinations -->
+			<!-- 2d组合 -->
 		</view>
-		<template #bot>
+		<!-- <template #bot>
 			<GameFooter />
+		</template> -->
+		<template #bot>
+			<Footer @click-handle="show = true" :num="current" />
 		</template>
 	</Layout>
-	<popup />
+	<!-- <popup /> -->
+	<BetListPopPL :show="show" @close="show = false" :list="selectedValues" @del="delBetList" @bet="bet"/>
 </template>
 
 <script setup lang="ts">
-	import { reactive, ref } from "vue";
-	import popup from "@/components/game/popup/popup.vue";
+	import { reactive, ref, computed, defineProps } from "vue";
+	// import popup from "@/components/game/popup/popup.vue";
+	import Footer from "@/components/game/YN/Footer.vue";
+	import BetListPopPL from "@/components/game/YN/BetListPopPL.vue";
 	import GameHeader from "@/components/game/gameHeader.vue";
 	import GameTime from "@/components/game/gameTime.vue";
 	import Layout from "@/layout/index.vue";
@@ -200,6 +108,78 @@
 	import gameFlb from "@/components/game/gameFLB.vue";
 	import GameFooter from "@/components/game/gameFooter.vue";
 	import GameKeyboard from "@/components/game/gameKeyboard.vue";
+	import { get, post, UrlType } from "@/api";
+	import { onLoad } from "@dcloudio/uni-app";
+	const Router = ref(); //url信息
+	// 明确声明 props
+	const props = defineProps(['gameId', 'type', 'code', 'name', 'vndArea']);
+	const titleData = ref([]);
+	const gamePlayAndTypeListRespList = ref([]);
+	const gamePlayList = ref([]);
+	const betMainReq = ref(); //开奖信息
+	onLoad(async (data : any) => {
+		Router.value = data;
+		let res = await post({
+			url: "/gameRecords/gamePlayAndType",
+			data: { gameId: data.gameId },
+		});
+		titleData.value = res.resultSet.gameName
+		gamePlayAndTypeListRespList.value = res.resultSet.gamePlayAndTypeListRespList;
+		gamePlayList.value = gamePlayAndTypeListRespList.value[0]?.gamePlayList || [];
+		
+		const getAwardNum = await post({
+			url: "/getAwardNum",
+			data: { gameCode: data.code },
+		});
+
+		if (getAwardNum.resultSet && getAwardNum.resultSet.awardNum !== undefined && getAwardNum.resultSet.awardNum !== null) {
+			betMainReq.value = getAwardNum.resultSet.awardNum;
+			console.log(betMainReq.value);
+		} else {
+			// 没有数据的情况，通过消息提示框通知用户
+			uni.showToast({
+				title: '未找到奖号数据',
+				icon: 'none',
+				duration: 2000,
+			});
+		}
+	})
+	const bet = () => {
+		console.log(selectedValues.value,'value')
+	    if (selectedValues.value.length) {
+	        post(
+	            {
+	                url: "/bet",
+	                data: {
+	                    //awardPeriod: betMainReq.value.lastAwardPeriod, //奖期
+	                    gameCode: Router.value.code,
+	                    betInfos: selectedValues.value.map((item) => {
+	                        return {
+	                            betNums: [].concat(...item.betNums),
+	                            gamePlayCode: item.gamePlayCode,
+	                            gamePlayTypeCode: item.gamePlayTypeCode,
+	                            //oneBetAmount: item.betAmount,   //开奖信息
+	                            sumAmount: item.betNums.length,
+	                        };
+	                    }),
+	                },
+	            },
+	            UrlType.bet
+	        )
+	            .then((res) => {
+	                uni.showToast({ icon: 'success', title: res.resDesc });
+	                selectedValues.value.forEach((item) => {
+	                    delBetList(item);
+	                });
+	            })
+	            .catch((res) => {
+	                uni.showToast({ icon: 'error', title: '投注失败' });
+	            });
+	    } else {
+	        uni.showToast({ icon: 'error', title: '无选号' });
+	    }
+	};
+
 	/**
 	 *
 	 * 类型切换
@@ -210,104 +190,40 @@
 		{ label: "视频", id: 3 },
 		{ label: "新闻", id: 4 },
 	]);
-	const currentOption = ref(1);
+	// 投注弹出层
+	const show = ref(false); //弹出层的显示隐藏
 
-	const changeOption = (option : number) => {
-		currentOption.value = option;
+
+
+	// 存储2D下的选中值
+	const selectedValues = computed(() => {
+		return [
+			...selectedValues2D.value,
+			...selectedValues1D.value,
+			...selectedValues3C.value,
+
+		];
+	});
+
+	const updateSelectedValues = (gamePlayNameValue) => {
+		selectedValues.value = [
+
+		];
 	};
 
-	const currentOptionTwo = ref(1);
+	 // 2d头层类型
+	  const currentOption = ref('2D');
+	  const changeOption = (gamePlayName) => {
+	    currentOption.value = gamePlayName;
+	  };
 
-	const changeOptionTwo = (option : number) => {
-		currentOptionTwo.value = option;
-	};
+	// 2D玩法
+	const currentOptionTwo = ref('2d_复式');
+	  const changeOptionTwo = (gamePlayName) => {
+	    currentOptionTwo.value = gamePlayName;
+	  };
 
-	// mini键盘
-	// 2S
-	const items1 = ref([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
-	const selectedItems1 = ref([]);
-	const handleClick1 = (item) => {
-		if (selectedItems1.value.includes(item)) {
-			selectedItems1.value = selectedItems1.value.filter((selectedItem1) => selectedItem1 !== item);
-		} else {
-			selectedItems1.value.push(item);
-		}
-	};
-
-	const items2 = ref([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
-	const selectedItems2 = ref([]);
-	const handleClick2 = (item) => {
-		if (selectedItems2.value.includes(item)) {
-			selectedItems2.value = selectedItems2.value.filter((selectedItem2) => selectedItem2 !== item);
-		} else {
-			selectedItems2.value.push(item);
-		}
-		console.log('选中的值:', selectedItems2.value);
-	};
-
-	// 1S
-	const items1S = ref([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
-	const selectedItems1S = ref([]);
-	const handleClick1S = (item) => {
-		if (selectedItems1S.value.includes(item)) {
-			selectedItems1S.value = selectedItems1S.value.filter((selectedItem1S) => selectedItem1S !== item);
-		} else {
-			selectedItems1S.value.push(item);
-		}
-		console.log('选中的值:', selectedItems1S.value);
-	};
-
-	const items2S = ref([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
-	const selectedItems2S = ref([]);
-	const handleClick2S = (item) => {
-		if (selectedItems2S.value.includes(item)) {
-			selectedItems2S.value = selectedItems2S.value.filter((selectedItem2S) => selectedItem2S !== item);
-		} else {
-			selectedItems2S.value.push(item);
-		}
-		console.log('选中的值:', selectedItems2S.value);
-	};
-	// mini键盘
-
-	// 九宫格键盘 
-	const selectedNumbers = ref([]);
-	const handleClick9 = (num) => {
-		if (isSelected9(num)) {
-			// 如果已经被选中，则从数组中移除
-			selectedNumbers.value = selectedNumbers.value.filter((selectedNum) => selectedNum !== num);
-			console.log(selectedNumbers)
-		} else {
-			// 如果没有被选中，则添加到数组中
-			selectedNumbers.value.push(num);
-			console.log(selectedNumbers)
-		}
-	};
-
-	const isSelected9 = (num) => {
-		// 判断数字是否在数组中
-		return selectedNumbers.value.includes(num);
-	};
-
-	const handleBack = () => {
-		if (selectedNumbers.value.length > 0) {
-			selectedNumbers.value.splice(-1, 1);
-			console.log(selectedNumbers)
-		}
-	};
-
-	const handleDelete = () => {
-		selectedNumbers.value = [];
-		console.log(selectedNumbers)
-	};
-	// 九宫格键盘 
-	const textItems = ref(['All', 'Big', 'Small', 'Odd', 'Even', 'Delete']);
-	const activeText = ref('All');
-
-	const handleTextClick = (item : string) => {
-		activeText.value = item;
-	};
-
-
+	// 大小注
 	const data8 = ref([
 		{ label: 'Big', value: '8.4398', highlighted: false },
 		{ label: 'Odd', value: '8.4398', highlighted: false },
@@ -322,49 +238,232 @@
 		{ label: 'Even', value: '8.4398', highlighted: false },
 
 	]);
-	const clickedValues8 = ref([]);
-	const handleClick8 = (item, index) => {
+	const clickedValues8st = ref([]);
+	const selectedItems8st = ref([]);
+	const selectedItems8nd = ref([]);
+	const selectedValues3C = ref([]);
+	// 处理点击事件的函数
+	const handleClick3C = (item, selectedItems, gameType) => {
+		if (selectedItems.value.includes(item)) {
+			selectedItems.value = selectedItems.value.filter((selectedItem) => selectedItem !== item);
+		} else {
+			selectedItems.value.push(item);
+		}
+		console.log(selectedValues1D)
+		// 更新 selectedValues2D 的数据
+		updateSelectedValues3C(gameType);
+	};
+	// 创建更新 selectedValues3C 的函数
+	const updateSelectedValues3C = (gameType) => {
+	    // 清空数组，重新添加被选中的元素
+	    const betNums = [];
+	
+	    // 处理1st的数据
+	    for (const item of data8.value) {
+	        if (item.highlighted) {
+	            betNums.push(`${item.label}_1`);
+	        }
+	    }
+	
+	    // 处理2nd的数据
+	    for (const item of data9.value) {
+	        if (item.highlighted) {
+	            betNums.push(`${item.label}_2`);
+	        }
+	    }
+	
+	    const selectedGamePlay = gamePlayList.value.find(
+	        (play) => play.gamePlayName === currentOptionTwo.value
+	    );
+	
+	    const selectedGamePlayCode = selectedGamePlay?.gamePlayCode || '';
+	    const selectedGamePlayId = selectedGamePlay?.gamePlayId || '';
+	    //const winAmount = selectedGamePlay?.winAmount || 0;
+	    //const betAmount = selectedGamePlay?.betAmount || 0; 
+	
+	    selectedValues3C.value = [
+	        {
+	            gamePlayName: currentOption.value,
+	            gamePlayTypeName: currentOptionTwo.value,
+	            gamePlayCode: selectedGamePlayCode,
+	            gamePlayId: selectedGamePlayId,
+	            betNums: betNums,
+	            //winAmount: winAmount,
+	            //betAmount: betAmount,
+	        },
+	    ];
+	    console.log(selectedValues3C.value);
+	};
+
+
+	const handleClick8st = (item, index) => {
 		item.highlighted = !item.highlighted;
-		if (item.highlighted) {
-			clickedValues8.value.push(item);
+
+		handleClick3C(item, selectedItems8st, '1st');
+	};
+	const handleClick8nd = (item, index) => {
+		item.highlighted = !item.highlighted;
+
+		handleClick3C(item, selectedItems8nd, '2nd');
+	};
+
+	// 2d_1位
+	const items1S = ref(Array.from({ length: 31 }, (_, index) => (index + 1).toString().padStart(2, '0')));
+	const items2S = ref(Array.from({ length: 31 }, (_, index) => (index + 1).toString().padStart(2, '0')));
+	const selectedItems1S = ref([]);
+	const selectedItems2S = ref([]);
+
+	// 处理点击事件的函数
+	const handleClick1b = (item, selectedItems, gameType) => {
+		if (selectedItems.value.includes(item)) {
+			selectedItems.value = selectedItems.value.filter((selectedItem) => selectedItem !== item);
 		} else {
-			clickedValues8.value = clickedValues8.value.filter(value => value !== item);
+			selectedItems.value.push(item);
 		}
-		console.log(clickedValues8)
+		// 更新 selectedValues2D 的数据
+		updateSelectedValues1D(gameType);
+
+	};
+	const handleClick1S = (item) => {
+		handleClick1b(item, selectedItems1S, '1st');
 	};
 
-	const data1R = ref([
-		{ id: 1, label: '01', value: '8.4398' },
-		{ id: 2, label: '01', value: '8.4398' },
-		{ id: 3, label: '01', value: '8.4398' },
-		{ id: 4, label: '01', value: '8.4398' },
-		{ id: 5, label: '01', value: '8.4398' },
-		{ id: 6, label: '01', value: '8.4398' },
-		{ id: 7, label: '01', value: '8.4398' },
-		{ id: 8, label: '01', value: '8.4398' },
-		{ id: 9, label: '01', value: '8.4398' },
-		{ id: 10, label: '01', value: '8.4398' },
-	]);
-	const selectedData1R = ref([]);
+	const handleClick2S = (item) => {
+		handleClick1b(item, selectedItems2S, '2nd');
+	};
+	const selectedValues1D = ref([]);
+	// 创建更新 selectedValues1D 的函数
+	const updateSelectedValues1D = (gameType) => {
+	    const betNums = [];
+	
+	    selectedItems1S.value.forEach((item1) => {
+	        betNums.push(`${item1}_1`);
+	    });
+	
+	    selectedItems2S.value.forEach((item2) => {
+	        betNums.push(`${item2}_2`);
+	    });
+	
+	    const selectedGamePlay = gamePlayList.value.find(
+	        (play) => play.gamePlayName === currentOptionTwo.value
+	    );
+	
+	    const selectedGamePlayCode = selectedGamePlay?.gamePlayCode || '';
+	    const selectedGamePlayId = selectedGamePlay?.gamePlayId || '';
+	    //const winAmount = selectedGamePlay?.winAmount || 0; // Set default value if not available
+	    //const betAmount = selectedGamePlay?.betAmount || 0; // Set default value if not available
+	
+	    selectedValues1D.value = [
+	        {
+	            gamePlayName: currentOption.value,
+	            gamePlayTypeName: currentOptionTwo.value,
+	            gamePlayCode: selectedGamePlayCode,
+	            gamePlayId: selectedGamePlayId,
+	            betNums: betNums,
+	            //winAmount: winAmount,
+	            //betAmount: betAmount,
+	        },
+	    ];
+	};
 
-	const handleClick1R = (item) => {
-		// 判断是否已经在数组中
-		const index = selectedData1R.value.findIndex((selectedItem1R) => selectedItem1R.id === item.id);
 
-		// 切换选中状态
-		if (index !== -1) {
-			// 如果数组中已经有该项，则从数组中移除
-			selectedData1R.value.splice(index, 1);
+
+	// ___2d_1位end
+
+	// 2d复试
+	const items1 = ref(Array.from({ length: 31 }, (_, index) => (index + 1).toString().padStart(2, '0')));
+	const items2 = ref(Array.from({ length: 31 }, (_, index) => (index + 1).toString().padStart(2, '0')));
+	const selectedItems1 = ref([]);
+	const selectedItems2 = ref([]);
+	// 处理点击事件的函数
+	const handleClick = (item, selectedItems, gameType) => {
+		if (selectedItems.value.includes(item)) {
+			selectedItems.value = selectedItems.value.filter((selectedItem) => selectedItem !== item);
 		} else {
-			// 如果数组中没有该项，则添加
-			selectedData1R.value.push(item);
+			selectedItems.value.push(item);
 		}
+		// 更新 selectedValues2D 的数据
+		updateSelectedValues2D(gameType);
 
-		console.log('选中的数据:', selectedData1R.value);
 	};
-	const isSelected = (item) => {
-		return selectedData1R.value.some((selectedItem1R) => selectedItem1R.id === item.id);
+	const handleClick1 = (item) => {
+		handleClick(item, selectedItems1, '1st');
 	};
+
+	const handleClick2 = (item) => {
+		handleClick(item, selectedItems2, '2nd');
+	};
+	const selectedValues2D = ref([]);
+	// 定义更新 selectedValues2D 的函数
+	const updateSelectedValues2D = (gameType) => {
+	    const betNums = [];
+	
+	    // 处理 1st 和 2nd 的数据
+	    if (gameType === '1st') {
+	        if (selectedItems1.value.length > 0 && selectedItems2.value.length > 0) {
+	            for (const item2 of selectedItems2.value) {
+	                betNums.push(`${selectedItems1.value[0]}&${item2}`);
+	            }
+	        }
+	    } else if (gameType === '2nd') {
+	        if (selectedItems1.value.length > 0 && selectedItems2.value.length > 0) {
+	            for (const item1 of selectedItems1.value) {
+	                for (const item2 of selectedItems2.value) {
+	                    betNums.push(`${item1}&${item2}`);
+	                }
+	            }
+	        }
+	    }
+	
+	    const selectedGamePlay = gamePlayList.value.find(
+	        (play) => play.gamePlayName === currentOptionTwo.value
+	    );
+	    const selectedGamePlayCode = selectedGamePlay?.gamePlayCode || '';
+	    const selectedGamePlayId = selectedGamePlay?.gamePlayId || '';
+	    selectedValues2D.value = [
+	        {
+	            gamePlayName: currentOption.value,
+	            gamePlayTypeName: currentOptionTwo.value,
+	            gamePlayCode: selectedGamePlayCode,
+	            gamePlayId: selectedGamePlayId,
+	            betNums: betNums,
+				
+	        },
+	    ];
+	};
+
+
+	// ~~~2d复试end
+
+	// 定义一个处理删除事件的方法
+	const delBetList = (val) => {
+		const gamePlayTypeName = val.gamePlayTypeName;
+		if (val.gamePlayName == '2D') {
+			selectedValues2D.value = selectedValues2D.value.filter(
+				(item) => item.gamePlayTypeName !== gamePlayTypeName
+			);
+			selectedItems1.value = [];
+			selectedItems2.value = [];
+			selectedValues1D.value = selectedValues1D.value.filter(
+				(item) => item.gamePlayTypeName !== gamePlayTypeName
+			);
+			selectedItems1S.value = [];
+			selectedItems2S.value = [];
+			selectedValues3C.value = selectedValues3C.value.filter(
+				(item) => item.gamePlayTypeName !== gamePlayTypeName
+			);
+			data8.value.forEach(item => item.highlighted = false);
+			data9.value.forEach(item => item.highlighted = false);
+		}
+	};
+	// 标注数量
+	const current = computed(() => {
+		let num = 0;
+		selectedValues.value.forEach((item) => {
+			num += item.betNums.length;
+		});
+		return num;
+	});
 </script>
 
 <style scoped lang="scss">
@@ -597,117 +696,7 @@
 		line-height: 28rpx;
 	}
 
-	.itembox_10 {
-		.box_10 {
-			margin: 25rpx 25rpx 0 25rpx;
-
-			flex-direction: row;
-			display: flex;
-		}
-
-		.text-wrapper_19 {
-			background-color: rgba(255, 255, 255, 0.720000);
-			border-radius: 8rpx;
-			display: flex;
-			flex-direction: column;
-			padding: 14rpx 40rpx 14rpx 40rpx;
-		}
-
-		.text_25 {
-			overflow-wrap: break-word;
-			color: rgba(51, 51, 51, 1);
-			font-size: 28rpx;
-			font-family: PingFangSC-Semibold;
-			font-weight: 600;
-			text-align: center;
-			white-space: nowrap;
-			line-height: 40rpx;
-		}
-
-		.text-wrapper_20 {
-			background-color: rgba(255, 255, 255, 0.720000);
-			border-radius: 8rpx;
-			margin-left: 16rpx;
-			display: flex;
-			flex-direction: column;
-			padding: 14rpx 40rpx 14rpx 40rpx;
-		}
-
-		.text_26 {
-			overflow-wrap: break-word;
-			color: rgba(51, 51, 51, 1);
-			font-size: 28rpx;
-			font-family: PingFangSC-Semibold;
-			font-weight: 600;
-			text-align: center;
-			white-space: nowrap;
-			line-height: 40rpx;
-		}
-
-		.text-wrapper_21 {
-			background-color: rgba(255, 255, 255, 0.720000);
-			border-radius: 8rpx;
-			margin-left: 16rpx;
-			display: flex;
-			flex-direction: column;
-			padding: 14rpx 40rpx 14rpx 40rpx;
-		}
-
-		.text_27 {
-			overflow-wrap: break-word;
-			color: rgba(51, 51, 51, 1);
-			font-size: 28rpx;
-			font-family: PingFangSC-Semibold;
-			font-weight: 600;
-			text-align: center;
-			white-space: nowrap;
-			line-height: 40rpx;
-		}
-
-		.text-wrapper_22 {
-			background-color: rgba(255, 255, 255, 0.720000);
-			border-radius: 8rpx;
-			margin-left: 16rpx;
-			display: flex;
-			flex-direction: column;
-			padding: 14rpx 40rpx 14rpx 40rpx;
-		}
-
-		.text_28 {
-			overflow-wrap: break-word;
-			color: rgba(51, 51, 51, 1);
-			font-size: 28rpx;
-			font-family: PingFangSC-Semibold;
-			font-weight: 600;
-			text-align: center;
-			white-space: nowrap;
-			line-height: 40rpx;
-		}
-
-		.image-wrapper_1 {
-			background-color: rgba(220, 224, 235, 0.410000);
-			border-radius: 8rpx;
-			// width: 160rpx;
-			// margin-left: 22rpx;
-			flex-direction: row;
-			display: flex;
-			flex: 1;
-			justify-content: center;
-			align-items: center;
-			// padding: 10rpx 32rpx 10rpx 40rpx;
-		}
-
-		.thumbnail_4 {
-			width: 28rpx;
-			height: 28rpx;
-			margin-top: 20rpx;
-		}
-
-		.label_1 {
-			width: 48rpx;
-			height: 48rpx;
-		}
-	}
+	
 
 
 	/* 九键 */
@@ -842,326 +831,7 @@
 		}
 	}
 
-	.oneBox {
-		margin: 0 25rpx;
-		padding-bottom: 25rpx;
-
-		.text-wrapper_21 {
-			// width: 622rpx;
-			margin-top: 32rpx;
-			flex-direction: row;
-			display: flex;
-			justify-content: space-between;
-
-			.active {
-				position: relative;
-				overflow-wrap: break-word;
-				color: rgba(255, 176, 35, 1);
-				font-size: 28rpx;
-				font-family: PingFangSC-Semibold;
-				font-weight: 600;
-				text-align: center;
-				white-space: nowrap;
-				line-height: 28rpx;
-
-				&::after {
-					content: '';
-					display: block;
-					width: 100%;
-					height: 4rpx;
-					background-color: rgba(255, 176, 35, 1.000000);
-					/* 下边框颜色，根据需要调整 */
-					position: absolute;
-					bottom: -10rpx;
-					left: 0;
-				}
-			}
-		}
-
-		.text_25 {
-			overflow-wrap: break-word;
-			color: rgba(255, 176, 35, 1);
-			font-size: 28rpx;
-			font-family: PingFangSC-Semibold;
-			font-weight: 600;
-			text-align: center;
-			white-space: nowrap;
-			line-height: 28rpx;
-		}
-
-		.text_26 {
-			overflow-wrap: break-word;
-			color: rgba(51, 51, 51, 1);
-			font-size: 28rpx;
-			font-family: PingFangSC-Regular;
-			font-weight: normal;
-			text-align: left;
-			white-space: nowrap;
-			line-height: 28rpx;
-		}
-
-		.text_27 {
-			overflow-wrap: break-word;
-			color: rgba(51, 51, 51, 1);
-			font-size: 28rpx;
-			font-family: PingFangSC-Regular;
-			font-weight: normal;
-			text-align: left;
-			white-space: nowrap;
-			line-height: 28rpx;
-		}
-
-		.text_28 {
-			overflow-wrap: break-word;
-			color: rgba(51, 51, 51, 1);
-			font-size: 28rpx;
-			font-family: PingFangSC-Regular;
-			font-weight: normal;
-			text-align: left;
-			white-space: nowrap;
-			line-height: 28rpx;
-		}
-
-		.text_29 {
-			overflow-wrap: break-word;
-			color: rgba(51, 51, 51, 1);
-			font-size: 28rpx;
-			font-family: PingFangSC-Regular;
-			font-weight: normal;
-			text-align: left;
-			white-space: nowrap;
-			line-height: 28rpx;
-		}
-
-		.text_30 {
-			overflow-wrap: break-word;
-			color: rgba(51, 51, 51, 1);
-			font-size: 28rpx;
-			font-family: PingFangSC-Regular;
-			font-weight: normal;
-			text-align: left;
-			white-space: nowrap;
-			line-height: 28rpx;
-		}
-
-		.box_4 {
-			margin-top: 20rpx;
-
-			.box_item {
-				display: flex;
-				flex-wrap: wrap;
-			}
-
-			.highlighted {
-				border-radius: 8rpx;
-				margin: 10rpx;
-				flex: 1;
-				padding: 16rpx 20rpx 16rpx 22rpx;
-				background-color: #FFB023;
-			}
-		}
-
-		.block_2 {
-			background-color: rgba(255, 255, 255, 1.000000);
-			border-radius: 8rpx;
-			display: flex;
-			flex-direction: row;
-			padding: 16rpx 20rpx 16rpx 22rpx;
-		}
-
-		.text-group_11 {
-			display: flex;
-			flex-direction: column;
-		}
-
-		.text_31 {
-			overflow-wrap: break-word;
-			color: rgba(51, 51, 51, 1);
-			font-size: 28rpx;
-			font-family: PingFangSC-Medium;
-			font-weight: 500;
-			text-align: center;
-			white-space: nowrap;
-			line-height: 28rpx;
-			align-self: center;
-		}
-
-		.text_32 {
-			overflow-wrap: break-word;
-			color: rgba(244, 60, 62, 1);
-			font-size: 20rpx;
-			font-family: PingFangSC-Regular;
-			font-weight: normal;
-			text-align: center;
-			white-space: nowrap;
-			line-height: 20rpx;
-			margin-top: 8rpx;
-		}
-
-		.block_3 {
-			background-color: rgba(255, 255, 255, 1.000000);
-			border-radius: 8rpx;
-			margin: 10rpx;
-			flex: 1;
-			padding: 16rpx 20rpx 16rpx 22rpx;
-		}
-
-		.block_2,
-		.block_3 {
-			transition: transform 0.3s ease-out;
-		}
-
-		.highlighted:active,
-		.block_2:active,
-		.block_3:active {
-
-			background-color: #FFB023;
-			animation: text-wrapper_23 0.4s infinite;
-		}
-
-		.text-group_12 {
-			display: flex;
-			flex-direction: column;
-		}
-
-		.text_33 {
-			overflow-wrap: break-word;
-			color: rgba(51, 51, 51, 1);
-			font-size: 28rpx;
-			font-family: PingFangSC-Medium;
-			font-weight: 500;
-			text-align: center;
-			white-space: nowrap;
-			line-height: 28rpx;
-			align-self: center;
-		}
-
-		.text_34 {
-			overflow-wrap: break-word;
-			color: rgba(244, 60, 62, 1);
-			font-size: 20rpx;
-			font-family: PingFangSC-Regular;
-			font-weight: normal;
-			text-align: center;
-			white-space: nowrap;
-			line-height: 20rpx;
-			margin-top: 8rpx;
-		}
-
-		.block_4 {
-			background-color: rgba(255, 255, 255, 1.000000);
-			border-radius: 8rpx;
-			margin-left: 22rpx;
-			display: flex;
-			flex-direction: row;
-			padding: 16rpx 20rpx 16rpx 22rpx;
-		}
-
-		.text-group_13 {
-			display: flex;
-			flex-direction: column;
-		}
-
-		.text_35 {
-			overflow-wrap: break-word;
-			color: rgba(51, 51, 51, 1);
-			font-size: 28rpx;
-			font-family: PingFangSC-Medium;
-			font-weight: 500;
-			text-align: center;
-			white-space: nowrap;
-			line-height: 28rpx;
-			align-self: center;
-		}
-
-		.text_36 {
-			overflow-wrap: break-word;
-			color: rgba(244, 60, 62, 1);
-			font-size: 20rpx;
-			font-family: PingFangSC-Regular;
-			font-weight: normal;
-			text-align: center;
-			white-space: nowrap;
-			line-height: 20rpx;
-			margin-top: 8rpx;
-		}
-
-		.block_5 {
-			background-color: rgba(255, 255, 255, 1.000000);
-			border-radius: 8rpx;
-			margin-left: 20rpx;
-			display: flex;
-			flex-direction: row;
-			padding: 16rpx 20rpx 16rpx 22rpx;
-		}
-
-		.text-group_14 {
-			display: flex;
-			flex-direction: column;
-		}
-
-		.text_37 {
-			overflow-wrap: break-word;
-			color: rgba(51, 51, 51, 1);
-			font-size: 28rpx;
-			font-family: PingFangSC-Medium;
-			font-weight: 500;
-			text-align: center;
-			white-space: nowrap;
-			line-height: 28rpx;
-			align-self: center;
-		}
-
-		.text_38 {
-			overflow-wrap: break-word;
-			color: rgba(244, 60, 62, 1);
-			font-size: 20rpx;
-			font-family: PingFangSC-Regular;
-			font-weight: normal;
-			text-align: center;
-			white-space: nowrap;
-			line-height: 20rpx;
-			margin-top: 8rpx;
-		}
-
-		.block_6 {
-			background-color: rgba(255, 255, 255, 1.000000);
-			border-radius: 8rpx;
-			margin-left: 20rpx;
-			display: flex;
-			flex-direction: row;
-			padding: 16rpx 20rpx 16rpx 22rpx;
-		}
-
-		.text-group_15 {
-			display: flex;
-			flex-direction: column;
-		}
-
-		.text_39 {
-			overflow-wrap: break-word;
-			color: rgba(51, 51, 51, 1);
-			font-size: 28rpx;
-			font-family: PingFangSC-Medium;
-			font-weight: 500;
-			text-align: center;
-			white-space: nowrap;
-			line-height: 28rpx;
-			align-self: center;
-		}
-
-		.text_40 {
-			overflow-wrap: break-word;
-			color: rgba(244, 60, 62, 1);
-			font-size: 20rpx;
-			font-family: PingFangSC-Regular;
-			font-weight: normal;
-			text-align: center;
-			white-space: nowrap;
-			line-height: 20rpx;
-			margin-top: 8rpx;
-		}
-	}
+	
 
 	.Keyboard8 {
 		.group_14 {
@@ -1174,7 +844,6 @@
 			.box_10 {
 				background-color: rgba(255, 176, 35, 0.300000);
 				width: 2rpx;
-				height: 586rpx;
 				margin-right: 15rpx;
 				display: flex;
 				flex-direction: column;

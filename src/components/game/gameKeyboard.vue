@@ -61,7 +61,6 @@
 			.box_9 {
 				background-color: rgba(255, 176, 35, 0.300000);
 				width: 2rpx;
-				height: 506rpx;
 				display: flex;
 				flex-direction: column;
 
@@ -74,7 +73,9 @@
 		}
 
 		.text-wrapper_22 {
-			width: 25rpx;
+			width: 100rpx;
+			line-height: 100rpx;
+			height: 100rpx;
 			text-align: center;
 			background-color: rgba(255, 255, 255, 1.000000);
 			border-radius: 8rpx;
@@ -100,7 +101,9 @@
 
 			.highlighted {
 				background-color: #FFB023;
-				width: 25rpx;
+				width: 100rpx;
+				height: 100rpx;
+				line-height: 100rpx;
 				text-align: center;
 				border-radius: 8rpx;
 				margin-top: 8rpx;
