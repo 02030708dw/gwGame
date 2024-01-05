@@ -1,5 +1,5 @@
 <template>
-  <view class="gameAnimation-container">
+  <view v-show="false" class="gameAnimation-container">
     <view class="countdown">
       <view class="next">{{ ac.lastAwardPeriod }}</view>
       <view class="time">
