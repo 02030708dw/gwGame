@@ -23,16 +23,14 @@ const cutGameType = (item: any) => {
 <style scoped lang="scss">
 .game-type {
   margin-top: 32rpx;
-  width: 686rpx;
   height: 62rpx;
   display: flex;
   box-sizing: border-box;
-  padding:0 20rpx;
   justify-content: space-between;
   .type-item {
     transition: all 0.3s linear;
     background-color: #ffe2b4;
-    width: 158rpx;
+    width: 31%;
     height: 62rpx;
     text-align: center;
     font-size: 36rpx;
