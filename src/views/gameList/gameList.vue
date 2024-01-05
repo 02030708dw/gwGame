@@ -25,7 +25,7 @@
         v-for="g in gameList[uTabsIndex].games"
         :title="g.name"
         :path="g.code"
-        :img="g.imageUrl"
+        :img="filterImg(uTabsIndex)"
         :key="g.gameId"
         @onSelect="onGameSelect(g,gameList[uTabsIndex].countryName)"
       />
@@ -34,9 +34,11 @@
 </template>
 <script setup lang="ts">
 import th from '@/static/images/th.png';
+import ph from '@/static/images/ph.png';
+import vnd from '@/static/images/vnd.png';
 import TabNav from "@/components/tabnav/index.vue";
 import GameHeader from "@/components/game/gameHeader.vue";
-import {nextTick, onBeforeMount, onMounted, ref} from "vue";
+import {onBeforeMount,ref} from "vue";
 import {get, post, UrlType} from "@/api";
 import {disposeUrl} from "@/utils/tools";
 import {setStorage} from "@/utils/storage";
@@ -80,6 +82,7 @@ onBeforeMount(async () => {
     console.log(e)
   }
 });
+const filterImg = (n:number) => !n?vnd:n===1?th:ph
 </script>
 <style lang="less" scoped>
 </style>
