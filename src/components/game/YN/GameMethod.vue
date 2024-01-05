@@ -40,7 +40,6 @@
   <style scoped lang="scss">
   .FredHilloneD1 {
     width: 686rpx;
-    height: 286rpx;
     box-sizing: border-box;
     background-size: 100% 100%;
     padding: 114rpx 32rpx 32rpx 28rpx;
@@ -70,6 +69,7 @@
       box-shadow: inset 0rpx -4rpx 0rpx 0rpx rgba(75, 75, 75, 0.5);
       text-align: center;
       line-height: 62rpx;
+      margin-bottom: 16rpx;
     }
     .active-item {
       background: #ffb023;

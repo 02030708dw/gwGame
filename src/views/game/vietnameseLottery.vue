@@ -33,12 +33,27 @@
 			v-show="activePLmethod == 'PL2'&&playingMethod=='PL2/PL3'" :numList="keyNumPL2data" :unlock="true"
 			:astrict="2" />
 
+<<<<<<< HEAD
 		<KeyNum :background-image="urls1" @changeNum="(val)=>activePL3num=val" v-show="activePLmethod == 'PL3'"
 			:numList="keyNumPL3data" :unlock="true" :astrict="3" />
 		<template #bot>
 			<Footer @click-handle="show = true" :num="current" />
 		</template>
 	</Layout>
+=======
+    <KeyNum
+      :background-image="urls1"
+      @changeNum="(val)=>activePL3num=val"
+      v-show="activePLmethod == 'PL3'&&playingMethod=='PL2/PL3'"
+      :numList="keyNumPL3data"
+      :unlock="true"
+      :astrict="3"
+    />
+    <template #bot>
+      <Footer @click-handle="show = true" :num="current" />
+    </template>
+  </Layout>
+>>>>>>> ec01cc8a86d803365f7733428af753257d817695
 
 	<BetListPop :show="show" @close="show = false" :list="betlist" @del="delBetList" @bet="bet" />
 </template>
@@ -109,6 +124,7 @@
 		// res = res.resultSet[0].games.filter((item: any) => item.vndArea);
 		// console.log(res)
 
+<<<<<<< HEAD
 		// 获取倒计时
 		const getAwardNum = await post({
 			url: "/getAwardNum",
@@ -155,6 +171,54 @@
 	//   const changeCitySelection = (val: any) => {
 	//     console.log(val);
 	//   };
+=======
+  // 获取倒计时
+  const getAwardNum = await post({
+    url: "/getAwardNum",
+    data: { gameCode: data.code },
+  });
+  betMainReq.value = getAwardNum.resultSet.awardNum;
+  console.log(betMainReq.value);
+});
+const show = ref(false); //弹出层的显示隐藏
+const betMainReq = ref(); //中奖信息
+const typeTab = reactive([
+  { label: "动画", id: 1 },
+  { label: "直播", id: 2 },
+  { label: "视频", id: 3 },
+  { label: "新闻", id: 4 },
+]);
+let urls1 = ref("../../static/images/fredHill1.png");
+let urls2 = ref("../../static/images/fredHill2.png");
+let urls3 = ref("../../static/images/fredHill3M.png");
+const typeList:any = ref([]); //不同类型的数据
+const playingMethod = ref("2D"); //用来展示不同玩法&&初始展示2D
+const current = computed(() => {
+  // 计算出有多少注
+  let num = 0;
+  betlist.value.forEach((item) => {
+    num += item.betNums.length * item.sum;
+  });
+  return num;
+});
+const betlist = computed(() => {
+  // 计算出当前选中的所有号码
+  let arr = [
+    ...active2D.value,
+    ...active3D.value,
+    activePL2.value,
+    activePL3.value,
+  ].filter((item: any) => {
+    return item?.betNums?.length;
+  });
+  console.log(arr);
+  return arr;
+});
+// 地区选中------------------------------
+//   const changeCitySelection = (val: any) => {
+//     console.log(val);
+//   };
+>>>>>>> ec01cc8a86d803365f7733428af753257d817695
 
 	// 2D--------------------------------------------
 	const method2DList = ref([]); //头,尾组选的数据

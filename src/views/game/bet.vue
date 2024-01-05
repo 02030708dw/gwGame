@@ -18,7 +18,13 @@
     <SearchDatePicker @selectedDates="onSelectedDates" />
 
     <!-- 投注列表 -->
-    <view class="record-box" v-if="pageTabs && pageTabs.length > 0">
+
+    <van-list
+        v-model:loading="loading"
+        :finished="finished"
+        finished-text="没有更多了"
+        @load="onLoad"
+    >
       <view class="record-item" v-for="item in pageTabs" :key="item.orderNo">
         <view class="left">
           <text class="name">{{ item.gameName }}</text>
@@ -27,24 +33,23 @@
 
         <view class="right">
           <text
-            v-for="status in statusList"
-            :key="status.code"
-            :style="{ color: status.color }"
+              v-for="status in statusList"
+              :key="status.code"
+              :style="{ color: status.color }"
           >
             <test v-if="item.status === status.code">{{ status.text }}</test>
           </text>
         </view>
         <text class="detail" @click="redirect(item)">详情</text>
       </view>
-    </view>
-
-    <view class="tips" v-else>无投注记录</view>
+    </van-list>
+<!--    <view class="tips" v-else>无投注记录</view>-->
   </view>
 </template>
 <script setup lang="ts">
 import gameHeader from "@/components/game/gameHeader.vue";
 import SearchDatePicker from "@/components/SearchDatePicker.vue";
-import { ref, onBeforeMount, computed } from "vue";
+import {ref, onBeforeMount, computed, reactive, onMounted, toRaw, nextTick} from "vue";
 import { get } from "@/api";
 
 //彩种分类
@@ -59,12 +64,24 @@ const categories = ref<Category[]>([
   { country: "ph", name: "菲律宾" },
 ]);
 const activeTab = ref(0); //当前选中的彩种
-
+const pageModel=reactive({
+  total:0,
+  pageSize:10,
+  pageNo:1
+})
 //彩种分类点击事件
 const selectCategory = (category: Category, index: number) => {
   activeTab.value = index; // 更新选中的分类索引
   activeRegion.value = category.country; // 更新当前选中的地区
-  fetchData(); // 重新获取数据
+  Object.assign(pageModel,{
+    total:0,
+    pageSize:10,
+    pageNo:1
+  })
+  nextTick(()=>{
+    pageTabs.value=[]
+    onLoad()
+  })
 };
 
 //开奖状态
@@ -99,25 +116,34 @@ const redirect = ({ orderId }: any) => {
     url: `betDetails?orderId=${orderId}`,
   });
 };
-const pageTabs = ref([]);
-
+const pageTabs = ref<{
+  orderNo:string,
+  status:number,
+  gameName:string,
+  createdAt:string
+}[]>([]);
 const activeRegion = ref(""); // 默认选中的地区代码
 // 调用接口获取数据
-const fetchData = async () => {
-  try {
-    const data = await get({
-      url: "/gameRecords/order/search",
-      data: { country: activeRegion.value },
-    });
-    pageTabs.value = data.resultSet.data;
-  } catch (error) {
-    console.error("Error fetching data:", error);
-  }
+const list=ref([])
+const loading = ref(false);
+const finished = ref(false);
+const error=ref(false)
+const onLoad = () => {
+  get({
+    url: "/gameRecords/order/search",
+    data: { country: activeRegion.value,pageNo:pageModel.pageNo},
+  }).then(v => {
+    loading.value=false
+    pageModel.total=v.resultSet.total
+    pageTabs.value.push(...v.resultSet.data)
+    if (pageTabs.value.length>=pageModel.total){
+      finished.value=true
+    }
+    pageModel.pageNo+=1
+  }).catch(r=>{
+    console.log(r)
+  })
 };
-
-onBeforeMount(() => {
-  fetchData();
-});
 </script>
 <style scoped lang="scss">
 body {
@@ -126,7 +152,8 @@ body {
 .bet {
   background-color: #f9f9f9;
   box-sizing: border-box;
-
+  height: 100vh;
+  width: 100%;
   .tabs {
     width: 750rpx;
     height: 100rpx;
@@ -151,7 +178,8 @@ body {
       transition: all 0.2s linear;
     }
   }
-  .record-box {
+  .van-list {
+    height: 100%;
     padding: 20rpx 32rpx;
     box-sizing: border-box;
     .record-item {

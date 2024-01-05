@@ -8,23 +8,24 @@
 		<GameTime />
 		<view class="block_7">
 			<view class="box_19">
-			    <view v-for="(gamePlayType, index) in gamePlayAndTypeListRespList" :key="index">
-			      <view class="text-wrapper_16" :class="{ 'highlight': currentOption === gamePlayType.gamePlayTypeName }"
-			        @click="changeOption(gamePlayType.gamePlayTypeName)">
-			        <text lines="1" decode="true" class="text_21">{{ gamePlayType.gamePlayTypeName }}</text>
-			      </view>
-			    </view>
-			  </view>
-			
+				<view v-for="(gamePlayType, index) in gamePlayAndTypeListRespList" :key="index">
+					<view class="text-wrapper_16"
+						:class="{ 'highlight': currentOption === gamePlayType.gamePlayTypeName }"
+						@click="changeOption(gamePlayType.gamePlayTypeName)">
+						<text lines="1" decode="true" class="text_21">{{ gamePlayType.gamePlayTypeName }}</text>
+					</view>
+				</view>
+			</view>
+
 			<view class="box_20">
-			    <view v-for="(gamePlay, index) in gamePlayList" :key="index" class="group_1"
-			      :class="{ 'highlighted': currentOptionTwo === gamePlay.gamePlayName }"
-			      @click="changeOptionTwo(gamePlay.gamePlayName)">
-			      <view class="image-text_3">
-			        <text lines="1" class="text-group_2">{{ gamePlay.gamePlayName }}</text>
-			      </view>
-			    </view>
-			  </view>
+				<view v-for="(gamePlay, index) in gamePlayList" :key="index" class="group_1"
+					:class="{ 'highlighted': currentOptionTwo === gamePlay.gamePlayName }"
+					@click="changeOptionTwo(gamePlay.gamePlayName)">
+					<view class="image-text_3">
+						<text lines="1" class="text-group_2">{{ gamePlay.gamePlayName }}</text>
+					</view>
+				</view>
+			</view>
 
 
 
@@ -41,14 +42,14 @@
 			<!-- mini键盘 -->
 			<!-- 2d复试 -->
 			<GameKeyboard v-show="currentOptionTwo === '2d_复式'" :items1="items1" :selectedItems1="selectedItems1"
-			  :handleClick1="handleClick1" :items2="items2" :selectedItems2="selectedItems2"
-			  :handleClick2="handleClick2" />
+				:handleClick1="handleClick1" :items2="items2" :selectedItems2="selectedItems2"
+				:handleClick2="handleClick2" />
 			<!-- 1S -->
 
 			<!-- 2d 1位 -->
 			<GameKeyboard v-show="currentOptionTwo === '2d_1位'" :items1="items1S" :selectedItems1="selectedItems1S"
-			  :handleClick1="handleClick1S" :items2="items2S" :selectedItems2="selectedItems2S"
-			  :handleClick2="handleClick2S" />
+				:handleClick1="handleClick1S" :items2="items2S" :selectedItems2="selectedItems2S"
+				:handleClick2="handleClick2S" />
 			<!-- mini键盘 -->
 
 			<!-- 九宫格键盘 -->
@@ -93,7 +94,7 @@
 		</template>
 	</Layout>
 	<!-- <popup /> -->
-	<BetListPopPL :show="show" @close="show = false" :list="selectedValues" @del="delBetList" @bet="bet"/>
+	<BetListPopPL :show="show" @close="show = false" :list="selectedValues" @del="delBetList" @bet="bet" />
 </template>
 
 <script setup lang="ts">
@@ -126,7 +127,7 @@
 		titleData.value = res.resultSet.gameName
 		gamePlayAndTypeListRespList.value = res.resultSet.gamePlayAndTypeListRespList;
 		gamePlayList.value = gamePlayAndTypeListRespList.value[0]?.gamePlayList || [];
-		
+
 		const getAwardNum = await post({
 			url: "/getAwardNum",
 			data: { gameCode: data.code },
@@ -145,40 +146,52 @@
 		}
 	})
 	const bet = () => {
-		console.log(selectedValues.value,'value')
-	    if (selectedValues.value.length) {
-	        post(
-	            {
-	                url: "/bet",
-	                data: {
-	                    //awardPeriod: betMainReq.value.lastAwardPeriod, //奖期
-	                    gameCode: Router.value.code,
-	                    betInfos: selectedValues.value.map((item) => {
-	                        return {
-	                            betNums: [].concat(...item.betNums),
-	                            gamePlayCode: item.gamePlayCode,
-	                            gamePlayTypeCode: item.gamePlayTypeCode,
-	                            //oneBetAmount: item.betAmount,   //开奖信息
-	                            sumAmount: item.betNums.length,
-	                        };
-	                    }),
-	                },
-	            },
-	            UrlType.bet
-	        )
-	            .then((res) => {
-	                uni.showToast({ icon: 'success', title: res.resDesc });
-	                selectedValues.value.forEach((item) => {
-	                    delBetList(item);
-	                });
-	            })
-	            .catch((res) => {
-	                uni.showToast({ icon: 'error', title: '投注失败' });
-	            });
-	    } else {
-	        uni.showToast({ icon: 'error', title: '无选号' });
-	    }
+		console.log(selectedValues.value, 'value');
+		if (selectedValues.value.length) {
+			post({
+				url: "/bet",
+				data: {
+					//awardPeriod: betMainReq.value.lastAwardPeriod, //奖期
+					gameCode: Router.value.code,
+					betInfos: selectedValues.value.map((item) => {
+						const selectedGamePlay = gamePlayAndTypeListRespList.value.find(
+							(play) => play.gamePlayTypeName === item.gamePlayName
+						);
+						return {
+							betNums: [].concat(...item.betNums),
+							gamePlayCode: item.gamePlayCode,
+							gamePlayTypeCode: selectedGamePlay ? selectedGamePlay.gamePlayTypeCode : '',
+							//oneBetAmount:item.betAmount,
+							sumAmount: item.betNums.length,
+						};
+					}),
+				},
+			},
+				UrlType.bet
+			)
+				.then((res) => {
+					uni.showToast({
+						icon: 'success',
+						title: res.resDesc
+					});
+					selectedValues.value.forEach((item) => {
+						delBetList(item);
+					});
+				})
+				.catch((res) => {
+					uni.showToast({
+						icon: 'error',
+						title: '投注失败'
+					});
+				});
+		} else {
+			uni.showToast({
+				icon: 'error',
+				title: '无选号'
+			});
+		}
 	};
+
 
 	/**
 	 *
@@ -211,17 +224,17 @@
 		];
 	};
 
-	 // 2d头层类型
-	  const currentOption = ref('2D');
-	  const changeOption = (gamePlayName) => {
-	    currentOption.value = gamePlayName;
-	  };
+	// 2d头层类型
+	const currentOption = ref('2D');
+	const changeOption = (gamePlayName) => {
+		currentOption.value = gamePlayName;
+	};
 
 	// 2D玩法
 	const currentOptionTwo = ref('2d_复式');
-	  const changeOptionTwo = (gamePlayName) => {
-	    currentOptionTwo.value = gamePlayName;
-	  };
+	const changeOptionTwo = (gamePlayName) => {
+		currentOptionTwo.value = gamePlayName;
+	};
 
 	// 大小注
 	const data8 = ref([
@@ -255,44 +268,44 @@
 	};
 	// 创建更新 selectedValues3C 的函数
 	const updateSelectedValues3C = (gameType) => {
-	    // 清空数组，重新添加被选中的元素
-	    const betNums = [];
-	
-	    // 处理1st的数据
-	    for (const item of data8.value) {
-	        if (item.highlighted) {
-	            betNums.push(`${item.label}_1`);
-	        }
-	    }
-	
-	    // 处理2nd的数据
-	    for (const item of data9.value) {
-	        if (item.highlighted) {
-	            betNums.push(`${item.label}_2`);
-	        }
-	    }
-	
-	    const selectedGamePlay = gamePlayList.value.find(
-	        (play) => play.gamePlayName === currentOptionTwo.value
-	    );
-	
-	    const selectedGamePlayCode = selectedGamePlay?.gamePlayCode || '';
-	    const selectedGamePlayId = selectedGamePlay?.gamePlayId || '';
-	    //const winAmount = selectedGamePlay?.winAmount || 0;
-	    //const betAmount = selectedGamePlay?.betAmount || 0; 
-	
-	    selectedValues3C.value = [
-	        {
-	            gamePlayName: currentOption.value,
-	            gamePlayTypeName: currentOptionTwo.value,
-	            gamePlayCode: selectedGamePlayCode,
-	            gamePlayId: selectedGamePlayId,
-	            betNums: betNums,
-	            //winAmount: winAmount,
-	            //betAmount: betAmount,
-	        },
-	    ];
-	    console.log(selectedValues3C.value);
+		// 清空数组，重新添加被选中的元素
+		const betNums = [];
+
+		// 处理1st的数据
+		for (const item of data8.value) {
+			if (item.highlighted) {
+				betNums.push(`${item.label}_1`);
+			}
+		}
+
+		// 处理2nd的数据
+		for (const item of data9.value) {
+			if (item.highlighted) {
+				betNums.push(`${item.label}_2`);
+			}
+		}
+
+		const selectedGamePlay = gamePlayList.value.find(
+			(play) => play.gamePlayName === currentOptionTwo.value
+		);
+
+		const selectedGamePlayCode = selectedGamePlay?.gamePlayCode || '';
+		const selectedGamePlayId = selectedGamePlay?.gamePlayId || '';
+		//const winAmount = selectedGamePlay?.winAmount || 0;
+		//const betAmount = selectedGamePlay?.betAmount || 0; 
+
+		selectedValues3C.value = [
+			{
+				gamePlayName: currentOption.value,
+				gamePlayTypeName: currentOptionTwo.value,
+				gamePlayCode: selectedGamePlayCode,
+				gamePlayId: selectedGamePlayId,
+				betNums: betNums,
+				//winAmount: winAmount,
+				//betAmount: betAmount,
+			},
+		];
+		console.log(selectedValues3C.value);
 	};
 
 
@@ -334,39 +347,37 @@
 	const selectedValues1D = ref([]);
 	// 创建更新 selectedValues1D 的函数
 	const updateSelectedValues1D = (gameType) => {
-	    const betNums = [];
-	
-	    selectedItems1S.value.forEach((item1) => {
-	        betNums.push(`${item1}_1`);
-	    });
-	
-	    selectedItems2S.value.forEach((item2) => {
-	        betNums.push(`${item2}_2`);
-	    });
-	
-	    const selectedGamePlay = gamePlayList.value.find(
-	        (play) => play.gamePlayName === currentOptionTwo.value
-	    );
-	
-	    const selectedGamePlayCode = selectedGamePlay?.gamePlayCode || '';
-	    const selectedGamePlayId = selectedGamePlay?.gamePlayId || '';
-	    //const winAmount = selectedGamePlay?.winAmount || 0; // Set default value if not available
-	    //const betAmount = selectedGamePlay?.betAmount || 0; // Set default value if not available
-	
-	    selectedValues1D.value = [
-	        {
-	            gamePlayName: currentOption.value,
-	            gamePlayTypeName: currentOptionTwo.value,
-	            gamePlayCode: selectedGamePlayCode,
-	            gamePlayId: selectedGamePlayId,
-	            betNums: betNums,
-	            //winAmount: winAmount,
-	            //betAmount: betAmount,
-	        },
-	    ];
+		const betNums = [];
+
+		selectedItems1S.value.forEach((item1) => {
+			betNums.push(`${item1}_1`);
+		});
+
+		selectedItems2S.value.forEach((item2) => {
+			betNums.push(`${item2}_2`);
+		});
+
+		const selectedGamePlay = gamePlayList.value.find(
+			(play) => play.gamePlayName === currentOptionTwo.value
+		);
+
+		const selectedGamePlayCode = selectedGamePlay?.gamePlayCode || '';
+		const selectedGamePlayId = selectedGamePlay?.gamePlayId || '';
+		//const winAmount = selectedGamePlay?.winAmount
+		//const betAmount = selectedGamePlay?.betAmount
+
+		selectedValues1D.value = [
+			{
+				gamePlayName: currentOption.value,
+				gamePlayTypeName: currentOptionTwo.value,
+				gamePlayCode: selectedGamePlayCode,
+				gamePlayId: selectedGamePlayId,
+				betNums: betNums,
+				//winAmount: winAmount,
+				//betAmount: betAmount,
+			},
+		];
 	};
-
-
 
 	// ___2d_1位end
 
@@ -396,40 +407,40 @@
 	const selectedValues2D = ref([]);
 	// 定义更新 selectedValues2D 的函数
 	const updateSelectedValues2D = (gameType) => {
-	    const betNums = [];
-	
-	    // 处理 1st 和 2nd 的数据
-	    if (gameType === '1st') {
-	        if (selectedItems1.value.length > 0 && selectedItems2.value.length > 0) {
-	            for (const item2 of selectedItems2.value) {
-	                betNums.push(`${selectedItems1.value[0]}&${item2}`);
-	            }
-	        }
-	    } else if (gameType === '2nd') {
-	        if (selectedItems1.value.length > 0 && selectedItems2.value.length > 0) {
-	            for (const item1 of selectedItems1.value) {
-	                for (const item2 of selectedItems2.value) {
-	                    betNums.push(`${item1}&${item2}`);
-	                }
-	            }
-	        }
-	    }
-	
-	    const selectedGamePlay = gamePlayList.value.find(
-	        (play) => play.gamePlayName === currentOptionTwo.value
-	    );
-	    const selectedGamePlayCode = selectedGamePlay?.gamePlayCode || '';
-	    const selectedGamePlayId = selectedGamePlay?.gamePlayId || '';
-	    selectedValues2D.value = [
-	        {
-	            gamePlayName: currentOption.value,
-	            gamePlayTypeName: currentOptionTwo.value,
-	            gamePlayCode: selectedGamePlayCode,
-	            gamePlayId: selectedGamePlayId,
-	            betNums: betNums,
-				
-	        },
-	    ];
+		const betNums = [];
+
+		// 处理 1st 和 2nd 的数据
+		if (gameType === '1st') {
+			if (selectedItems1.value.length > 0 && selectedItems2.value.length > 0) {
+				for (const item2 of selectedItems2.value) {
+					betNums.push(`${selectedItems1.value[0]}&${item2}`);
+				}
+			}
+		} else if (gameType === '2nd') {
+			if (selectedItems1.value.length > 0 && selectedItems2.value.length > 0) {
+				for (const item1 of selectedItems1.value) {
+					for (const item2 of selectedItems2.value) {
+						betNums.push(`${item1}&${item2}`);
+					}
+				}
+			}
+		}
+
+		const selectedGamePlay = gamePlayList.value.find(
+			(play) => play.gamePlayName === currentOptionTwo.value
+		);
+		const selectedGamePlayCode = selectedGamePlay?.gamePlayCode || '';
+		const selectedGamePlayId = selectedGamePlay?.gamePlayId || '';
+		selectedValues2D.value = [
+			{
+				gamePlayName: currentOption.value,
+				gamePlayTypeName: currentOptionTwo.value,
+				gamePlayCode: selectedGamePlayCode,
+				gamePlayId: selectedGamePlayId,
+				betNums: betNums,
+
+			},
+		];
 	};
 
 
@@ -696,7 +707,7 @@
 		line-height: 28rpx;
 	}
 
-	
+
 
 
 	/* 九键 */
@@ -831,7 +842,7 @@
 		}
 	}
 
-	
+
 
 	.Keyboard8 {
 		.group_14 {
