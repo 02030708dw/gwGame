@@ -8,7 +8,7 @@
       <view class="m1">
         {{ ac.head + '|' + ac.firstThree.split(',').join(' ') + '|' + ac.afterThree.split(',').join(' ') + '|' + ac.end }}
       </view>
-      <view class="m2">{{ ac.period }}</view>
+      <view class="m2">{{ ac.awardPeriod }}</view>
     </view>
     <div class="imgArr">
 <!--      <span>{{t}}</span>-->

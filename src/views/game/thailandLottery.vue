@@ -122,7 +122,7 @@ const gameAwardConfig = ref<AwardNum>({
   gameCode: "",
   head: "",
   lastAwardPeriod: "",
-  period: ""
+  awardPeriod: ""
 })
 const lockStatus=ref<boolean>(false)
 const lotteryHistory = reactive(new Map([

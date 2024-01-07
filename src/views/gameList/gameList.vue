@@ -67,19 +67,16 @@ const router = (url: string, data: any) => {
 };
 onBeforeMount(async () => {
   try {
-    let r = await get(
-      {
-        url: "/api/login/thirdparty/1-qwe",
-        data: {
-          op: "test",
-          token: "test",
-        },
-      },
-      UrlType.info,
-    );
-    setStorage("token", r.resultSet.accessToken);
-    await getList();
-    await getBalance();
+    let r=await get({
+      url:'/api/login/thirdparty/1-qwe',
+      data:{
+        "op": "test",
+        "token": "test"
+      }
+    },UrlType.info,true)
+    setStorage('token',r.resultSet.accessToken)
+    await getList()
+    await getBalance()
   } catch (e) {
     console.log(e);
   }
