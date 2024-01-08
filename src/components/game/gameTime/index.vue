@@ -23,7 +23,7 @@
 import del from '@/static/images/gameTime/del.png'
 import cal from '@/static/images/gameTime/cal.png'
 import his from '@/static/images/gameTime/his.png'
-import {computed, onMounted, onUnmounted, ref, toRef, watchEffect} from "vue";
+import {computed, onMounted, onUnmounted, ref, toRef, watch, watchEffect} from "vue";
 const props = defineProps<{
   ac: AwardNum,
   lockBoardTime:string,
@@ -31,19 +31,20 @@ const props = defineProps<{
 }>();
 const emits=defineEmits<{
   (e:'update:lock',d:boolean):void
+  (e:'openAward'):void
 }>()
 const imgArr=[
   {url:del,type:'del'},
   {url:cal,type:'cal'},
   {url:his,type:'his'},
 ]
-// const timer = ref<number>(360)
+const timer = ref<number>(360)
 const lockTimer = ref<number>(360)
-// let timerId: null | number = null
+let timerId: null | number = null
 let timerId2: null | number = null
 onMounted(() => {
   timerId2 = setInterval(() => {
-    // timer.value -= 1
+    timer.value -= 1
     lockTimer.value -= 1
   }, 1000)
 })
@@ -105,15 +106,16 @@ const lt = computed(() => {
   return time;
 })
 onUnmounted(() => {
-  // clearInterval(timerId!)
+  clearInterval(timerId!)
   clearInterval(timerId2!)
 })
 watchEffect(() => {
-  // let countdown = toRef(props.ac, 'countdown')
+  let countdown = toRef(props.ac, 'countdown')
   let lockdown = toRef(props,'lockBoardTime')
-  // timer.value = Number(countdown.value)
+  timer.value = Number(countdown.value)
   lockTimer.value=Number(lockdown.value)
 })
+watch(()=>lockTimer.value,n=> !n&&emits('openAward'))
 const btnGroup = (i:string) => {
   console.log(i)
 }

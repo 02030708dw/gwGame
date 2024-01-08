@@ -9,7 +9,8 @@
       </template>
       <gameHeaderTab :typeTab="typeTab" :ac="gameAwardConfig"/>
       <gameContent/>
-      <gameTime :ac="gameAwardConfig" :lock-board-time="gameConfig.sealingTime" v-model:lock="lockStatus"/>
+      <gameTime :ac="gameAwardConfig" @open-award="openAward"
+                :lock-board-time="gameConfig.sealingTime" v-model:lock="lockStatus"/>
       <!--      {{playTypeData}}-->
       <game-board-type
           :board-data="playTypeData as boardType[]"
@@ -82,7 +83,7 @@
 
 <script setup lang="ts">
 //#region
-import {computed, reactive, Ref, ref, toRaw} from "vue";
+import {computed, nextTick, onUnmounted, reactive, Ref, ref, toRaw, watch} from "vue";
 import gameHeader from "@/components/game/gameHeader";
 import gameContent from "@/components/game/gameContent";
 import gameTime from "@/components/game/gameTime/index.vue";
@@ -96,7 +97,7 @@ import use_thailand3d from "@/views/game/composition/thailand/use_thailand3d";
 import GameBoardType from "@/components/game/gameBoardType";
 import {onLoad} from "@dcloudio/uni-app";
 import gameTrolley from '@/components/game/gameTrolley/index.vue'
-import {post, UrlType} from "@/api";
+import {post, post2, UrlType} from "@/api";
 import use_thailandPlayType from "@/views/game/composition/thailand/use_thailandPlayType";
 import {useGame} from "@/plugins/pinia/Game.pinia";
 import GameBoard3D from "@/components/game/gameBoard3D";
@@ -104,6 +105,7 @@ import GameBoardPlay from "@/components/game/gameBoardPlay";
 import useGameNavigate from "@/hooks/useGameNavigate";
 import gameListStore from "@/plugins/pinia/gameList";
 import {storeToRefs} from "pinia";
+import useFetch from "@/hooks/useFetch";
 //#endregion
 interface boardType {
   label: string;
@@ -122,7 +124,7 @@ const gameAwardConfig = ref<AwardNum>({
   gameCode: "",
   head: "",
   lastAwardPeriod: "",
-  awardPeriod: ""
+  awardPeriod: "",
 })
 const lockStatus=ref<boolean>(false)
 const lotteryHistory = reactive(new Map([
@@ -304,20 +306,24 @@ const clearBet = () => {
   activeData3D.value = []
   storeGame.isBetting=false
 }
-const getAwardData = async () => {
-  const r = await post({
+const getAwardData =  () => {
+/*  const r = await post2({
     url: '/getAwardNum',
     data: {
       gameCode: routes.value.code
     }
+  })*/
+  getGameAward({
+    gameCode: routes.value.code
+  },v=>{
+    gameAwardConfig.value = v.resultSet.awardNum
+    if (!gameConfig.value.gameId.length) getKeyBoard()
+  }).then((v:any)=>{
+    gameAwardConfig.value = v.resultSet.awardNum
+    getKeyBoard()
   })
-  // console.log(r)
-  gameAwardConfig.value = r.resultSet.awardNum
 }
-//#endregion
-onLoad(async (options) => {
-  routes.value = options as Routes
-  getAwardData()
+async function getKeyBoard() {
   const r = await post({
     url: '/gameRecords/gamePlayAndType',
     data: {
@@ -325,96 +331,96 @@ onLoad(async (options) => {
       "merchantId": 1
     }
   })
-/*    const r={
-      resultSet:{
-        "gameId": "40",
-        "gameName": "泰国官彩",
-        "gamePlayAndTypeListRespList": [
-          {
-            "gamePlayList": [
-              {
-                "gamePlayId": "103",
-                "gamePlayName": "1d_头",
-                "gamePlayCode": "th_1d_head",
-                "winAmount": 2.00,
-                "betAmount": 4.00
-              },
-              {
-                "gamePlayId": "104",
-                "gamePlayName": "1d_尾",
-                "gamePlayCode": "th_1d_end",
-                "winAmount": 70.00,
-                "betAmount": 75.00
-              }
-            ],
-            "gamePlayTypeName": "1D",
-            "gamePlayTypeCode": "th_1d"
-          },
-          {
-            "gamePlayList": [
-              {
-                "gamePlayId": "105",
-                "gamePlayName": "2d_头",
-                "gamePlayCode": "th_2d_head",
-                "winAmount": 70.00,
-                "betAmount": 75.00
-              },
-              {
-                "gamePlayId": "106",
-                "gamePlayName": "2d_尾",
-                "gamePlayCode": "th_2d_end",
-                "winAmount": 70.00,
-                "betAmount": 75.00
-              },
-              {
-                "gamePlayId": "107",
-                "gamePlayName": "2d_头奖组选",
-                "gamePlayCode": "th_2d_head_prize",
-                "winAmount": 70.00,
-                "betAmount": 75.00
-              }
-            ],
-            "gamePlayTypeName": "2D",
-            "gamePlayTypeCode": "th_2d"
-          },
-          {
-            "gamePlayList": [
-              {
-                "gamePlayId": "110",
-                "gamePlayName": "3d_头",
-                "gamePlayCode": "th_3d_head",
-                "winAmount": 70.00,
-                "betAmount": 75.00
-              },
-              {
-                "gamePlayId": "111",
-                "gamePlayName": "3d_前三",
-                "gamePlayCode": "th_3d_front3",
-                "winAmount": 70.00,
-                "betAmount": 75.00
-              },
-              {
-                "gamePlayId": "112",
-                "gamePlayName": "3d_后三",
-                "gamePlayCode": "th_3d_after3",
-                "winAmount": 70.00,
-                "betAmount": 75.00
-              },
-              {
-                "gamePlayId": "113",
-                "gamePlayName": "3d_头奖组选",
-                "gamePlayCode": "th_3d_head_prize",
-                "winAmount": 70.00,
-                "betAmount": 75.00
-              }
-            ],
-            "gamePlayTypeName": "3D",
-            "gamePlayTypeCode": "th_3d"
-          }
-        ],
-        "sealingTime": "708148"
-      }
-    }*/
+  /*    const r={
+        resultSet:{
+          "gameId": "40",
+          "gameName": "泰国官彩",
+          "gamePlayAndTypeListRespList": [
+            {
+              "gamePlayList": [
+                {
+                  "gamePlayId": "103",
+                  "gamePlayName": "1d_头",
+                  "gamePlayCode": "th_1d_head",
+                  "winAmount": 2.00,
+                  "betAmount": 4.00
+                },
+                {
+                  "gamePlayId": "104",
+                  "gamePlayName": "1d_尾",
+                  "gamePlayCode": "th_1d_end",
+                  "winAmount": 70.00,
+                  "betAmount": 75.00
+                }
+              ],
+              "gamePlayTypeName": "1D",
+              "gamePlayTypeCode": "th_1d"
+            },
+            {
+              "gamePlayList": [
+                {
+                  "gamePlayId": "105",
+                  "gamePlayName": "2d_头",
+                  "gamePlayCode": "th_2d_head",
+                  "winAmount": 70.00,
+                  "betAmount": 75.00
+                },
+                {
+                  "gamePlayId": "106",
+                  "gamePlayName": "2d_尾",
+                  "gamePlayCode": "th_2d_end",
+                  "winAmount": 70.00,
+                  "betAmount": 75.00
+                },
+                {
+                  "gamePlayId": "107",
+                  "gamePlayName": "2d_头奖组选",
+                  "gamePlayCode": "th_2d_head_prize",
+                  "winAmount": 70.00,
+                  "betAmount": 75.00
+                }
+              ],
+              "gamePlayTypeName": "2D",
+              "gamePlayTypeCode": "th_2d"
+            },
+            {
+              "gamePlayList": [
+                {
+                  "gamePlayId": "110",
+                  "gamePlayName": "3d_头",
+                  "gamePlayCode": "th_3d_head",
+                  "winAmount": 70.00,
+                  "betAmount": 75.00
+                },
+                {
+                  "gamePlayId": "111",
+                  "gamePlayName": "3d_前三",
+                  "gamePlayCode": "th_3d_front3",
+                  "winAmount": 70.00,
+                  "betAmount": 75.00
+                },
+                {
+                  "gamePlayId": "112",
+                  "gamePlayName": "3d_后三",
+                  "gamePlayCode": "th_3d_after3",
+                  "winAmount": 70.00,
+                  "betAmount": 75.00
+                },
+                {
+                  "gamePlayId": "113",
+                  "gamePlayName": "3d_头奖组选",
+                  "gamePlayCode": "th_3d_head_prize",
+                  "winAmount": 70.00,
+                  "betAmount": 75.00
+                }
+              ],
+              "gamePlayTypeName": "3D",
+              "gamePlayTypeCode": "th_3d"
+            }
+          ],
+          "sealingTime": "708148"
+        }
+      }*/
   gameConfig.value = r.resultSet
   playTypeData.value = r.resultSet.gamePlayAndTypeListRespList.map((it: any, i: number) => ({
     label: playTypeData.value[i].label,
@@ -465,9 +471,23 @@ onLoad(async (options) => {
       // origin3DData.value=[...boardData3DType.value]
     }
   })
+}
+//#endregion
+onLoad(async (options) => {
+  routes.value = options as Routes
+  getAwardData()
 })
-const {onGameSelect}=useGameNavigate()
+onUnmounted(()=>abort.value=true)
+const {getGameAward,abort}=useFetch('/getAwardNum',1000,5)
+const {onGameSelect}=useGameNavigate(abort)
 const onOpenTrolley = () => gameTrolleyRef.value?.handleToggle()
+const openAward = () => {
+  abort.value=false
+  nextTick(()=>{
+    gameConfig.value.gameId=''
+  })
+  getAwardData()
+}
 </script>
 
 <style scoped lang="less"></style>
