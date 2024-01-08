@@ -94,7 +94,7 @@
 		</template>
 	</Layout>
 	<!-- <popup /> -->
-	<BetListPopPL :show="show" @close="show = false" :list="selectedValues" @del="delBetList" @bet="bet" />
+	<BetListPopPL :show="show" @close="show = false" :list="selectedValues" @del="delBetList" @bet="bet" @update:newTimes="handleNewTimes" />
 </template>
 
 <script setup lang="ts">
@@ -107,7 +107,6 @@
 	import Layout from "@/layout/index.vue";
 	import GameHeaderTab from "@/components/game/gameHeaderTab.vue";
 	import gameFlb from "@/components/game/gameFLB.vue";
-	import GameFooter from "@/components/game/gameFooter.vue";
 	import GameKeyboard from "@/components/game/gameKeyboard.vue";
 	import { get, post, UrlType } from "@/api";
 	import { onLoad } from "@dcloudio/uni-app";
@@ -118,6 +117,11 @@
 	const gamePlayAndTypeListRespList = ref([]);
 	const gamePlayList = ref([]);
 	const betMainReq = ref(); //开奖信息
+	const newTimes = ref([]);
+	const handleNewTimes = (times) => {
+		console.log(times)
+	  newTimes.value = times;
+	};
 	onLoad(async (data : any) => {
 		Router.value = data;
 		let res = await post({
@@ -161,8 +165,8 @@
 							betNums: [].concat(...item.betNums),
 							gamePlayCode: item.gamePlayCode,
 							gamePlayTypeCode: selectedGamePlay ? selectedGamePlay.gamePlayTypeCode : '',
-							oneBetAmount:item.betAmount,
-							sumAmount: item.betNums.length * item.betAmount,
+							oneBetAmount: isNaN(parseInt(newTimes.value)) || parseInt(newTimes.value) === 1 ? item.betAmount : parseInt(newTimes.value),
+							sumAmount: isNaN(parseInt(newTimes.value)) || parseInt(newTimes.value) === 1 ?item.betNums.length * item.betAmount : parseInt(newTimes.value) * item.betNums.length,
 							winAmount: item.betNums.length * item.winAmount,
 						};
 					}),
@@ -184,6 +188,7 @@
 						icon: 'error',
 						title: '投注失败'
 					});
+					
 				});
 		} else {
 			uni.showToast({
@@ -407,45 +412,46 @@
 	};
 	const selectedValues2D = ref([]);
 	// 定义更新 selectedValues2D 的函数
-	const updateSelectedValues2D = (gameType) => {
-		const betNums = [];
-
-		// 处理 1st 和 2nd 的数据
-		if (gameType === '1st') {
-			if (selectedItems1.value.length > 0 && selectedItems2.value.length > 0) {
-				for (const item2 of selectedItems2.value) {
-					betNums.push(`${selectedItems1.value[0]}&${item2}`);
-				}
-			}
-		} else if (gameType === '2nd') {
-			if (selectedItems1.value.length > 0 && selectedItems2.value.length > 0) {
-				for (const item1 of selectedItems1.value) {
-					for (const item2 of selectedItems2.value) {
-						betNums.push(`${item1}&${item2}`);
-					}
-				}
-			}
-		}
-
-		const selectedGamePlay = gamePlayList.value.find(
-			(play) => play.gamePlayName === currentOptionTwo.value
-		);
-		const selectedGamePlayCode = selectedGamePlay?.gamePlayCode || '';
-		const selectedGamePlayId = selectedGamePlay?.gamePlayId || '';
-		const winAmount = selectedGamePlay?.winAmount;
-		const betAmount = selectedGamePlay?.betAmount;
-		selectedValues2D.value = [
-			{
-				gamePlayName: currentOption.value,
-				gamePlayTypeName: currentOptionTwo.value,
-				gamePlayCode: selectedGamePlayCode,
-				gamePlayId: selectedGamePlayId,
-				betNums: betNums,
-				winAmount: winAmount,
-				betAmount: betAmount,
-			},
-		];
+	const updateSelectedValues2D = () => {
+	    const betNums = [];
+	
+	    if (selectedItems1.value.length > 0 && selectedItems2.value.length > 0) {
+	        for (const item1 of selectedItems1.value) {
+	            for (const item2 of selectedItems2.value) {
+	                if (currentOptionTwo.value === '2d_复式') {
+	                    // 当选择的是 '2d_复式' 时，拼接两个值
+	                    betNums.push(`${item1}&${item2}`);
+	                } else if (currentOptionTwo.value === '2d_1位') {
+	                    // 当选择的是 '2d_1位' 时，分别处理两个值
+	                    betNums.push(`${item1}_1`);
+	                    betNums.push(`${item2}_2`);
+	                }
+	                // 其他情况可以根据实际需求进行处理
+	            }
+	        }
+	    }
+	
+	    const selectedGamePlay = gamePlayList.value.find(
+	        (play) => play.gamePlayName === currentOptionTwo.value
+	    );
+	    const selectedGamePlayCode = selectedGamePlay?.gamePlayCode || '';
+	    const selectedGamePlayId = selectedGamePlay?.gamePlayId || '';
+	    const winAmount = selectedGamePlay?.winAmount;
+	    const betAmount = selectedGamePlay?.betAmount;
+	
+	    selectedValues2D.value = [
+	        {
+	            gamePlayName: currentOption.value,
+	            gamePlayTypeName: currentOptionTwo.value,
+	            gamePlayCode: selectedGamePlayCode,
+	            gamePlayId: selectedGamePlayId,
+	            betNums: betNums,
+	            winAmount: winAmount,
+	            betAmount: betAmount,
+	        },
+	    ];
 	};
+
 
 
 	// ~~~2d复试end
