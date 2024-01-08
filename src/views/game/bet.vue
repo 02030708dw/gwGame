@@ -80,6 +80,7 @@ const selectCategory = (category: Category, index: number) => {
   })
   nextTick(()=>{
     pageTabs.value=[]
+    finished.value=false
     onLoad()
   })
 };

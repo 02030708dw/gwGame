@@ -21,13 +21,13 @@ declare global {
     };
     type AwardNum = {
         head: string;
-        period: string;
         firstThree: string;
         countdown: string;
         end: string;
         gameCode: string;
         afterThree: string;
         lastAwardPeriod: string;
+        awardPeriod:string
     };
     interface activeType {
         gamePlayId:string

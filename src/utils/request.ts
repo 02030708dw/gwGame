@@ -78,7 +78,7 @@ function baseRequest(
 				}else {
 					uni.showToast({
 						icon:'none',
-						title:showMessage(res.data.code)
+						title:showMessage(res.data.resDesc)
 					})
 					reject(res.data)
 					return
@@ -111,5 +111,34 @@ requestOptions.forEach((method) => {
 	const m = method.toUpperCase() as unknown as RequestOptionsMethod
 	request[method] = (api : any, data : any, opt : any, params : any,uType:UrlType) => baseRequest(api, m, data, opt || {}, params,uType)
 })
-
+export function request2(url : string,
+				  method : RequestOptionsMethod,
+				  data : any,
+				  ) {
+	const baseUrl=HTTP_REQUEST_URL
+	let header:Record<string, string>={}
+	header[TOKENNAME] = 'Bearer_' + getStorage('token')
+	return new Promise((resolve, reject) => {
+		uni.request({
+			url: baseUrl + url,
+			method: method || 'POST',
+			header: header,
+			data: data || {},
+			dataType: 'json',
+			success:(res:any)=>{
+				if(res.data.resCode==='000000'){
+					resolve(res.data)
+					return
+				}else {
+					uni.showToast({
+						icon:'none',
+						title:showMessage(res.data.resDesc)
+					})
+					reject(res.data)
+					return
+				}
+			}
+		})
+	})
+}
 export default request
