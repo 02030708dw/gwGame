@@ -7,7 +7,7 @@ export default function (type:string,lotteryHistory:  Map<string, Ref<{}>>,playT
     ])
     const boardData1D = ref(calData(10))
     const activeData1D = ref<number[]>([])
-    const activeData1DType = ref<number[]>([1])
+    const activeData1DType = ref<number[]>([])
     const onAddAct1DType = (i: number) => {
         if (activeData1DType.value.includes(i)) activeData1DType.value.splice(activeData1DType.value.findIndex(it => it === i), 1)
         else activeData1DType.value = [...activeData1DType.value, i]

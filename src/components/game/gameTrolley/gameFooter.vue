@@ -3,7 +3,7 @@
     <view class="headerStyles1">
       <view class="footerleft0">
         <image class="footerleft" src="@/static/images/footerleft.png" />
-        <view class="titleLeft">27,973.00</view>
+        <view class="titleLeft">{{getBalanceF}}</view>
         <u-icon name="arrow-right" color="#999" size="16"></u-icon>
       </view>
       <view class="headerMores">
@@ -23,8 +23,11 @@
 <script setup lang="ts">
 import { useGame } from "@/plugins/pinia/Game.pinia";
 import { useCreactGame } from "@/plugins/pinia/CreactGame.pinia";
+import {storeToRefs} from "pinia";
+import gameListStore from "@/plugins/pinia/gameList";
 const storeGame = useGame()
 const storeCreactGame = useCreactGame()
+const {getBalanceF}=storeToRefs(gameListStore())
 const emits=defineEmits(['onBetting'])
 storeCreactGame.price =1
 const handleBetting = () => {

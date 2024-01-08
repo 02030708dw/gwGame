@@ -13,8 +13,8 @@ export enum UrlType {
     bet,
     init,
 }
-export function get<T=any>({url,data}:Request,uType:UrlType=0):Promise<Response<T>> {
-    return request?.get?.(url,data,{ noAuth: false },undefined,uType)
+export function get<T=any>({url,data}:Request,uType:UrlType=0,noAuth:boolean=false):Promise<Response<T>> {
+    return request?.get?.(url,data,{ noAuth },undefined,uType)
 }
 export function post<T=any>({url,data}:Request,uType:UrlType=0,noAuth:boolean=false):Promise<Response<T>> {
     return request?.post?.(url,data,{ noAuth},undefined,uType)
