@@ -13,9 +13,9 @@ export default function (type:string,lotteryHistory:  Map<string, Ref<{}>>,playT
     ])
     const activeData3D = ref<number[]>([])
     const activeSubData3D = ref<number[]>([0])
-    const activeData3DType = ref<activeType[]>([{
-        value:1,gamePlayId:'1'
-    }])
+    const activeData3DType = ref<activeType[]>([
+        // {value:1,gamePlayId:'1'}
+    ])
     const onAddActSub3D = (i: number) => {
         activeSubData3D.value=[i]
     }

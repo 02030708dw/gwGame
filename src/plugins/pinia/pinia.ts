@@ -1,6 +1,6 @@
 
 import { createPinia } from "pinia";
-import { createUnistorage } from '../../uni_modules/pinia-plugin-unistorage/index.js'
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 const Pinia = createPinia();
-Pinia.use(createUnistorage())
+Pinia.use(piniaPluginPersistedstate)
 export { Pinia };

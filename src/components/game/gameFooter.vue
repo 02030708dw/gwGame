@@ -2,9 +2,8 @@
 	<view class="headerStyles">
 		<view class="footerleft0">
 			<image class="footerleft" src="@/static/images/footerleft.png" />
-			<view class="titleLeft">27,973.00</view>
+			<view class="titleLeft">{{getBalanceF}}</view>
 			<u-icon name="arrow-right" color="#999" size="16"></u-icon>
-
 		</view>
 
 		<view class="headerMores">
@@ -12,7 +11,7 @@
 			<image class="headerMoreimage1" src="@/static/images/footerq2.png" alt="" srcset="" />
       <view class="touzhu" >
         <up-badge class="badge" numberType="limit" :type="'error'" max="99" :value="trolleyCount"></up-badge>
-        <view @click="handleBetting">
+        <view @click="$emit('openTrolley')">
           投注
         </view>
       </view>
@@ -24,18 +23,17 @@
 </template>
 
 <script setup lang="ts">
-	import { useGame } from "@/plugins/pinia/Game.pinia";
   import {toRef} from "vue";
-	const storeGame = useGame()
+  import {storeToRefs} from "pinia";
+  import gameListStore from "@/plugins/pinia/gameList";
   const props=withDefaults(defineProps<{
     count?:number,
   }>(),{
     count:0
   })
+  defineEmits(['openTrolley'])
   const trolleyCount=toRef(props,'count')
-	const handleBetting = () => {
-		storeGame.isBetting = !storeGame.isBetting
-	}
+  const {getBalanceF}=storeToRefs(gameListStore())
 </script>
 
 <style scoped lang="scss">

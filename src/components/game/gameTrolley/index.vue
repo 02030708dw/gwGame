@@ -1,13 +1,13 @@
 <template>
 <view>
-  <u-popup :show="isBetting" mode="bottom" :round="10">
+  <u-popup :show="bettingTrolley" mode="bottom" :round="10" @close="handleToggle">
     <view class="bettingBac">
       <view class="betting">
         <view class="bettingB">
           <view class="bettingNum">{{ac.lastAwardPeriod}} </view>
           <view class="bettingBet"> Bet Details </view>
         </view>
-        <view class="bettingClose" @click="handleClose">
+        <view class="bettingClose" @click="handleToggle">
           <image src="@/static/images/close.png" mode=""></image>
         </view>
       </view>
@@ -24,7 +24,7 @@
             </text>
           </view>
           <view class="bettingInput bettingList2">
-            <u-input class="bettingI" border="none" v-model="item.oneBetAmount" placeholder=""></u-input>
+            <u-input class="bettingI" border="none" type="number" v-model="item.oneBetAmount" :min="1" @input="filterNum" placeholder=""></u-input>
             <button class="bettingT" @click="emits('onchangeTotal',item,'sin')">Tmis</button>
             <image class="bettingDel" src="@/static/images/del.png" @click="()=>emits('onTrolleyDel',item)" mode="">
             </image>
@@ -67,6 +67,7 @@ import { useGame } from "@/plugins/pinia/Game.pinia";
 import {computed, PropType, ref, toRefs} from "vue";
 import type {cgType, lotteryHType} from "@/views/game/thailandLottery.vue";
 import GameFooter from "@/components/game/gameTrolley/gameFooter.vue";
+import {filterNum} from "@/utils/filterNum";
 const props=defineProps({
   trolleyTotal:{
     type:Array as PropType<lotteryHType>
@@ -83,6 +84,7 @@ const emits=defineEmits<{
 const show=ref(false)
 const title=ref('详情')
 const detailList=ref<number[]>([])
+const bettingTrolley=ref<boolean>(false)
 /*const data=computed<(lotteryHType[number]&{key:string})[]>
 (()=>props.trolleyTotal?.reduce((pre:lotteryHType,cur:lotteryHType[number])=>{
   let obj={...cur}
@@ -101,7 +103,7 @@ const storeCommon = useCommon();
 const height=480
 const total=ref<number>(1)
 const { isBetting } = storeToRefs(storeGame);
-const handleClose = () => storeGame.isBetting = !storeGame.isBetting
+const handleToggle = () => bettingTrolley.value=!bettingTrolley.value
 const changeTotal = () => {
   emits('onchangeTotal',total.value,'all')
   total.value=1
@@ -110,6 +112,9 @@ const onDetail = (n:number[]) => {
   show.value=true
   detailList.value=n
 }
+defineExpose({
+  handleToggle
+})
 </script>
 <script lang="ts">
 export default {
@@ -133,6 +138,8 @@ export default {
   .bettingList{
     .bettingInput{
       .bettingT{
+        background: orange;
+        color: #fff;
         display: flex;
         justify-content: center;
         //&:hover{
@@ -175,14 +182,16 @@ export default {
       font-size: 24rpx;
       font-family: PingFangSC, PingFang SC;
       font-weight: 400;
-      color: #333333;
+      //color: #333333;
       line-height: 24rpx;
+      border: none;
       display: flex;
       align-items: center;
       justify-content: center;
       width: 82rpx;
       height: 46rpx;
-      background: #EFEFEF;
+      background: orange;
+      color: #fff;
       border-radius: 0rpx 8rpx 8rpx 0rpx;
     }
   }

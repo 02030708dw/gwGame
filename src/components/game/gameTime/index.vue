@@ -1,17 +1,17 @@
 <template>
   <view class="gameTime">
     <view class="l">
-      <text class="l1">{{ t }}</text>
+      <text class="l1">{{ lt }}</text>
       <text class="l2">{{ ac.lastAwardPeriod }}</text>
     </view>
     <view class="m">
       <view class="m1">
         {{ ac.head + '|' + ac.firstThree.split(',').join(' ') + '|' + ac.afterThree.split(',').join(' ') + '|' + ac.end }}
       </view>
-      <view class="m2">{{ ac.period }}</view>
+      <view class="m2">{{ ac.awardPeriod }}</view>
     </view>
     <div class="imgArr">
-      <span>{{lt}}</span>
+<!--      <span>{{t}}</span>-->
       <div>
         <img :src="l.url" v-for="l in imgArr" :key="l.type" @click="btnGroup(l.type)">
       </div>
@@ -37,26 +37,26 @@ const imgArr=[
   {url:cal,type:'cal'},
   {url:his,type:'his'},
 ]
-const timer = ref<number>(360)
+// const timer = ref<number>(360)
 const lockTimer = ref<number>(360)
-let timerId: null | number = null
+// let timerId: null | number = null
 let timerId2: null | number = null
 onMounted(() => {
-  timerId = setInterval(() => {
-    timer.value -= 1
+  timerId2 = setInterval(() => {
+    // timer.value -= 1
     lockTimer.value -= 1
   }, 1000)
 })
-const t = computed(() => {
+/*const t = computed(() => {
   let time: string;
   let days = parseInt(timer.value / 60 / 60 / 24);
   let hours = parseInt(timer.value / 60 / 60);
   let minutes = parseInt(timer.value / 60 % 60);
   let seconds = parseInt(timer.value % 60);
-  /* if (days > 1) {  //超过一天显示天数
+  /!* if (days > 1) {  //超过一天显示天数
      time = days + "天";
      return time;
-   }*/
+   }*!/
   //补零
   if (hours < 10) {
     hours = '0' + hours;
@@ -69,12 +69,12 @@ const t = computed(() => {
   }
 
   if (timer.value <= 0) {
-    time = "活动已结束";
+    time = "已结束";
   } else {
     time = hours + ":" + minutes + ":" + seconds + "";
   }
   return time;
-})
+})*/
 const lt = computed(() => {
   let time: string;
   let days = parseInt(lockTimer.value / 60 / 60 / 24);
@@ -95,8 +95,8 @@ const lt = computed(() => {
   if (seconds < 10) {
     seconds = '0' + seconds;
   }
-  if (timer.value <= 0) {
-    time = "已结束";
+  if (lockTimer.value <= 0) {
+    time = "开奖中";
     emits('update:lock',true)
   } else {
     time = hours + ":" + minutes + ":" + seconds + "";
@@ -105,13 +105,13 @@ const lt = computed(() => {
   return time;
 })
 onUnmounted(() => {
-  clearInterval(timerId!)
+  // clearInterval(timerId!)
   clearInterval(timerId2!)
 })
 watchEffect(() => {
-  let countdown = toRef(props.ac, 'countdown')
+  // let countdown = toRef(props.ac, 'countdown')
   let lockdown = toRef(props,'lockBoardTime')
-  timer.value = Number(countdown.value)
+  // timer.value = Number(countdown.value)
   lockTimer.value=Number(lockdown.value)
 })
 const btnGroup = (i:string) => {
