@@ -151,7 +151,7 @@
 			post({
 				url: "/bet",
 				data: {
-					//awardPeriod: betMainReq.value.lastAwardPeriod, //奖期
+					awardPeriod: betMainReq.value.lastAwardPeriod, //奖期
 					gameCode: Router.value.code,
 					betInfos: selectedValues.value.map((item) => {
 						const selectedGamePlay = gamePlayAndTypeListRespList.value.find(
@@ -161,8 +161,9 @@
 							betNums: [].concat(...item.betNums),
 							gamePlayCode: item.gamePlayCode,
 							gamePlayTypeCode: selectedGamePlay ? selectedGamePlay.gamePlayTypeCode : '',
-							//oneBetAmount:item.betAmount,
-							sumAmount: item.betNums.length,
+							oneBetAmount:item.betAmount,
+							sumAmount: item.betNums.length * item.betAmount,
+							winAmount: item.betNums.length * item.winAmount,
 						};
 					}),
 				},
@@ -291,8 +292,8 @@
 
 		const selectedGamePlayCode = selectedGamePlay?.gamePlayCode || '';
 		const selectedGamePlayId = selectedGamePlay?.gamePlayId || '';
-		//const winAmount = selectedGamePlay?.winAmount || 0;
-		//const betAmount = selectedGamePlay?.betAmount || 0; 
+		const winAmount = selectedGamePlay?.winAmount || 0;
+		const betAmount = selectedGamePlay?.betAmount || 0; 
 
 		selectedValues3C.value = [
 			{
@@ -301,8 +302,8 @@
 				gamePlayCode: selectedGamePlayCode,
 				gamePlayId: selectedGamePlayId,
 				betNums: betNums,
-				//winAmount: winAmount,
-				//betAmount: betAmount,
+				winAmount: winAmount,
+				betAmount: betAmount,
 			},
 		];
 		console.log(selectedValues3C.value);
@@ -363,8 +364,8 @@
 
 		const selectedGamePlayCode = selectedGamePlay?.gamePlayCode || '';
 		const selectedGamePlayId = selectedGamePlay?.gamePlayId || '';
-		//const winAmount = selectedGamePlay?.winAmount
-		//const betAmount = selectedGamePlay?.betAmount
+		const winAmount = selectedGamePlay?.winAmount
+		const betAmount = selectedGamePlay?.betAmount
 
 		selectedValues1D.value = [
 			{
@@ -373,8 +374,8 @@
 				gamePlayCode: selectedGamePlayCode,
 				gamePlayId: selectedGamePlayId,
 				betNums: betNums,
-				//winAmount: winAmount,
-				//betAmount: betAmount,
+				winAmount: winAmount,
+				betAmount: betAmount,
 			},
 		];
 	};
@@ -431,6 +432,8 @@
 		);
 		const selectedGamePlayCode = selectedGamePlay?.gamePlayCode || '';
 		const selectedGamePlayId = selectedGamePlay?.gamePlayId || '';
+		const winAmount = selectedGamePlay?.winAmount;
+		const betAmount = selectedGamePlay?.betAmount;
 		selectedValues2D.value = [
 			{
 				gamePlayName: currentOption.value,
@@ -438,7 +441,8 @@
 				gamePlayCode: selectedGamePlayCode,
 				gamePlayId: selectedGamePlayId,
 				betNums: betNums,
-
+				winAmount: winAmount,
+				betAmount: betAmount,
 			},
 		];
 	};
