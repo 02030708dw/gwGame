@@ -1,22 +1,20 @@
 <template>
-  <view v-show="false" class="gameAnimation-container">
+  <view class="gameAnimation-container">
     <view class="countdown">
       <view class="next">{{ ac.lastAwardPeriod }}</view>
       <view class="time">
         <!-- 显示小时、分钟和秒 -->
         <view class="time-part">{{ countdownFormatted.hours }}</view>
-        <view class="time-separator">:</view>
         <view class="time-part">{{ countdownFormatted.minutes }}</view>
-        <view class="time-separator">:</view>
         <view class="time-part">{{ countdownFormatted.seconds }}</view>
       </view>
     </view>
-    <view class="period">{{ ac.period }}</view>
+    <view class="period">{{ ac.awardPeriod }}</view>
 
     <view class="main">
-      <view v-for="(item, index) in 5" :key="index" class="child">
-        <text class="left">头奖</text>
-        <text class="right">123123-123123-123123</text>
+      <view v-for="info in awardInfo" :key="info.key" class="child">
+        <text class="left">{{ info.chinese }}</text>
+        <text class="right">{{ formatData(props.ac[info.key]) }}</text>
       </view>
     </view>
   </view>
@@ -28,8 +26,12 @@ import { ref, computed, watchEffect, onMounted, onUnmounted } from "vue";
 const props = defineProps<{
   ac: {
     lastAwardPeriod: string; // 下一期
-    period: string; //这一期
+    awardPeriod: string; //这一期
     countdown: number; // 这是剩余时间的时间戳
+    head: string;
+    firstThree: string;
+    afterThree: string;
+    end: string;
   };
 }>();
 // 格式化倒计时
@@ -62,6 +64,17 @@ watchEffect((onInvalidate) => {
   const interval = setInterval(updateCountdown, 1000);
   onInvalidate(() => clearInterval(interval));
 });
+
+// 定义中文名称和字段
+const awardInfo = ref([
+  { key: "head", chinese: "头奖" },
+  { key: "firstThree", chinese: "前三" },
+  { key: "afterThree", chinese: "后三" },
+  { key: "end", chinese: "二位" },
+]);
+const formatData = (data: string) => {
+  return data.replace(" ", "-");
+};
 </script>
 
 <style lang="scss" scoped>
@@ -89,10 +102,29 @@ watchEffect((onInvalidate) => {
       color: #05101a;
 
       .time-part {
-        border-radius: 20rpx;
-        padding:20rpx;
-        background-color: #fff;
+        position: relative;
+        float: left;
+        width: 70rpx;
+        height: 60rpx;
+        text-align: center;
+        background-color: #2f3430;
+        margin-right: 20px;
+        color: white;
+        font-size: 20px;
+
+        &:not(:last-child)::after {
+          content: ":";
+          display: block;
+          position: absolute;
+          right: -20px;
+          font-weight: bolder;
+          font-size: 18px;
+          width: 20px;
+          height: 100%;
+          top: 0;
+        }
       }
+
       .time-separator {
         padding: 0 2px;
         color: #fff;
