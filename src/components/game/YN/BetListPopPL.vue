@@ -19,7 +19,7 @@
 			
 
 					<view class="tmis-box">
-						<input type="text" v-model="times[index]" />
+						<input type="text" v-model="times" />
 						<text class="tmis" style="width: 82rpx; height: 44rpx">Tmis</text>
 					</view>
 					<image src="/src/static/images/del.png" style="width: 44rpx; height: 44rpx"
@@ -81,17 +81,21 @@
 	const Alltimes = ref(1)
 	const times : any = ref([])
 	// 
+	watch(times, (newTimes) => {
+	  // 通过 $emit 将值传递给父组件
+	  emits('update:newTimes', newTimes);
+	}, { deep: true });
 
-	watch(lists, (newvalue, oldvalue) => {
-		// 监听增加或者减少
-		if (newvalue.length - oldvalue.length > 0) {
-			times.value.push(1)
-		} else if (oldvalue.length - newvalue.length > 0) {
-			let index = findMissingIndexes(oldvalue, newvalue)
-			times.value.splice(index, 1)
-		}
-		correct()
-	}, { deep: true, immediate: false })
+	// watch(lists, (newvalue, oldvalue) => {
+	// 	// 监听增加或者减少
+	// 	if (newvalue.length - oldvalue.length > 0) {
+	// 		times.value.push(1)
+	// 	} else if (oldvalue.length - newvalue.length > 0) {
+	// 		let index = findMissingIndexes(oldvalue, newvalue)
+	// 		times.value.splice(index, 1)
+	// 	}
+	// 	correct()
+	// }, { deep: true, immediate: false })
 
 	const changeAllTimes = () => {
 		props.list.forEach((item : any) => {
