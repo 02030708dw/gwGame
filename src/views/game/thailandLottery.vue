@@ -69,7 +69,7 @@
         />
       </view>
       <template #bot>
-        <gameFooter :count="count"  @open-trolley="onOpenTrolley"/>
+        <gameFooter :count="count"  @open-trolley="onOpenTrolley" @cancel="clearBet"/>
       </template>
     </layout>
     <game-trolley
