@@ -70,7 +70,7 @@ const { getBalanceF } = storeToRefs(gameListStore());
   left: 0;
   right: 0;
   bottom: 0;
-  padding: 12rpx 32rpx 12rpx 32rpx;
+  padding: 12rpx 20rpx 12rpx 20rpx;
   font-family: PingFangSC-Semibold;
 }
 
@@ -101,7 +101,7 @@ const { getBalanceF } = storeToRefs(gameListStore());
 
 .headerMores {
   display: flex;
-  flex-direction: row;
+  // flex-direction: row;
   justify-content: center;
   align-items: center;
 }
@@ -114,20 +114,20 @@ const { getBalanceF } = storeToRefs(gameListStore());
 
 .headerMoreimage1 {
   display: flex;
-  width: 29px;
-  height: 29px;
+  width: 26px;
+  height: 26px;
   margin-right: 30rpx;
 }
 
 .cancel {
-  width: 76px;
+  width: 60px;
   height: 36px;
   line-height: 36px;
   text-align: center;
   background: #f8f8f8;
   border-radius: 4px;
   font-family: PingFangSC-Semibold, PingFang SC;
-  font-size: 22px;
+  font-size: 18px;
   margin-right: 10rpx;
   font-weight: bold;
 }
@@ -144,6 +144,7 @@ const { getBalanceF } = storeToRefs(gameListStore());
   font-weight: 600;
   color: #ffffff;
   position: relative;
+	margin-right: 10rpx;
   .badge {
     position: absolute;
     right: 0;
