@@ -94,7 +94,8 @@
 		</template>
 	</Layout>
 	<!-- <popup /> -->
-	<BetListPopPL :show="show" @close="show = false" :list="selectedValues" @del="delBetList" @bet="bet" @update:newTimes="handleNewTimes" />
+	<BetListPopPL :show="show" @close="show = false" :list="selectedValues" @del="delBetList" @bet="bet"
+		@update:newTimes="handleNewTimes" :totalBets="current"/>
 </template>
 
 <script setup lang="ts">
@@ -119,8 +120,7 @@
 	const betMainReq = ref(); //开奖信息
 	const newTimes = ref([]);
 	const handleNewTimes = (times) => {
-		console.log(times)
-	  newTimes.value = times;
+		newTimes.value = times;
 	};
 	onLoad(async (data : any) => {
 		Router.value = data;
@@ -139,7 +139,7 @@
 
 		if (getAwardNum.resultSet && getAwardNum.resultSet.awardNum !== undefined && getAwardNum.resultSet.awardNum !== null) {
 			betMainReq.value = getAwardNum.resultSet.awardNum;
-			console.log(betMainReq.value);
+			// console.log(betMainReq.value);
 		} else {
 			// 没有数据的情况，通过消息提示框通知用户
 			uni.showToast({
@@ -150,7 +150,6 @@
 		}
 	})
 	const bet = () => {
-		console.log(selectedValues.value, 'value');
 		if (selectedValues.value.length) {
 			post({
 				url: "/bet",
@@ -166,8 +165,8 @@
 							gamePlayCode: item.gamePlayCode,
 							gamePlayTypeCode: selectedGamePlay ? selectedGamePlay.gamePlayTypeCode : '',
 							oneBetAmount: isNaN(parseInt(newTimes.value)) || parseInt(newTimes.value) === 1 ? item.betAmount : parseInt(newTimes.value),
-							sumAmount: isNaN(parseInt(newTimes.value)) || parseInt(newTimes.value) === 1 ?item.betNums.length * item.betAmount : parseInt(newTimes.value) * item.betNums.length,
-							winAmount: item.betNums.length * item.winAmount,
+							sumAmount: isNaN(parseInt(newTimes.value)) || parseInt(newTimes.value) === 1 ? item.betNums.length * item.betAmount : parseInt(newTimes.value) * item.betNums.length,
+							winAmount: isNaN(parseInt(newTimes.value)) || parseInt(newTimes.value) === 1 ? item.betNums.length * item.winAmount : item.winAmount,
 						};
 					}),
 				},
@@ -181,14 +180,31 @@
 					});
 					selectedValues.value.forEach((item) => {
 						delBetList(item);
+						console.log(item)
 					});
+					// 投注成功后查看当前用户余额
+					get({
+						url: "/memberWallet",
+					})
+						.then((response) => {
+							uni.showToast({
+								icon: 'success',
+								title: response.resDesc
+							});
+						})
+						.catch((error) => {
+							uni.showToast({
+								icon: 'error',
+								title: error.resDesc
+							});
+						});
 				})
 				.catch((res) => {
 					uni.showToast({
 						icon: 'error',
-						title: '投注失败'
+						title: res.resDesc
 					});
-					
+
 				});
 		} else {
 			uni.showToast({
@@ -244,17 +260,17 @@
 
 	// 大小注
 	const data8 = ref([
-		{ label: 'Big', value: '8.4398', highlighted: false },
-		{ label: 'Odd', value: '8.4398', highlighted: false },
-		{ label: 'Small', value: '8.4398', highlighted: false },
-		{ label: 'Even', value: '8.4398', highlighted: false },
+		{ label: '大', value: '8.4398', highlighted: false },
+		{ label: '单', value: '8.4398', highlighted: false },
+		{ label: '小', value: '8.4398', highlighted: false },
+		{ label: '双', value: '8.4398', highlighted: false },
 
 	]);
 	const data9 = ref([
-		{ label: 'Big', value: '8.4398', highlighted: false },
-		{ label: 'Odd', value: '8.4398', highlighted: false },
-		{ label: 'Small', value: '8.4398', highlighted: false },
-		{ label: 'Even', value: '8.4398', highlighted: false },
+		{ label: '大', value: '8.4398', highlighted: false },
+		{ label: '单', value: '8.4398', highlighted: false },
+		{ label: '小', value: '8.4398', highlighted: false },
+		{ label: '双', value: '8.4398', highlighted: false },
 
 	]);
 	const clickedValues8st = ref([]);
@@ -268,7 +284,6 @@
 		} else {
 			selectedItems.value.push(item);
 		}
-		console.log(selectedValues1D)
 		// 更新 selectedValues2D 的数据
 		updateSelectedValues3C(gameType);
 	};
@@ -298,7 +313,7 @@
 		const selectedGamePlayCode = selectedGamePlay?.gamePlayCode || '';
 		const selectedGamePlayId = selectedGamePlay?.gamePlayId || '';
 		const winAmount = selectedGamePlay?.winAmount || 0;
-		const betAmount = selectedGamePlay?.betAmount || 0; 
+		const betAmount = selectedGamePlay?.betAmount || 0;
 
 		selectedValues3C.value = [
 			{
@@ -413,43 +428,43 @@
 	const selectedValues2D = ref([]);
 	// 定义更新 selectedValues2D 的函数
 	const updateSelectedValues2D = () => {
-	    const betNums = [];
-	
-	    if (selectedItems1.value.length > 0 && selectedItems2.value.length > 0) {
-	        for (const item1 of selectedItems1.value) {
-	            for (const item2 of selectedItems2.value) {
-	                if (currentOptionTwo.value === '2d_复式') {
-	                    // 当选择的是 '2d_复式' 时，拼接两个值
-	                    betNums.push(`${item1}&${item2}`);
-	                } else if (currentOptionTwo.value === '2d_1位') {
-	                    // 当选择的是 '2d_1位' 时，分别处理两个值
-	                    betNums.push(`${item1}_1`);
-	                    betNums.push(`${item2}_2`);
-	                }
-	                // 其他情况可以根据实际需求进行处理
-	            }
-	        }
-	    }
-	
-	    const selectedGamePlay = gamePlayList.value.find(
-	        (play) => play.gamePlayName === currentOptionTwo.value
-	    );
-	    const selectedGamePlayCode = selectedGamePlay?.gamePlayCode || '';
-	    const selectedGamePlayId = selectedGamePlay?.gamePlayId || '';
-	    const winAmount = selectedGamePlay?.winAmount;
-	    const betAmount = selectedGamePlay?.betAmount;
-	
-	    selectedValues2D.value = [
-	        {
-	            gamePlayName: currentOption.value,
-	            gamePlayTypeName: currentOptionTwo.value,
-	            gamePlayCode: selectedGamePlayCode,
-	            gamePlayId: selectedGamePlayId,
-	            betNums: betNums,
-	            winAmount: winAmount,
-	            betAmount: betAmount,
-	        },
-	    ];
+		const betNums = [];
+
+		if (selectedItems1.value.length > 0 && selectedItems2.value.length > 0) {
+			for (const item1 of selectedItems1.value) {
+				for (const item2 of selectedItems2.value) {
+					if (currentOptionTwo.value === '2d_复式') {
+						// 当选择的是 '2d_复式' 时，拼接两个值
+						betNums.push(`${item1}&${item2}`);
+					} else if (currentOptionTwo.value === '2d_1位') {
+						// 当选择的是 '2d_1位' 时，分别处理两个值
+						betNums.push(`${item1}_1`);
+						betNums.push(`${item2}_2`);
+					}
+					// 其他情况可以根据实际需求进行处理
+				}
+			}
+		}
+
+		const selectedGamePlay = gamePlayList.value.find(
+			(play) => play.gamePlayName === currentOptionTwo.value
+		);
+		const selectedGamePlayCode = selectedGamePlay?.gamePlayCode || '';
+		const selectedGamePlayId = selectedGamePlay?.gamePlayId || '';
+		const winAmount = selectedGamePlay?.winAmount;
+		const betAmount = selectedGamePlay?.betAmount;
+
+		selectedValues2D.value = [
+			{
+				gamePlayName: currentOption.value,
+				gamePlayTypeName: currentOptionTwo.value,
+				gamePlayCode: selectedGamePlayCode,
+				gamePlayId: selectedGamePlayId,
+				betNums: betNums,
+				winAmount: winAmount,
+				betAmount: betAmount,
+			},
+		];
 	};
 
 
@@ -511,7 +526,7 @@
 		background-color: rgba(252, 239, 213, 1.000000);
 		border-radius: 16rpx;
 		// width: 686rpx;
-		align-self: center;
+		// align-self: center;
 		margin-top: 20rpx;
 		display: flex;
 		flex-direction: column;
@@ -708,7 +723,6 @@
 
 	.text_26 {
 		overflow-wrap: break-word;
-		color: rgba(51, 51, 51, 1);
 		font-size: 28rpx;
 		font-family: PingFangSC-Regular;
 		font-weight: normal;
@@ -717,149 +731,12 @@
 		line-height: 28rpx;
 	}
 
-
-
-
-	/* 九键 */
-	.Keyboard9 {
-		padding-bottom: 30rpx;
-
-		.text-wrapper_23 {
-			background-color: rgba(255, 255, 255, 1.000000);
-			border-radius: 8rpx;
-			display: flex;
-			flex-direction: column;
-			padding: 24rpx 82rpx 22rpx 84rpx;
-		}
-
-		.highlighted {
-			background-color: #FFB023;
-			border-radius: 8rpx;
-			display: flex;
-			flex-direction: column;
-			padding: 24rpx 82rpx 22rpx 84rpx;
-		}
-
-		.highlighted:active,
-		.text-wrapper_23:active,
-		.section_6:active,
-		.section_7:active {
-			background-color: #FFB023;
-			animation: text-wrapper_23 0.4s infinite;
-		}
-
-		@keyframes text-wrapper_23 {
-			25% {
-				transform: scaleX(1.2);
-			}
-
-			50% {
-				transform: scaleX(0.8);
-			}
-
-			75% {
-				transform: scaleX(1.1);
-			}
-
-			100% {
-				transform: scaleX(1);
-			}
-		}
-
-		.text_29 {
-			overflow-wrap: break-word;
-			color: rgba(51, 51, 51, 1);
-			font-size: 48rpx;
-			font-family: PingFangSC-Semibold;
-			font-weight: 600;
-			text-align: center;
-			white-space: nowrap;
-			line-height: 48rpx;
-		}
-
-		.box_12 {
-			// width: 622rpx;
-			margin-top: 32rpx;
-			flex-direction: row;
-			display: flex;
-			justify-content: space-evenly;
-		}
-
-		.section_6 {
-			background-color: rgba(255, 255, 255, 1.000000);
-			border-radius: 8rpx;
-			display: flex;
-			flex-direction: row;
-			padding: 16rpx 54rpx 10rpx 60rpx;
-			transition: transform 0.3s ease-out;
-		}
-
-		.image-text_6 {
-			display: flex;
-			flex-direction: column;
-		}
-
-		.thumbnail_5 {
-			width: 40rpx;
-			height: 40rpx;
-			margin: 0 18rpx 0 14rpx;
-		}
-
-		.text-group_3 {
-			overflow-wrap: break-word;
-			color: rgba(51, 51, 51, 1);
-			font-size: 24rpx;
-			font-family: PingFangSC-Regular;
-			font-weight: normal;
-			text-align: center;
-			white-space: nowrap;
-			line-height: 24rpx;
-			margin-top: 4rpx;
-		}
-
-
-
-		.section_7 {
-			background-color: rgba(255, 255, 255, 1.000000);
-			border-radius: 8rpx;
-			display: flex;
-			flex-direction: row;
-			padding: 16rpx 64rpx 10rpx 66rpx;
-			transition: transform 0.3s ease-out;
-		}
-
-		.image-text_7 {
-			display: flex;
-			flex-direction: column;
-		}
-
-		.thumbnail_6 {
-			width: 40rpx;
-			height: 40rpx;
-			margin: 0 10rpx 0 6rpx;
-		}
-
-		.text-group_4 {
-			overflow-wrap: break-word;
-			color: rgba(51, 51, 51, 1);
-			font-size: 24rpx;
-			font-family: PingFangSC-Regular;
-			font-weight: normal;
-			text-align: center;
-			white-space: nowrap;
-			line-height: 24rpx;
-			margin-top: 4rpx;
-		}
-	}
-
-
-
 	.Keyboard8 {
 		.group_14 {
 			margin-top: 32rpx;
 			flex-direction: row;
 			display: flex;
-			justify-content: space-between;
+			justify-content: space-evenly;
 			padding: 0rpx 25rpx 0rpx 25rpx;
 
 			.box_10 {
@@ -879,6 +756,7 @@
 				margin-bottom: 20rpx;
 				margin-right: 15rpx;
 				padding: 10rpx 0rpx;
+				color: #FFF;
 			}
 		}
 
@@ -908,13 +786,23 @@
 		.box_8:active,
 		.tag_4:active,
 		{
-		animation: text-wrapper_23 0.4s infinite;
+		animation: heartBeat 1s;
+		animation-duration: 1s;
+		animation-timing-function: ease;
+		animation-delay: 0s;
+		animation-iteration-count: 1;
+		animation-direction: normal;
+		animation-fill-mode: none;
+		animation-play-state: running;
+		animation-name: heartBeat;
+		animation-timeline: auto;
+		animation-range-start: normal;
+		animation-range-end: normal;
 		background-color: #FFB023;
 	}
 
 	.text_26 {
 		overflow-wrap: break-word;
-		color: rgba(51, 51, 51, 1);
 		font-size: 28rpx;
 		font-family: PingFangSC-Semibold;
 		font-weight: 600;
@@ -1043,169 +931,6 @@
 	}
 
 	.text_33 {
-		overflow-wrap: break-word;
-		color: rgba(244, 60, 62, 1);
-		font-size: 20rpx;
-		font-family: PingFangSC-Regular;
-		font-weight: normal;
-		text-align: center;
-		white-space: nowrap;
-		line-height: 20rpx;
-		margin-top: 8rpx;
-	}
-
-
-
-	.group_17 {
-		display: flex;
-		flex-direction: column;
-		margin: 0 0 394rpx 32rpx;
-	}
-
-	.box_12 {
-		background-color: rgba(255, 255, 255, 1.000000);
-		border-radius: 8rpx;
-		display: flex;
-		flex-direction: row;
-		padding: 16rpx 32rpx 16rpx 32rpx;
-	}
-
-	.text-group_16 {
-		display: flex;
-		flex-direction: column;
-	}
-
-	.text_34 {
-		overflow-wrap: break-word;
-		color: rgba(51, 51, 51, 1);
-		font-size: 28rpx;
-		font-family: PingFangSC-Semibold;
-		font-weight: 600;
-		text-align: center;
-		white-space: nowrap;
-		line-height: 28rpx;
-		margin: 0 12rpx 0 10rpx;
-	}
-
-	.text_35 {
-		overflow-wrap: break-word;
-		color: rgba(244, 60, 62, 1);
-		font-size: 20rpx;
-		font-family: PingFangSC-Regular;
-		font-weight: normal;
-		text-align: center;
-		white-space: nowrap;
-		line-height: 20rpx;
-		margin-top: 8rpx;
-	}
-
-	.tag_6 {
-		background-color: rgba(255, 255, 255, 1.000000);
-		border-radius: 8rpx;
-		margin-top: 16rpx;
-		display: flex;
-		flex-direction: row;
-		padding: 16rpx 32rpx 16rpx 32rpx;
-	}
-
-	.text-group_17 {
-		display: flex;
-		flex-direction: column;
-	}
-
-	.text_36 {
-		overflow-wrap: break-word;
-		color: rgba(51, 51, 51, 1);
-		font-size: 28rpx;
-		font-family: PingFangSC-Semibold;
-		font-weight: 600;
-		text-align: center;
-		white-space: nowrap;
-		line-height: 28rpx;
-		margin: 0 4rpx 0 6rpx;
-	}
-
-	.text_37 {
-		overflow-wrap: break-word;
-		color: rgba(244, 60, 62, 1);
-		font-size: 20rpx;
-		font-family: PingFangSC-Regular;
-		font-weight: normal;
-		text-align: center;
-		white-space: nowrap;
-		line-height: 20rpx;
-		margin-top: 8rpx;
-	}
-
-	.group_18 {
-		display: flex;
-		flex-direction: column;
-		margin: 0 0 394rpx 16rpx;
-	}
-
-	.group_4 {
-		background-color: rgba(255, 255, 255, 1.000000);
-		border-radius: 8rpx;
-		display: flex;
-		flex-direction: row;
-		padding: 16rpx 28rpx 16rpx 28rpx;
-	}
-
-	.text-group_18 {
-		display: flex;
-		flex-direction: column;
-	}
-
-	.text_38 {
-		overflow-wrap: break-word;
-		color: rgba(51, 51, 51, 1);
-		font-size: 28rpx;
-		font-family: PingFangSC-Semibold;
-		font-weight: 600;
-		text-align: center;
-		white-space: nowrap;
-		line-height: 28rpx;
-	}
-
-	.text_39 {
-		overflow-wrap: break-word;
-		color: rgba(244, 60, 62, 1);
-		font-size: 20rpx;
-		font-family: PingFangSC-Regular;
-		font-weight: normal;
-		text-align: center;
-		white-space: nowrap;
-		line-height: 20rpx;
-		align-self: center;
-		margin-top: 8rpx;
-	}
-
-	.group_5 {
-		background-color: rgba(255, 255, 255, 1.000000);
-		border-radius: 8rpx;
-		margin-top: 16rpx;
-		display: flex;
-		flex-direction: row;
-		padding: 16rpx 32rpx 16rpx 32rpx;
-	}
-
-	.text-group_19 {
-		display: flex;
-		flex-direction: column;
-	}
-
-	.text_40 {
-		overflow-wrap: break-word;
-		color: rgba(51, 51, 51, 1);
-		font-size: 28rpx;
-		font-family: PingFangSC-Semibold;
-		font-weight: 600;
-		text-align: center;
-		white-space: nowrap;
-		line-height: 28rpx;
-	}
-
-	.text_41 {
 		overflow-wrap: break-word;
 		color: rgba(244, 60, 62, 1);
 		font-size: 20rpx;

@@ -49,7 +49,18 @@
 		.text-wrapper_22:active,
 		.text-wrapper_52:active {
 			background-color: #FFB023;
-			animation: text-wrapper_23 0.4s infinite;
+			animation: heartBeat 1s;
+			animation-duration: 1s;
+			animation-timing-function: ease;
+			animation-delay: 0s;
+			animation-iteration-count: 1;
+			animation-direction: normal;
+			animation-fill-mode: none;
+			animation-play-state: running;
+			animation-name: heartBeat;
+			animation-timeline: auto;
+			animation-range-start: normal;
+			animation-range-end: normal;
 		}
 
 		.box_22 {
@@ -87,7 +98,7 @@
 
 		.text_27 {
 			overflow-wrap: break-word;
-			color: rgba(51, 51, 51, 1);
+			
 			font-size: 28rpx;
 			font-family: PingFangSC-Semibold;
 			font-weight: 600;
@@ -101,6 +112,7 @@
 
 			.highlighted {
 				background-color: #FFB023;
+				color: #FFF;
 				width: 100rpx;
 				height: 100rpx;
 				line-height: 100rpx;

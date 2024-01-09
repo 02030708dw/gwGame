@@ -19,8 +19,8 @@
 			
 
 					<view class="tmis-box">
-						<input type="text" v-model="times" />
-						<text class="tmis" style="width: 82rpx; height: 44rpx">Tmis</text>
+						<input type="text" v-model="sum" />
+						<text class="tmis" style="width: 82rpx; height: 44rpx" @click="changeAllTime">Tmis</text>
 					</view>
 					<image src="/src/static/images/del.png" style="width: 44rpx; height: 44rpx"
 						@click="del(item,index)" />
@@ -52,7 +52,17 @@
 					<input type="text" placeholder="1" v-model="Alltimes" />
 					<text @click="changeAllTimes">Tmis</text>
 				</view>
-				<view class="condinm">Condinm</view>
+				<view class="money">
+					<view>
+						<span>总投注：</span><span>{{totalBets}}</span>
+					</view>
+					<view>
+						<span>总投注额：</span><span>{{allSum}}</span>
+					</view>
+					<view>
+						<span>奖金：</span><span>{{money}}</span>
+					</view>
+				</view>
 			</view>
 			<view class="bottom">
 				<image src="@/static/images/footerleft.png" style="width: 64rpx; height: 52rpx; margin-right: 20rpx" />
@@ -67,19 +77,25 @@
 </template>
 <script setup lang="ts">
 	import { ref, watch, toRef, nextTick } from 'vue'
-	const props = defineProps(["show", "list"]);
+	const props = defineProps(["show", "list","totalBets"]);
 	const emits = defineEmits(["close", "del", "bet"]);
-	const lists = toRef(props, 'list')
-	const delIndex = ref()//删除的id,为了删除倍数
+	const lists = toRef(props, 'list');
+	const delIndex = ref();//删除的id,为了删除倍数
+	const Alltimes = ref(1)
+	const times : any = ref([])
+	const sum =ref(1)
+	const allSum =ref(0)
+	const money =ref(0)
 	const close = () => {
 		emits("close");
 	};
 	const del = (item : any, index : number) => {
 		delIndex.value = index
 		emits('del', item)
+		 allSum.value = 0;
+		 money.value = 0;
+		 console.log(item)
 	}
-	const Alltimes = ref(1)
-	const times : any = ref([])
 	// 
 	watch(times, (newTimes) => {
 	  // 通过 $emit 将值传递给父组件
@@ -99,11 +115,30 @@
 
 	const changeAllTimes = () => {
 		props.list.forEach((item : any) => {
-			item.times = Alltimes.value
+			sum.value = Alltimes.value
+			allSum.value = sum.value
 		})
-		times.value = props.list.map((item : any) => item.times)
+		Alltimes.value=1
+		if(sum.value=='' || sum.value==1){
+			allSum.value=Number(props.list.map((item : any) => item.betAmount))
+			money.value = Number(props.list.map((item : any) => item.winAmount)) * props.totalBets
+		}else{
+			allSum.value = sum.value
+			money.value = Number(props.list.map((item : any) => item.winAmount)) * allSum.value
+		}
 	}
-
+	const changeAllTime = () => {
+		props.list.forEach((item : any) => {
+		})
+		if(sum.value=='' || sum.value==1){
+			allSum.value=Number(props.list.map((item : any) => item.betAmount))
+			money.value = Number(props.list.map((item : any) => item.winAmount)) * props.totalBets
+		}else{
+			allSum.value = sum.value
+			money.value = Number(props.list.map((item : any) => item.winAmount)) * allSum.value
+		}
+		
+	}
 	const showDetail = ref(false)
 	const top = ref(0)
 	const more = (item : any, index : number, event : any) => {
@@ -151,7 +186,7 @@
 <style lang="scss" scoped>
 	.bet-box {
 		background-color: #fff;
-		width: 750rpx;
+		 // width: 750rpx;
 		height: 750rpx;
 
 		.top {
@@ -165,6 +200,7 @@
 				font-size: 32rpx;
 				color: #ffb023;
 				margin-left: 72rpx;
+				flex: 1;
 			}
 
 			.close {
@@ -176,7 +212,7 @@
 
 		.scroll-view {
 			background-color: #f9f9f9;
-			height: 470rpx;
+			 height: 470rpx;
 			box-sizing: border-box;
 			padding: 32rpx;
 
@@ -231,9 +267,13 @@
 						text-align: center;
 						width: 82rpx;
 						height: 44rpx;
-						background-color: #efefef;
+						background: orange;
+						    color: #fff;
 						font-size: 24rpx;
-						color: #333;
+						border-radius: 5px;
+						font-family: PingFangSC-Regular, PingFang SC;
+						    font-weight: 400;
+							padding: 0rpx 10rpx;
 					}
 				}
 
@@ -271,7 +311,7 @@
 		}
 
 		.condinm-box {
-			height: 104rpx;
+			height: 70rpx;
 			box-sizing: border-box;
 			padding: 0 32rpx;
 			display: flex;
@@ -288,17 +328,21 @@
 				font-size: 24rpx;
 
 				input {
-					width: 186rpx;
-					height: 46rpx;
+					// width: 186rpx;
+					// height: 46rpx;
 				}
 
 				text {
-					width: 82rpx;
+					// width: 82rpx;
 					height: 46rpx;
-					background-color: #efefef;
-					color: #333;
+					background: orange;
+					    color: #fff;
 					text-align: center;
+					border-radius: 5px;
 					line-height: 46rpx;
+					font-family: PingFangSC-Regular, PingFang SC;
+					    font-weight: 400;
+						padding: 0rpx 10rpx;
 				}
 			}
 
@@ -318,12 +362,12 @@
 		}
 
 		.bottom {
-			width: 750rpx;
+			width: 100%;
 			position: absolute;
 			bottom: 0;
 			background-color: #fff;
 			position: fixed;
-			width: 750rpx;
+			// width: 750rpx;
 			height: 96rpx;
 			bottom: 0;
 			box-sizing: border-box;
@@ -332,6 +376,7 @@
 			align-items: center;
 
 			.btn {
+				flex: 1;
 				width: 152rpx;
 				height: 72rpx;
 				background: #ffb023;
@@ -343,6 +388,14 @@
 				text-align: center;
 				margin-left: 32rpx;
 			}
+		}
+		.money{
+			font-size: 0.75rem;
+			    font-family: PingFangSC-Semibold, PingFang SC;
+			    font-weight: 600;
+			    color: #333333;
+				flex: 1;
+				text-align: right;
 		}
 	}
 </style>

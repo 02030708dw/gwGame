@@ -29,7 +29,7 @@ const clickHandle=()=>emits('clickHandle')
 .footer {
   background-color: #fff;
   position: fixed;
-  width: 750rpx;
+  width: 100%;
   height: 96rpx;
   bottom: 0;
   box-sizing: border-box;
@@ -38,6 +38,7 @@ const clickHandle=()=>emits('clickHandle')
   align-items: center;
   
   .btn {
+	flex: 1;
     width: 152rpx;
     height: 72rpx;
     background: #ffb023;
