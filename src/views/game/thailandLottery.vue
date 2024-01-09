@@ -260,12 +260,25 @@ const TrolleyDel = (d: any) => {
       })
       break;
     default :
+      /*boardSubData3D.value.forEach(it=>{
+        if (activeData3DType.value.length)
+          if (it.range>=v[0]&&it.range<v[1]) {
+            if (it.temp.includes(i)) it.temp.splice(it.temp.findIndex(i2=>i2===i),1)
+            else it.temp=[...it.temp,i]
+          }
+      })*/
       currentD?.value.forEach(it=>{
         if (it.gamePlayCode===d.gamePlayCode) {
+          // console.log(it,activeData3DType.value,boardSubData3D.value)
           if (activeData3DType.value?.length===1) activeData3D.value=[]
           // @ts-ignore
           let dd=boardData3DType.value?.find(it2=>it2!.gamePlayCode===it.gamePlayCode)!.gamePlayId
+          // let value=activeData3DType.value?.find(it3=>it3.gamePlayId===dd)?.value
           activeData3DType.value.splice(activeData3DType.value?.findIndex(it3=>it3.gamePlayId===dd),1)
+        /*  boardSubData3D.value.forEach(it=>{
+            console.log(it.value===value&&activeData3DType.value?.length<=1)
+            if (it.value===value&&activeData3DType.value?.length<=1) it.temp=[]
+          })*/
         }
       })
   }
@@ -318,9 +331,11 @@ const getAwardData =  () => {
   },v=>{
     gameAwardConfig.value = v.resultSet.awardNum
     if (!gameConfig.value.gameId.length) getKeyBoard()
-  }).then((v:any)=>{
-    gameAwardConfig.value = v.resultSet.awardNum
+  },v2=>{
+    gameAwardConfig.value = v2.resultSet.awardNum
     getKeyBoard()
+  }).then((v:any)=>{
+    console.log(v)
   })
 }
 async function getKeyBoard() {

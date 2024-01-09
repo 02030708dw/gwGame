@@ -63,7 +63,7 @@ export default defineComponent({
                         <RecordBadge acData={it.temp.length}/>
                     </div>)}
                 </div> || slots.top?.(props.boardSubData)}
-                <div class={props.disBtn?"content dis":"content"}>
+                    <div v-show={props.activeSubData.length} class={props.disBtn?"content dis":"content"}>
                     {props.boardData.slice(sliceNum.value[0],sliceNum.value[1]).map(it => <div
                         style={{'--color': props.activeColor}}
                         class={props.activeData.includes(it.value) ? 'active' : ''}

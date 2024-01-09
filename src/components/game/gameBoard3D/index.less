@@ -1,7 +1,7 @@
 .gameBoard3D {
   width: 100%;
   font-family: PingFangSC-Semibold, PingFang SC;
-  background-size: contain;
+  background-size: 100%;
   background-repeat: no-repeat;
   box-sizing: border-box;
   font-weight: bold;
@@ -24,8 +24,6 @@
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       gap: 16rpx;
-      border-bottom: 2px solid #81D1F1;
-
       >div {
         position: relative;
 
@@ -52,6 +50,7 @@
     }
 
     .content {
+      border-top: 2px solid #81D1F1;
       background: #cae6f1;
       padding: 28rpx;
       display: grid;
